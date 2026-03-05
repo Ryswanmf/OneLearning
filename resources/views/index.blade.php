@@ -18,15 +18,6 @@
                 
                 <!-- Content (Left) -->
                 <div class="flex-1 text-center lg:text-left order-2 lg:order-1 max-w-3xl">
-                    <div class="inline-flex items-center gap-3 px-4 py-2 bg-secondary/5 rounded-2xl mb-8 border border-secondary/5 backdrop-blur-sm shadow-sm group hover:border-primary/20 transition-colors">
-                        <span class="flex h-2 w-2">
-                            <span class="animate-ping absolute inline-flex h-2 w-2 rounded-full bg-primary opacity-75"></span>
-                            <span class="relative inline-flex rounded-full h-2 w-2 bg-primary"></span>
-                        </span>
-                        <span class="text-[11px] font-black text-secondary tracking-[0.15em] uppercase">Pendaftaran Batch Maret Dibuka</span>
-                        <svg class="w-4 h-4 text-primary group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M13 7l5 5m0 0l-5 5m5-5H6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-                    </div>
-                    
                     <h1 class="text-5xl md:text-6xl xl:text-7xl font-black text-secondary leading-[1.05] tracking-tight mb-8">
                         Raih Kampus <br class="hidden sm:block">
                         <span class="relative inline-block italic text-primary">
