@@ -179,62 +179,22 @@
             </div>
             
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
-                <!-- UTBK -->
+                @foreach($featuredProducts as $product)
+                <!-- Dynamic Product -->
                 <div class="relative group rounded-[2.5rem] overflow-hidden aspect-[4/5] shadow-xl border border-gray-100">
                     <div class="absolute inset-0 bg-secondary/40 group-hover:bg-secondary/20 transition-colors duration-500 z-10"></div>
-                    <img src="https://images.unsplash.com/photo-1434030216411-0b793f4b4173?auto=format&fit=crop&q=80&w=600" class="absolute inset-0 w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" alt="UTBK">
+                    <img src="{{ $product->image ?? 'https://images.unsplash.com/photo-1434030216411-0b793f4b4173?auto=format&fit=crop&q=80&w=600' }}" class="absolute inset-0 w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" alt="{{ $product->title }}">
                     <div class="absolute inset-0 bg-gradient-to-t from-secondary via-secondary/40 to-transparent z-20"></div>
                     <div class="absolute bottom-0 left-0 p-8 z-30 w-full text-left">
-                        <span class="inline-block px-3 py-1 bg-accent text-secondary font-black text-[9px] uppercase tracking-widest rounded-lg mb-3">Kuliah</span>
-                        <h3 class="text-white font-extrabold text-2xl mb-4 leading-tight">UTBK-SNBT 2024</h3>
+                        <span class="inline-block px-3 py-1 bg-accent text-secondary font-black text-[9px] uppercase tracking-widest rounded-lg mb-3">{{ $product->category }}</span>
+                        <h3 class="text-white font-extrabold text-2xl mb-4 leading-tight">{{ $product->title }}</h3>
                         <div class="flex items-center gap-4 pt-4 border-t border-white/20">
-                            <span class="text-[11px] text-white/80 font-bold flex items-center gap-1.5"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" /></svg> 24 Paket</span>
-                            <span class="text-[11px] text-white/80 font-bold flex items-center gap-1.5"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" /></svg> 1 Thn</span>
+                            <span class="text-[11px] text-white/80 font-bold flex items-center gap-1.5"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" /></svg> {{ $product->package_count }} Paket</span>
+                            <span class="text-[11px] text-white/80 font-bold flex items-center gap-1.5"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" /></svg> {{ $product->duration }}</span>
                         </div>
                     </div>
                 </div>
-                <!-- CPNS -->
-                <div class="relative group rounded-[2.5rem] overflow-hidden aspect-[4/5] shadow-xl border border-gray-100">
-                    <div class="absolute inset-0 bg-secondary/40 group-hover:bg-secondary/20 transition-colors duration-500 z-10"></div>
-                    <img src="https://images.unsplash.com/photo-1521737604893-d14cc237f11d?auto=format&fit=crop&q=80&w=600" class="absolute inset-0 w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" alt="CPNS">
-                    <div class="absolute inset-0 bg-gradient-to-t from-secondary via-secondary/40 to-transparent z-20"></div>
-                    <div class="absolute bottom-0 left-0 p-8 z-30 w-full text-left">
-                        <span class="inline-block px-3 py-1 bg-primary text-white font-black text-[9px] uppercase tracking-widest rounded-lg mb-3">Karir</span>
-                        <h3 class="text-white font-extrabold text-2xl mb-4 leading-tight">CPNS & PPPK</h3>
-                        <div class="flex items-center gap-4 pt-4 border-t border-white/20">
-                            <span class="text-[11px] text-white/80 font-bold flex items-center gap-1.5"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" /></svg> 18 Paket</span>
-                            <span class="text-[11px] text-white/80 font-bold flex items-center gap-1.5"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" /></svg> 1 Thn</span>
-                        </div>
-                    </div>
-                </div>
-                <!-- Kedinasan -->
-                <div class="relative group rounded-[2.5rem] overflow-hidden aspect-[4/5] shadow-xl border border-gray-100">
-                    <div class="absolute inset-0 bg-secondary/40 group-hover:bg-secondary/20 transition-colors duration-500 z-10"></div>
-                    <img src="https://images.unsplash.com/photo-1523240795612-9a054b0db644?auto=format&fit=crop&q=80&w=600" class="absolute inset-0 w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" alt="Kedinasan">
-                    <div class="absolute inset-0 bg-gradient-to-t from-secondary via-secondary/40 to-transparent z-20"></div>
-                    <div class="absolute bottom-0 left-0 p-8 z-30 w-full text-left">
-                        <span class="inline-block px-3 py-1 bg-accent text-secondary font-black text-[9px] uppercase tracking-widest rounded-lg mb-3">Ikatan Dinas</span>
-                        <h3 class="text-white font-extrabold text-2xl mb-4 leading-tight">Sekolah Kedinasan</h3>
-                        <div class="flex items-center gap-4 pt-4 border-t border-white/20">
-                            <span class="text-[11px] text-white/80 font-bold flex items-center gap-1.5"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" /></svg> 12 Paket</span>
-                            <span class="text-[11px] text-white/80 font-bold flex items-center gap-1.5"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" /></svg> 1 Thn</span>
-                        </div>
-                    </div>
-                </div>
-                <!-- Mandiri -->
-                <div class="relative group rounded-[2.5rem] overflow-hidden aspect-[4/5] shadow-xl border border-gray-100">
-                    <div class="absolute inset-0 bg-secondary/40 group-hover:bg-secondary/20 transition-colors duration-500 z-10"></div>
-                    <img src="https://images.unsplash.com/photo-1543269865-cbf427effbad?auto=format&fit=crop&q=80&w=600" class="absolute inset-0 w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" alt="Ujian Mandiri">
-                    <div class="absolute inset-0 bg-gradient-to-t from-secondary via-secondary/40 to-transparent z-20"></div>
-                    <div class="absolute bottom-0 left-0 p-8 z-30 w-full text-left">
-                        <span class="inline-block px-3 py-1 bg-primary text-white font-black text-[9px] uppercase tracking-widest rounded-lg mb-3">Mandiri</span>
-                        <h3 class="text-white font-extrabold text-2xl mb-4 leading-tight">Ujian Mandiri PTN</h3>
-                        <div class="flex items-center gap-4 pt-4 border-t border-white/20">
-                            <span class="text-[11px] text-white/80 font-bold flex items-center gap-1.5"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" /></svg> 15 Paket</span>
-                            <span class="text-[11px] text-white/80 font-bold flex items-center gap-1.5"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" /></svg> 1 Thn</span>
-                        </div>
-                    </div>
-                </div>
+                @endforeach
             </div>
         </div>
     </section>

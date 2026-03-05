@@ -16,17 +16,16 @@
     </head>
     <body class="bg-gray-50 font-sans text-secondary antialiased" x-data="{ sidebarOpen: true }">
         
-        <div class="flex min-h-screen">
+        <div class="flex min-h-screen relative">
             <!-- Sidebar -->
-            <aside class="bg-secondary text-white w-72 flex-shrink-0 flex flex-col transition-all duration-300 fixed h-full z-[100]" :class="sidebarOpen ? 'translate-x-0' : '-translate-x-full'">
-                <!-- Logo Admin Section -->
+            <aside class="bg-secondary text-white w-72 flex-shrink-0 flex flex-col transition-all duration-300 fixed h-full z-[100]" 
+                   :class="sidebarOpen ? 'translate-x-0' : '-translate-x-full'">
+                
+                <!-- Logo Section -->
                 <div class="px-8 py-10">
-                    <a href="/" class="flex items-center gap-3 group">
-                        <div class="relative">
-                            <div class="absolute -inset-2 bg-primary/20 rounded-xl blur-lg group-hover:bg-primary/30 transition-all duration-500 opacity-0 group-hover:opacity-100"></div>
-                            <div class="relative p-2 bg-white rounded-xl shadow-sm group-hover:scale-105 transition-all duration-500">
-                                <img src="{{ asset('images/logo.png') }}" alt="Logo" class="w-8 h-8 object-contain">
-                            </div>
+                    <a href="{{ route('admin.index') }}" class="flex items-center gap-3 group">
+                        <div class="relative p-2 bg-white rounded-xl shadow-sm">
+                            <img src="{{ asset('images/logo.png') }}" alt="Logo" class="w-8 h-8 object-contain">
                         </div>
                         <div class="flex flex-col">
                             <span class="font-black text-lg leading-none tracking-tighter text-white uppercase">One<span class="text-primary">Learning</span></span>
@@ -39,11 +38,11 @@
 
                 <!-- Navigation -->
                 <nav class="flex-1 overflow-y-auto p-6 space-y-8">
-                    <!-- Dashboard Section -->
+                    <!-- Main Section -->
                     <div>
                         <div class="text-[10px] font-black text-white/30 uppercase tracking-[0.3em] mb-4 ml-4">Main Menu</div>
                         <div class="space-y-1">
-                            <a href="{{ route('admin.index') }}" class="flex items-center gap-3 px-4 py-3 bg-primary text-white rounded-2xl font-bold text-sm transition-all">
+                            <a href="{{ route('admin.index') }}" class="flex items-center gap-3 px-4 py-3 {{ request()->routeIs('admin.index') ? 'bg-primary text-white shadow-lg shadow-primary/20' : 'text-white/60 hover:text-white hover:bg-white/5' }} rounded-2xl font-bold text-sm transition-all">
                                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z" /></svg>
                                 Dashboard
                             </a>
@@ -54,15 +53,15 @@
                     <div>
                         <div class="text-[10px] font-black text-white/30 uppercase tracking-[0.3em] mb-4 ml-4">Kelola Landing</div>
                         <div class="space-y-1">
-                            <a href="#" class="flex items-center gap-3 px-4 py-3 text-white/60 hover:text-white hover:bg-white/5 rounded-2xl font-bold text-sm transition-all group">
+                            <a href="{{ route('admin.blog.index') }}" class="flex items-center gap-3 px-4 py-3 {{ request()->routeIs('admin.blog.*') ? 'bg-primary text-white shadow-lg shadow-primary/20' : 'text-white/60 hover:text-white hover:bg-white/5' }} rounded-2xl font-bold text-sm transition-all group">
                                 <svg class="w-5 h-5 group-hover:text-primary transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z" /></svg>
-                                Hero & Banner
+                                Blog & Berita
                             </a>
-                            <a href="#" class="flex items-center gap-3 px-4 py-3 text-white/60 hover:text-white hover:bg-white/5 rounded-2xl font-bold text-sm transition-all group">
-                                <svg class="w-5 h-5 group-hover:text-primary transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 3.055A9.001 9.001 0 1020.945 13H11V3.055z" /></svg>
-                                Fitur Unggulan
+                            <a href="{{ route('admin.produk.index') }}" class="flex items-center gap-3 px-4 py-3 {{ request()->routeIs('admin.produk.*') ? 'bg-primary text-white shadow-lg shadow-primary/20' : 'text-white/60 hover:text-white hover:bg-white/5' }} rounded-2xl font-bold text-sm transition-all group">
+                                <svg class="w-5 h-5 group-hover:text-primary transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z" /></svg>
+                                Daftar Produk
                             </a>
-                            <a href="#" class="flex items-center gap-3 px-4 py-3 text-white/60 hover:text-white hover:bg-white/5 rounded-2xl font-bold text-sm transition-all group">
+                            <a href="{{ route('admin.testimoni.index') }}" class="flex items-center gap-3 px-4 py-3 {{ request()->routeIs('admin.testimoni.*') ? 'bg-primary text-white shadow-lg shadow-primary/20' : 'text-white/60 hover:text-white hover:bg-white/5' }} rounded-2xl font-bold text-sm transition-all group">
                                 <svg class="w-5 h-5 group-hover:text-primary transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z" /></svg>
                                 Testimoni Alumni
                             </a>
@@ -73,8 +72,8 @@
                     <div>
                         <div class="text-[10px] font-black text-white/30 uppercase tracking-[0.3em] mb-4 ml-4">Data & Program</div>
                         <div class="space-y-1">
-                            <a href="#" class="flex items-center gap-3 px-4 py-3 text-white/60 hover:text-white hover:bg-white/5 rounded-2xl font-bold text-sm transition-all group">
-                                <svg class="w-5 h-5 group-hover:text-primary transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" /></svg>
+                            <a href="{{ route('admin.paket-belajar.index') }}" class="flex items-center gap-3 px-4 py-3 {{ request()->routeIs('admin.paket-belajar.*') ? 'bg-primary text-white shadow-lg shadow-primary/20' : 'text-white/60 hover:text-white hover:bg-white/5' }} rounded-2xl font-bold text-sm transition-all group">
+                                <svg class="w-5 h-5 group-hover:text-primary transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
                                 Paket Belajar
                             </a>
                             <a href="#" class="flex items-center gap-3 px-4 py-3 text-white/60 hover:text-white hover:bg-white/5 rounded-2xl font-bold text-sm transition-all group">
@@ -87,13 +86,6 @@
 
                 <!-- Sidebar Footer -->
                 <div class="p-6 border-t border-white/5 space-y-4">
-                    <div class="flex items-center gap-3 px-4">
-                        <div class="w-10 h-10 rounded-xl bg-primary flex items-center justify-center font-black text-xs italic shadow-lg shadow-primary/20">AD</div>
-                        <div>
-                            <div class="text-xs font-black truncate w-32">{{ Auth::user()->name }}</div>
-                            <div class="text-[10px] text-white/40 font-bold uppercase tracking-widest">Administrator</div>
-                        </div>
-                    </div>
                     <form method="POST" action="{{ route('logout') }}">
                         @csrf
                         <button type="submit" class="w-full flex items-center gap-3 px-4 py-3 text-red-400 hover:text-red-500 hover:bg-red-500/5 rounded-2xl font-bold text-sm transition-all group">
@@ -105,8 +97,10 @@
             </aside>
 
             <!-- Main Content Area -->
-            <main class="flex-1 transition-all duration-300 min-h-screen" :class="sidebarOpen ? 'pl-72' : 'pl-0'">
-                <!-- Top Minimal Header -->
+            <main class="flex-1 transition-all duration-300 min-h-screen" 
+                  :style="sidebarOpen ? 'margin-left: 18rem;' : 'margin-left: 0;'">
+                
+                <!-- Top Header -->
                 <header class="bg-white border-b border-gray-100 sticky top-0 z-[90] px-8 py-4 flex items-center justify-between">
                     <button @click="sidebarOpen = !sidebarOpen" class="p-2 bg-gray-50 rounded-xl text-secondary hover:bg-gray-100 transition-all">
                         <svg x-show="sidebarOpen" class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h7" /></svg>

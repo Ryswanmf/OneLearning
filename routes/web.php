@@ -1,7 +1,12 @@
 <?php
 
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\ProductController;
+use App\Http\Controllers\StudyPackageController;
+use App\Http\Controllers\TestimonialController;
+use App\Http\Controllers\BlogController;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Auth;
 
 /*
 |--------------------------------------------------------------------------
@@ -11,7 +16,8 @@ use Illuminate\Support\Facades\Route;
 
 // Halaman Utama
 Route::get('/', function () {
-    return view('index');
+    $featuredProducts = \App\Models\Product::where('is_featured', true)->take(4)->get();
+    return view('index', compact('featuredProducts'));
 });
 
 // Rute Landing Pages
@@ -31,11 +37,26 @@ Route::get('/paket-belajar', function () {
 Route::prefix('produk')->name('produk.')->group(function () {
     Route::get('/snbp', function () { return view('landing.produk.snbp'); })->name('snbp');
     Route::get('/utbk', function () { return view('landing.produk.utbk'); })->name('utbk');
-    Route::get('/sd', function () { return view('landing.produk.jenjang'); })->name('sd');
-    Route::get('/smp', function () { return view('landing.produk.jenjang'); })->name('smp');
-    Route::get('/sma', function () { return view('landing.produk.jenjang'); })->name('sma');
-    Route::get('/sma-utbk', function () { return view('landing.produk.jenjang'); })->name('sma_utbk');
-    Route::get('/alumni', function () { return view('landing.produk.jenjang'); })->name('alumni');
+    
+    Route::get('/sd', function () { 
+        return view('landing.produk.jenjang', ['title' => 'SD 4-6', 'level' => '4 - 6 SD']); 
+    })->name('sd');
+    
+    Route::get('/smp', function () { 
+        return view('landing.produk.jenjang', ['title' => 'SMP 7-9', 'level' => '7 - 9 SMP']); 
+    })->name('smp');
+    
+    Route::get('/sma', function () { 
+        return view('landing.produk.jenjang', ['title' => 'SMA 10-11', 'level' => '10 - 11 SMA']); 
+    })->name('sma');
+    
+    Route::get('/sma-utbk', function () { 
+        return view('landing.produk.jenjang', ['title' => 'SMA 12 & UTBK', 'level' => '12 SMA & UTBK']); 
+    })->name('sma_utbk');
+    
+    Route::get('/alumni', function () { 
+        return view('landing.produk.jenjang', ['title' => 'Alumni', 'level' => 'Alumni']); 
+    })->name('alumni');
 });
 
 // Rute Bisnis
@@ -54,6 +75,20 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
     Route::get('/', function () {
         return view('admin.index');
     })->name('index');
+    
+    Route::resource('produk', ProductController::class)->parameters([
+        'produk' => 'produk:slug'
+    ]);
+
+    Route::resource('paket-belajar', StudyPackageController::class)->parameters([
+        'paket-belajar' => 'paket_belajar:slug'
+    ]);
+
+    Route::resource('testimoni', TestimonialController::class);
+
+    Route::resource('blog', BlogController::class)->parameters([
+        'blog' => 'blog:slug'
+    ]);
 });
 
 /*
