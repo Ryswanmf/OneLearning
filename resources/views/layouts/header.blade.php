@@ -103,19 +103,19 @@
                          style="display: none;">
                         
                         <div class="space-y-1">
-                            <a href="#" class="group block p-3 rounded-xl hover:bg-primary/5 transition-all">
+                            <a href="{{ route('bisnis.layanan') }}" class="group block p-3 rounded-xl hover:bg-primary/5 transition-all">
                                 <div class="font-bold text-[13px] text-secondary group-hover:text-primary transition-colors">Layanan Bisnis</div>
                                 <p class="text-[11px] text-secondary/50 font-medium leading-tight mt-1">Kerja sama sekolah dan mitra bisnis.</p>
                             </a>
                             
-                            <a href="#" class="group block p-3 rounded-xl hover:bg-primary/5 transition-all">
+                            <a href="{{ route('bisnis.educators') }}" class="group block p-3 rounded-xl hover:bg-primary/5 transition-all">
                                 <div class="font-bold text-[13px] text-secondary group-hover:text-primary transition-colors">Future Educators</div>
                                 <p class="text-[11px] text-secondary/50 font-medium leading-tight mt-1">Komunitas online guru dan sekolah.</p>
                             </a>
 
                             <div class="h-px bg-gray-50 my-2"></div>
 
-                            <a href="#" class="group block p-3 rounded-xl hover:bg-primary/5 transition-all">
+                            <a href="{{ route('bisnis.tentang') }}" class="group block p-3 rounded-xl hover:bg-primary/5 transition-all">
                                 <div class="font-bold text-[13px] text-secondary group-hover:text-primary transition-colors">Tentang Kami</div>
                                 <p class="text-[11px] text-secondary/50 font-medium leading-tight mt-1">Profil PT One Learning Indonesia.</p>
                             </a>
