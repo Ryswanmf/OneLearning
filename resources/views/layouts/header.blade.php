@@ -126,9 +126,17 @@
                 <a href="{{ route('testimoni') }}" class="text-xs font-bold text-secondary/80 hover:text-primary transition-colors">Testimoni</a>
                 <a href="{{ route('blog') }}" class="text-xs font-bold text-secondary/80 hover:text-primary transition-colors">Blog</a>
                 
-                <a href="#" class="inline-flex items-center justify-center px-6 py-2 border border-transparent text-xs font-bold rounded-full text-white bg-primary hover:bg-secondary shadow-lg shadow-primary/25 transition-all active:scale-95">
-                    Mulai Belajar
-                </a>
+                @auth
+                    <a href="{{ url('/dashboard') }}" class="text-xs font-bold text-secondary/80 hover:text-primary transition-colors">Dashboard</a>
+                    <form method="POST" action="{{ route('logout') }}" class="inline">
+                        @csrf
+                        <button type="submit" class="text-xs font-bold text-red-500 hover:text-red-700 transition-colors ml-4">Keluar</button>
+                    </form>
+                @else
+                    <a href="{{ route('login') }}" class="inline-flex items-center justify-center px-6 py-2 border border-transparent text-xs font-bold rounded-full text-white bg-primary hover:bg-secondary shadow-lg shadow-primary/25 transition-all active:scale-95">
+                        Mulai Belajar
+                    </a>
+                @endauth
             </div>
 
             <!-- Mobile Menu Button -->
@@ -190,9 +198,15 @@
             <a href="{{ route('testimoni') }}" class="block px-4 py-2 text-sm font-bold text-secondary hover:bg-primary/5 hover:text-primary rounded-lg">Testimoni</a>
             <a href="{{ route('blog') }}" class="block px-4 py-2 text-sm font-bold text-secondary hover:bg-primary/5 hover:text-primary rounded-lg">Blog</a>
             <div class="pt-3 px-4">
-                <a href="#" class="block w-full text-center px-6 py-3 border border-transparent text-sm font-bold rounded-full text-white bg-primary shadow-lg shadow-primary/25">
-                    Mulai Belajar
-                </a>
+                @auth
+                    <a href="{{ url('/dashboard') }}" class="block w-full text-center px-6 py-3 border border-transparent text-sm font-bold rounded-full text-white bg-primary shadow-lg shadow-primary/25">
+                        Dashboard
+                    </a>
+                @else
+                    <a href="{{ route('login') }}" class="block w-full text-center px-6 py-3 border border-transparent text-sm font-bold rounded-full text-white bg-primary shadow-lg shadow-primary/25">
+                        Mulai Belajar
+                    </a>
+                @endauth
             </div>
         </div>
     </div>
