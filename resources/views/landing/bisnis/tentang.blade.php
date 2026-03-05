@@ -1,47 +1,41 @@
 @extends('layouts.app')
 
-@section('title', 'Tentang Kami - PT One Learning Indonesia')
+@section('title', 'Tentang Kami - OneLearning')
 
 @section('content')
     <section class="py-20 bg-white">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-            <h1 class="text-4xl md:text-6xl font-black text-secondary mb-12">Tentang <span class="text-primary">OneLearning</span></h1>
-            
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-16 items-center text-left">
-                <div>
-                    <img src="{{ asset('images/logo.png') }}" class="w-48 mb-8" alt="Logo">
-                    <h2 class="text-2xl font-black text-secondary mb-6">Visi Kami</h2>
-                    <p class="text-secondary/60 text-lg leading-relaxed font-medium mb-8">
-                        Menjadi platform simulasi pendidikan nomor satu di Indonesia yang mendemokratisasi akses pendidikan berkualitas bagi seluruh putra-putri bangsa.
-                    </p>
-                    <h2 class="text-2xl font-black text-secondary mb-6">Misi Kami</h2>
-                    <p class="text-secondary/60 text-lg leading-relaxed font-medium">
-                        Mengembangkan teknologi penilaian edukasi tercanggih dan menyediakan konten kurikulum yang paling akurat sesuai standar nasional.
-                    </p>
-                </div>
-                <div class="bg-gray-50 p-10 rounded-[3rem] border border-gray-100 shadow-sm">
-                    <h3 class="text-xl font-black text-secondary mb-6">PT One Learning Indonesia</h3>
-                    <div class="space-y-6 text-secondary/70 font-medium">
-                        <div class="flex gap-4">
-                            <div class="w-10 h-10 bg-primary/10 rounded-xl flex items-center justify-center shrink-0 text-primary">
-                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><path d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-20">
+                <h1 class="text-4xl md:text-6xl font-black text-secondary mb-6">Tentang <span class="text-primary italic">OneLearning</span></h1>
+                <p class="text-lg text-secondary/50 max-w-2xl mx-auto">Mengenal lebih dekat visi dan misi kami dalam merevolusi pendidikan di Indonesia.</p>
+            </div>
+
+            <div class="space-y-24">
+                @forelse($profiles as $profile)
+                <div class="flex flex-col {{ $loop->iteration % 2 == 0 ? 'md:flex-row-reverse' : 'md:flex-row' }} gap-16 items-center">
+                    <div class="w-full md:w-1/2">
+                        <div class="relative">
+                            <div class="absolute -inset-4 bg-primary/10 rounded-[3rem] blur-2xl"></div>
+                            <div class="relative rounded-[3rem] overflow-hidden shadow-2xl aspect-video bg-gray-100">
+                                @if($profile->image)
+                                    <img src="{{ $profile->image }}" class="w-full h-full object-cover">
+                                @else
+                                    <div class="w-full h-full flex items-center justify-center text-primary font-black text-6xl italic">One</div>
+                                @endif
                             </div>
-                            <p>Gedung Menara Edukasi Lt. 12, Kuningan, Jakarta Selatan</p>
                         </div>
-                        <div class="flex gap-4">
-                            <div class="w-10 h-10 bg-primary/10 rounded-xl flex items-center justify-center shrink-0 text-primary">
-                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
-                            </div>
-                            <p>contact@onelearning.id</p>
-                        </div>
-                        <div class="flex gap-4">
-                            <div class="w-10 h-10 bg-primary/10 rounded-xl flex items-center justify-center shrink-0 text-primary">
-                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
-                            </div>
-                            <p>Jam Kerja: Senin - Jumat (09:00 - 17:00)</p>
+                    </div>
+                    <div class="w-full md:w-1/2">
+                        <span class="inline-block px-4 py-1 bg-primary/10 text-primary font-black text-xs uppercase tracking-widest rounded-full mb-6">{{ $profile->category }}</span>
+                        <h2 class="text-3xl md:text-4xl font-black text-secondary mb-6 leading-tight">{{ $profile->title }}</h2>
+                        <div class="text-secondary/60 text-lg font-medium leading-relaxed space-y-4">
+                            {!! nl2br(e($profile->description)) !!}
                         </div>
                     </div>
                 </div>
+                @empty
+                <p class="text-center text-secondary/30 italic">Informasi profil belum tersedia.</p>
+                @endforelse
             </div>
         </div>
     </section>

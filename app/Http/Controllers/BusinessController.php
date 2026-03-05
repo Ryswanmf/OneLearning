@@ -11,12 +11,12 @@ class BusinessController extends Controller
     public function index()
     {
         $businesses = Business::latest()->paginate(10);
-        return view('admin.bisnis.index', compact('businesses'));
+        return view('admin.layananbisnis.index', compact('businesses'));
     }
 
     public function create()
     {
-        return view('admin.bisnis.create');
+        return view('admin.layananbisnis.create');
     }
 
     public function store(Request $request)
@@ -39,8 +39,8 @@ class BusinessController extends Controller
 
     public function edit(Business $bisni)
     {
-        // Parameter di route adalah 'bisni' (singular dari bisnis oleh Laravel)
-        return view('admin.bisnis.edit', ['business' => $bisni]);
+        // $bisni adalah parameter default Laravel untuk resource 'bisnis'
+        return view('admin.layananbisnis.edit', ['business' => $bisni]);
     }
 
     public function update(Request $request, Business $bisni)

@@ -6,6 +6,7 @@ use App\Http\Controllers\StudyPackageController;
 use App\Http\Controllers\TestimonialController;
 use App\Http\Controllers\BlogController;
 use App\Http\Controllers\BusinessController;
+use App\Http\Controllers\SettingController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 
@@ -15,10 +16,11 @@ use Illuminate\Support\Facades\Auth;
 |--------------------------------------------------------------------------
 */
 
-// Halaman Utama
+// Halaman Utama Dinamis
 Route::get('/', function () {
     $featuredProducts = \App\Models\Product::where('is_featured', true)->take(4)->get();
-    return view('index', compact('featuredProducts'));
+    $settings = \App\Models\Setting::pluck('value', 'key');
+    return view('index', compact('featuredProducts', 'settings'));
 });
 
 // Rute Landing Pages
@@ -62,9 +64,18 @@ Route::prefix('produk')->name('produk.')->group(function () {
 
 // Rute Bisnis
 Route::prefix('bisnis')->name('bisnis.')->group(function () {
-    Route::get('/layanan', function () { return view('landing.bisnis.layanan'); })->name('layanan');
-    Route::get('/future-educators', function () { return view('landing.bisnis.educators'); })->name('educators');
-    Route::get('/tentang-kami', function () { return view('landing.bisnis.tentang'); })->name('tentang');
+    Route::get('/layanan', function () { 
+        $services = \App\Models\Business::where('category', 'Layanan Bisnis')->where('is_active', true)->get();
+        return view('landing.bisnis.layanan', compact('services')); 
+    })->name('layanan');
+    Route::get('/future-educators', function () { 
+        $programs = \App\Models\Business::where('category', 'Future Educators')->where('is_active', true)->get();
+        return view('landing.bisnis.educators', compact('programs')); 
+    })->name('educators');
+    Route::get('/tentang-kami', function () { 
+        $profiles = \App\Models\Business::where('category', 'Tentang Kami')->where('is_active', true)->get();
+        return view('landing.bisnis.tentang', compact('profiles')); 
+    })->name('tentang');
 });
 
 /*
@@ -77,23 +88,15 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
         return view('admin.index');
     })->name('index');
     
-    Route::resource('produk', ProductController::class)->parameters([
-        'produk' => 'produk:slug'
-    ]);
-
-    Route::resource('paket-belajar', StudyPackageController::class)->parameters([
-        'paket-belajar' => 'paket_belajar:slug'
-    ]);
-
+    Route::resource('produk', ProductController::class)->parameters(['produk' => 'produk:slug']);
+    Route::resource('paket-belajar', StudyPackageController::class)->parameters(['paket-belajar' => 'paket_belajar:slug']);
     Route::resource('testimoni', TestimonialController::class);
+    Route::resource('blog', BlogController::class)->parameters(['blog' => 'blog:slug']);
+    Route::resource('bisnis', BusinessController::class)->parameters(['bisnis' => 'bisni:slug']);
 
-    Route::resource('blog', BlogController::class)->parameters([
-        'blog' => 'blog:slug'
-    ]);
-
-    Route::resource('bisnis', BusinessController::class)->parameters([
-        'bisnis' => 'bisni:slug'
-    ]);
+    // Landing Page Settings
+    Route::get('/settings', [SettingController::class, 'index'])->name('settings.index');
+    Route::put('/settings', [SettingController::class, 'update'])->name('settings.update');
 });
 
 /*
@@ -102,9 +105,7 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
 |--------------------------------------------------------------------------
 */
 Route::get('/dashboard', function () {
-    if (Auth::user()->role === 'admin') {
-        return redirect()->route('admin.index');
-    }
+    if (Auth::user()->role === 'admin') { return redirect()->route('admin.index'); }
     return view('dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
