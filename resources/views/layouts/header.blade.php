@@ -123,7 +123,7 @@
                     </div>
                 </div>
 
-                <a href="#" class="text-xs font-bold text-secondary/80 hover:text-primary transition-colors">Paket Belajar</a>
+                <a href="{{ route('paket.index') }}" class="text-xs font-bold text-secondary/80 hover:text-primary transition-colors">Paket Belajar</a>
                 <a href="{{ route('testimoni') }}" class="text-xs font-bold text-secondary/80 hover:text-primary transition-colors">Testimoni</a>
                 <a href="{{ route('blog') }}" class="text-xs font-bold text-secondary/80 hover:text-primary transition-colors">Blog</a>
                 

@@ -14,6 +14,10 @@ Route::get('/blog', function () {
     return view('landing.blog.index');
 })->name('blog');
 
+Route::get('/paket-belajar', function () {
+    return view('landing.paket_belajar.index');
+})->name('paket.index');
+
 // Bisnis Routes
 Route::get('/layanan-bisnis', function () {
     return view('landing.bisnis.layanan');
