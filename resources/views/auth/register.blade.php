@@ -1,52 +1,70 @@
 <x-guest-layout>
-    <form method="POST" action="{{ route('register') }}">
+    @section('title', 'Buat Akun Baru - OneLearning')
+
+    <div class="mb-10 text-center lg:text-left">
+        <h2 class="text-4xl font-black text-secondary leading-tight tracking-tight mb-3">Mulai <span class="text-primary italic">Langkahmu</span>.</h2>
+        <p class="text-sm font-semibold text-secondary/40 leading-relaxed">Daftar sekarang untuk mendapatkan akses ke ribuan soal tryout dan sistem analisis peluang masuk PTN.</p>
+    </div>
+
+    <!-- Social Login Placeholders -->
+    <div class="flex flex-col sm:flex-row gap-3 mb-8">
+        <a href="#" class="flex-1 flex items-center justify-center gap-3 px-4 py-3 border border-gray-100 rounded-2xl hover:bg-gray-50 transition-all group">
+            <img src="https://www.svgrepo.com/show/475656/google-color.svg" class="w-5 h-5" alt="Google">
+            <span class="text-[11px] font-black text-secondary uppercase tracking-wider">Google</span>
+        </a>
+        <a href="#" class="flex-1 flex items-center justify-center gap-3 px-4 py-3 border border-gray-100 rounded-2xl hover:bg-gray-50 transition-all group">
+            <img src="https://www.svgrepo.com/show/442935/apple-v2.svg" class="w-5 h-5" alt="Apple">
+            <span class="text-[11px] font-black text-secondary uppercase tracking-wider">Apple ID</span>
+        </a>
+    </div>
+
+    <div class="relative flex items-center gap-4 mb-8">
+        <div class="h-px bg-gray-100 flex-1"></div>
+        <span class="text-[10px] font-black text-secondary/20 uppercase tracking-[0.3em]">Atau Data Diri</span>
+        <div class="h-px bg-gray-100 flex-1"></div>
+    </div>
+
+    <form method="POST" action="{{ route('register') }}" class="space-y-5">
         @csrf
 
         <!-- Name -->
-        <div>
-            <x-input-label for="name" :value="__('Name')" />
-            <x-text-input id="name" class="block mt-1 w-full" type="text" name="name" :value="old('name')" required autofocus autocomplete="name" />
+        <div class="space-y-2">
+            <x-input-label for="name" value="Nama Lengkap" class="text-[10px] font-black text-secondary/40 uppercase tracking-widest ml-1" />
+            <x-text-input id="name" class="block w-full bg-gray-50/50 border-gray-100 focus:border-primary focus:ring-primary/10 rounded-[1.25rem] h-14 px-5 font-bold text-sm transition-all" type="text" name="name" :value="old('name')" required autofocus placeholder="Masukkan nama lengkap" />
             <x-input-error :messages="$errors->get('name')" class="mt-2" />
         </div>
 
         <!-- Email Address -->
-        <div class="mt-4">
-            <x-input-label for="email" :value="__('Email')" />
-            <x-text-input id="email" class="block mt-1 w-full" type="email" name="email" :value="old('email')" required autocomplete="username" />
+        <div class="space-y-2">
+            <x-input-label for="email" value="Alamat Email" class="text-[10px] font-black text-secondary/40 uppercase tracking-widest ml-1" />
+            <x-text-input id="email" class="block w-full bg-gray-50/50 border-gray-100 focus:border-primary focus:ring-primary/10 rounded-[1.25rem] h-14 px-5 font-bold text-sm transition-all" type="email" name="email" :value="old('email')" required placeholder="nama@email.com" />
             <x-input-error :messages="$errors->get('email')" class="mt-2" />
         </div>
 
         <!-- Password -->
-        <div class="mt-4">
-            <x-input-label for="password" :value="__('Password')" />
-
-            <x-text-input id="password" class="block mt-1 w-full"
-                            type="password"
-                            name="password"
-                            required autocomplete="new-password" />
-
+        <div class="space-y-2">
+            <x-input-label for="password" value="Kata Sandi" class="text-[10px] font-black text-secondary/40 uppercase tracking-widest ml-1" />
+            <x-text-input id="password" class="block w-full bg-gray-50/50 border-gray-100 focus:border-primary focus:ring-primary/10 rounded-[1.25rem] h-14 px-5 font-bold text-sm transition-all" type="password" name="password" required placeholder="Minimal 8 karakter" />
             <x-input-error :messages="$errors->get('password')" class="mt-2" />
         </div>
 
         <!-- Confirm Password -->
-        <div class="mt-4">
-            <x-input-label for="password_confirmation" :value="__('Confirm Password')" />
-
-            <x-text-input id="password_confirmation" class="block mt-1 w-full"
-                            type="password"
-                            name="password_confirmation" required autocomplete="new-password" />
-
+        <div class="space-y-2">
+            <x-input-label for="password_confirmation" value="Konfirmasi Kata Sandi" class="text-[10px] font-black text-secondary/40 uppercase tracking-widest ml-1" />
+            <x-text-input id="password_confirmation" class="block w-full bg-gray-50/50 border-gray-100 focus:border-primary focus:ring-primary/10 rounded-[1.25rem] h-14 px-5 font-bold text-sm transition-all" type="password" name="password_confirmation" required placeholder="Ulangi kata sandi" />
             <x-input-error :messages="$errors->get('password_confirmation')" class="mt-2" />
         </div>
 
-        <div class="flex items-center justify-end mt-4">
-            <a class="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" href="{{ route('login') }}">
-                {{ __('Already registered?') }}
-            </a>
-
-            <x-primary-button class="ms-4">
-                {{ __('Register') }}
-            </x-primary-button>
+        <div class="pt-4">
+            <button type="submit" class="w-full flex items-center justify-center h-16 bg-primary text-white font-black text-sm uppercase tracking-[0.2em] rounded-[1.25rem] shadow-2xl shadow-primary/20 hover:bg-secondary hover:shadow-secondary/30 transition-all active:scale-[0.98] group">
+                Buat Akun Sekarang
+                <svg class="w-5 h-5 ml-3 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M17 8l4 4m0 0l-4 4m4-4H3" /></svg>
+            </button>
+            
+            <p class="mt-8 text-center text-xs font-bold text-secondary/30">
+                Sudah punya akun? 
+                <a href="{{ route('login') }}" class="text-primary hover:text-secondary font-black transition-colors underline decoration-primary/20 underline-offset-4">Masuk Saja</a>
+            </p>
         </div>
     </form>
 </x-guest-layout>
