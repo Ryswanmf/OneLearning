@@ -6,6 +6,9 @@
 
         <title>OneLearning - Platform Belajar Masa Kini</title>
 
+        <!-- Favicon -->
+        <link rel="icon" type="image/png" href="{{ asset('images/logo.png') }}">
+
         <!-- Fonts -->
         <link rel="preconnect" href="https://fonts.bunny.net">
         <link href="https://fonts.bunny.net/css?family=instrument-sans:400,500,600,700" rel="stylesheet" />
@@ -20,10 +23,8 @@
                 <div class="flex justify-between items-center h-20">
                     <!-- Logo (Kiri) -->
                     <div class="flex-shrink-0 flex items-center">
-                        <a href="/" class="flex items-center gap-2">
-                            <div class="w-10 h-10 bg-blue-600 rounded-xl flex items-center justify-center shadow-lg shadow-blue-200">
-                                <span class="text-white font-bold text-xl">O</span>
-                            </div>
+                        <a href="/" class="flex items-center gap-3">
+                            <img src="{{ asset('images/logo.png') }}" alt="OneLearning Logo" class="w-12 h-12">
                             <span class="font-bold text-2xl tracking-tight text-gray-900">One<span class="text-blue-600">Learning</span></span>
                         </a>
                     </div>
