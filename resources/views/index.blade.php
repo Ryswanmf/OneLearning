@@ -32,7 +32,7 @@
                     </p>
                     
                     <div class="flex flex-col sm:flex-row items-center gap-5 justify-center lg:justify-start">
-                        <a href="#" class="w-full sm:w-auto px-10 py-5 bg-primary text-white font-extrabold rounded-2xl hover:bg-secondary shadow-[0_20px_50px_rgba(14,165,233,0.3)] hover:shadow-secondary/30 transition-all transform hover:-translate-y-1 active:scale-95 text-lg text-center">
+                        <a href="{{ route('login') }}" class="w-full sm:w-auto px-10 py-5 bg-primary text-white font-extrabold rounded-2xl hover:bg-secondary shadow-[0_20px_50px_rgba(14,165,233,0.3)] hover:shadow-secondary/30 transition-all transform hover:-translate-y-1 active:scale-95 text-lg text-center">
                             Mulai Tryout Gratis
                         </a>
                         <a href="#" class="w-full sm:w-auto px-10 py-5 bg-white border-2 border-secondary/10 text-secondary font-extrabold rounded-2xl hover:bg-secondary hover:text-white transition-all transform hover:-translate-y-1 flex items-center justify-center gap-3 text-lg group shadow-sm">
