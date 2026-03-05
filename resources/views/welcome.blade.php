@@ -16,7 +16,7 @@
         <!-- Styles / Scripts -->
         @vite(['resources/css/app.css', 'resources/js/app.js'])
     </head>
-    <body class="bg-white font-sans text-secondary antialiased" x-data="{ mobileMenuOpen: false }">
+    <body class="bg-white font-sans text-secondary antialiased" x-data="{ mobileMenuOpen: false, productDropdownOpen: false, businessDropdownOpen: false }">
         <!-- Navbar -->
         <nav class="sticky top-0 z-50 bg-white/90 backdrop-blur-md border-b border-gray-100">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -32,8 +32,116 @@
                     <!-- Desktop Menu -->
                     <div class="hidden md:flex items-center space-x-6">
                         <a href="#" class="text-xs font-bold text-secondary/80 hover:text-primary transition-colors">Beranda</a>
-                        <a href="#" class="text-xs font-bold text-secondary/80 hover:text-primary transition-colors">Produk</a>
-                        <a href="#" class="text-xs font-bold text-secondary/80 hover:text-primary transition-colors">Bisnis</a>
+                        
+                        <!-- Dropdown Produk -->
+                        <div class="relative" @mouseenter="productDropdownOpen = true" @mouseleave="productDropdownOpen = false">
+                            <button class="flex items-center gap-1 text-xs font-bold text-secondary/80 hover:text-primary transition-colors focus:outline-none py-5">
+                                Produk
+                                <svg class="w-3 h-3 transition-transform duration-200" :class="productDropdownOpen ? 'rotate-180' : ''" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                                </svg>
+                            </button>
+
+                            <!-- Mega Dropdown Menu -->
+                            <div x-show="productDropdownOpen"
+                                 x-transition:enter="transition ease-out duration-200"
+                                 x-transition:enter-start="opacity-0 translate-y-2"
+                                 x-transition:enter-end="opacity-100 translate-y-0"
+                                 x-transition:leave="transition ease-in duration-150"
+                                 x-transition:leave-start="opacity-100 translate-y-0"
+                                 x-transition:leave-end="opacity-0 translate-y-2"
+                                 class="absolute left-0 w-[480px] bg-white rounded-2xl shadow-2xl border border-gray-100 p-6 z-[60]"
+                                 style="display: none;">
+                                
+                                <div class="grid grid-cols-2 gap-8">
+                                    <!-- Unggulan -->
+                                    <div>
+                                        <h4 class="text-[10px] font-black text-gray-400 uppercase tracking-widest mb-4 flex items-center gap-2">
+                                            <span class="w-1 h-1 bg-accent rounded-full"></span>
+                                            Unggulan
+                                        </h4>
+                                        <div class="space-y-5">
+                                            <a href="#" class="group block">
+                                                <div class="font-bold text-sm text-secondary group-hover:text-primary transition-colors">Analisis SNBP</div>
+                                                <p class="text-[11px] text-secondary/50 font-medium leading-relaxed mt-1">Prediksi kelulusan SNBP akurat.</p>
+                                            </a>
+                                            <a href="#" class="group block">
+                                                <div class="font-bold text-sm text-secondary group-hover:text-primary transition-colors">Tryout UTBK</div>
+                                                <p class="text-[11px] text-secondary/50 font-medium leading-relaxed mt-1">Simulasi UTBK dengan skor prediktif.</p>
+                                            </a>
+                                        </div>
+                                    </div>
+
+                                    <!-- Jenjang -->
+                                    <div class="border-l border-gray-50 pl-8">
+                                        <h4 class="text-[10px] font-black text-gray-400 uppercase tracking-widest mb-4 flex items-center gap-2">
+                                            <span class="w-1 h-1 bg-primary rounded-full"></span>
+                                            Jenjang
+                                        </h4>
+                                        <div class="space-y-1">
+                                            <a href="#" class="flex items-center justify-between text-[13px] font-bold text-secondary/80 hover:text-primary hover:bg-primary/5 px-3 py-2 rounded-lg transition-all">
+                                                4 - 6 SD
+                                                <svg class="w-3 h-3 opacity-0 group-hover:opacity-100 transition-opacity" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M9 5l7 7-7 7"/></svg>
+                                            </a>
+                                            <a href="#" class="flex items-center justify-between text-[13px] font-bold text-secondary/80 hover:text-primary hover:bg-primary/5 px-3 py-2 rounded-lg transition-all">
+                                                7 - 9 SMP
+                                            </a>
+                                            <a href="#" class="flex items-center justify-between text-[13px] font-bold text-secondary/80 hover:text-primary hover:bg-primary/5 px-3 py-2 rounded-lg transition-all">
+                                                10 - 11 SMA
+                                            </a>
+                                            <a href="#" class="flex items-center justify-between text-[13px] font-bold text-secondary/80 hover:text-primary hover:bg-primary/5 px-3 py-2 rounded-lg transition-all">
+                                                12 SMA & UTBK
+                                            </a>
+                                            <a href="#" class="flex items-center justify-between text-[13px] font-bold text-secondary/80 hover:text-primary hover:bg-primary/5 px-3 py-2 rounded-lg transition-all text-primary">
+                                                Alumni
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Dropdown Bisnis -->
+                        <div class="relative" @mouseenter="businessDropdownOpen = true" @mouseleave="businessDropdownOpen = false">
+                            <button class="flex items-center gap-1 text-xs font-bold text-secondary/80 hover:text-primary transition-colors focus:outline-none py-5">
+                                Bisnis
+                                <svg class="w-3 h-3 transition-transform duration-200" :class="businessDropdownOpen ? 'rotate-180' : ''" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                                </svg>
+                            </button>
+
+                            <!-- Dropdown Menu Bisnis -->
+                            <div x-show="businessDropdownOpen"
+                                 x-transition:enter="transition ease-out duration-200"
+                                 x-transition:enter-start="opacity-0 translate-y-2"
+                                 x-transition:enter-end="opacity-100 translate-y-0"
+                                 x-transition:leave="transition ease-in duration-150"
+                                 x-transition:leave-start="opacity-100 translate-y-0"
+                                 x-transition:leave-end="opacity-0 translate-y-2"
+                                 class="absolute left-0 w-[320px] bg-white rounded-2xl shadow-2xl border border-gray-100 p-5 z-[60]"
+                                 style="display: none;">
+                                
+                                <div class="space-y-1">
+                                    <a href="#" class="group block p-3 rounded-xl hover:bg-primary/5 transition-all">
+                                        <div class="font-bold text-[13px] text-secondary group-hover:text-primary transition-colors">Layanan Bisnis</div>
+                                        <p class="text-[11px] text-secondary/50 font-medium leading-tight mt-1">Kerja sama sekolah dan mitra bisnis.</p>
+                                    </a>
+                                    
+                                    <a href="#" class="group block p-3 rounded-xl hover:bg-primary/5 transition-all">
+                                        <div class="font-bold text-[13px] text-secondary group-hover:text-primary transition-colors">Future Educators</div>
+                                        <p class="text-[11px] text-secondary/50 font-medium leading-tight mt-1">Komunitas online guru dan sekolah.</p>
+                                    </a>
+
+                                    <div class="h-px bg-gray-50 my-2"></div>
+
+                                    <a href="#" class="group block p-3 rounded-xl hover:bg-primary/5 transition-all">
+                                        <div class="font-bold text-[13px] text-secondary group-hover:text-primary transition-colors">Tentang Kami</div>
+                                        <p class="text-[11px] text-secondary/50 font-medium leading-tight mt-1">Profil PT One Learning Indonesia.</p>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+
                         <a href="#" class="text-xs font-bold text-secondary/80 hover:text-primary transition-colors">Paket Belajar</a>
                         <a href="#" class="text-xs font-bold text-secondary/80 hover:text-primary transition-colors">Testimoni</a>
                         <a href="#" class="text-xs font-bold text-secondary/80 hover:text-primary transition-colors">Blog</a>
@@ -66,8 +174,37 @@
                  style="display: none;">
                 <div class="px-4 pt-2 pb-4 space-y-0.5">
                     <a href="#" class="block px-4 py-2 text-sm font-bold text-secondary hover:bg-primary/5 hover:text-primary rounded-lg">Beranda</a>
-                    <a href="#" class="block px-4 py-2 text-sm font-bold text-secondary hover:bg-primary/5 hover:text-primary rounded-lg">Produk</a>
-                    <a href="#" class="block px-4 py-2 text-sm font-bold text-secondary hover:bg-primary/5 hover:text-primary rounded-lg">Bisnis</a>
+                    
+                    <!-- Mobile Produk Accordion -->
+                    <div x-data="{ open: false }">
+                        <button @click="open = !open" class="flex items-center justify-between w-full px-4 py-2 text-sm font-bold text-secondary hover:bg-primary/5 hover:text-primary rounded-lg">
+                            Produk
+                            <svg class="w-4 h-4 transition-transform" :class="open ? 'rotate-180' : ''" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M19 9l-7 7-7-7"/></svg>
+                        </button>
+                        <div x-show="open" class="pl-8 pr-4 py-2 space-y-2 bg-gray-50/50">
+                            <a href="#" class="block text-xs font-bold text-secondary/70 py-1 italic">Analisis SNBP</a>
+                            <a href="#" class="block text-xs font-bold text-secondary/70 py-1 italic">Tryout UTBK</a>
+                            <div class="h-px bg-gray-200 my-2"></div>
+                            <a href="#" class="block text-xs font-bold text-secondary/70 py-1">4 - 6 SD</a>
+                            <a href="#" class="block text-xs font-bold text-secondary/70 py-1">7 - 9 SMP</a>
+                            <a href="#" class="block text-xs font-bold text-secondary/70 py-1">10 - 11 SMA</a>
+                            <a href="#" class="block text-xs font-bold text-secondary/70 py-1">12 SMA & UTBK</a>
+                        </div>
+                    </div>
+
+                    <!-- Mobile Bisnis Accordion -->
+                    <div x-data="{ open: false }">
+                        <button @click="open = !open" class="flex items-center justify-between w-full px-4 py-2 text-sm font-bold text-secondary hover:bg-primary/5 hover:text-primary rounded-lg">
+                            Bisnis
+                            <svg class="w-4 h-4 transition-transform" :class="open ? 'rotate-180' : ''" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M19 9l-7 7-7-7"/></svg>
+                        </button>
+                        <div x-show="open" class="pl-8 pr-4 py-2 space-y-2 bg-gray-50/50">
+                            <a href="#" class="block text-xs font-bold text-secondary/70 py-1">Layanan Bisnis</a>
+                            <a href="#" class="block text-xs font-bold text-secondary/70 py-1">Future Educators</a>
+                            <a href="#" class="block text-xs font-bold text-secondary/70 py-1 font-black">Tentang Kami</a>
+                        </div>
+                    </div>
+
                     <a href="#" class="block px-4 py-2 text-sm font-bold text-secondary hover:bg-primary/5 hover:text-primary rounded-lg">Paket Belajar</a>
                     <a href="#" class="block px-4 py-2 text-sm font-bold text-secondary hover:bg-primary/5 hover:text-primary rounded-lg">Testimoni</a>
                     <a href="#" class="block px-4 py-2 text-sm font-bold text-secondary hover:bg-primary/5 hover:text-primary rounded-lg">Blog</a>
@@ -99,9 +236,15 @@
                             Solusi Belajar Digital Terbaik
                         </div>
                         
-                        <h1 class="text-4xl md:text-5xl xl:text-6xl font-black text-secondary mb-6 leading-[1.1] tracking-tight">
-                            Wujudkan Masa Depanmu <br class="hidden lg:block">
-                            <span class="text-transparent bg-clip-text bg-gradient-to-r from-primary via-secondary to-primary bg-[length:200%_auto] animate-gradient-x italic">Bersama OneLearning</span>
+                        <h1 class="text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-black text-secondary leading-[1.1] tracking-tighter mb-6">
+                            Wujudkan <span class="text-primary italic font-bold">Masa Depanmu</span> <br class="hidden lg:block">
+                            <span class="flex items-center justify-center lg:justify-start gap-3 flex-wrap">
+                                Bersama 
+                                <span class="relative inline-block px-2">
+                                    <span class="relative z-10 text-transparent bg-clip-text bg-gradient-to-r from-primary to-secondary">OneLearning</span>
+                                    <span class="absolute bottom-1 left-0 w-full h-3 bg-accent/20 -rotate-1"></span>
+                                </span>
+                            </span>
                         </h1>
                         
                         <p class="text-base md:text-lg text-secondary/70 mb-8 leading-relaxed max-w-xl mx-auto lg:mx-0">
@@ -306,6 +449,205 @@
                 </div>
             </div>
         </section>
+
+        <!-- Section 3: Testimoni Alumni -->
+        <section class="py-20 bg-secondary/5 relative overflow-hidden">
+            <div class="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-gray-200 to-transparent"></div>
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
+                <div class="text-center mb-16">
+                    <div class="text-primary font-black text-xs uppercase tracking-[0.3em] mb-3">Kisah Sukses</div>
+                    <h2 class="text-3xl md:text-5xl font-black text-secondary tracking-tight">Mereka Telah Membuktikan</h2>
+                    <p class="text-secondary/60 mt-4 font-medium max-w-2xl mx-auto">Bergabunglah dengan ribuan alumni yang telah berhasil meraih mimpi mereka bersama sistem tryout kami.</p>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                    <!-- Testi 1 -->
+                    <div class="bg-white p-8 rounded-[2.5rem] shadow-sm border border-gray-100 relative group hover:shadow-2xl hover:shadow-primary/10 transition-all duration-500">
+                        <div class="absolute -top-5 left-8 w-10 h-10 bg-accent rounded-full flex items-center justify-center text-secondary shadow-lg">
+                            <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20"><path d="M10.394 2.827c.097-.312.424-.51.748-.445l.135.034a.75.75 0 0 1 .553.868l-.403 1.848a2.99 2.99 0 0 0-.256-.03l-.135-.03a.75.75 0 0 1-.553-.868l.403-1.848Z"/><path d="M4.172 6.556c.106-.305.426-.497.74-.423l.135.031a.75.75 0 0 1 .562.862l-.37 1.854a2.986 2.986 0 0 0-.256-.027l-.135-.031a.75.75 0 0 1-.562-.862l.37-1.854ZM15.828 6.556c-.106-.305-.426-.497-.74-.423l-.135.031a.75.75 0 0 0-.562.862l.37 1.854c.084-.012.17-.021.256-.027l.135.031a.75.75 0 0 0 .562-.862l-.37-1.854ZM7.25 10c0-1.243 1.007-2.25 2.25-2.25h.5c1.243 0 2.25 1.007 2.25 2.25v.5c0 1.243-1.007 2.25-2.25 2.25h-.5c-1.243 0-2.25-1.007-2.25-2.25v-.5Z"/><path fill-rule="evenodd" d="M10 18a8 8 0 1 0 0-16 8 8 0 0 0 0 16Zm3.857-9.809a.75.75 0 0 0-1.214-.882l-3.483 4.79-1.88-1.88a.75.75 0 1 0-1.06 1.061l2.5 2.5a.75.75 0 0 0 1.137-.089l4-5.501Z" clip-rule="evenodd"/></svg>
+                        </div>
+                        <p class="text-secondary/70 italic leading-relaxed mb-6">"Sistem IRT di OneLearning benar-benar mirip dengan UTBK asli. Ranking nasionalnya bikin motivasi belajar naik terus setiap hari!"</p>
+                        <div class="flex items-center gap-4 pt-6 border-t border-gray-50">
+                            <img src="https://ui-avatars.com/api/?name=Rina+Putri&background=0EA5E9&color=fff" class="w-12 h-12 rounded-full border-2 border-primary/20" alt="Alumni">
+                            <div>
+                                <div class="font-black text-secondary text-sm">Rina Putri</div>
+                                <div class="text-[10px] text-primary font-bold uppercase tracking-wider">Lolos Akuntansi UI</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Testi 2 -->
+                    <div class="bg-white p-8 rounded-[2.5rem] shadow-xl border border-gray-100 relative group hover:shadow-2xl hover:shadow-primary/10 transition-all duration-500 transform md:scale-105 z-10">
+                        <div class="absolute -top-5 left-8 w-10 h-10 bg-primary rounded-full flex items-center justify-center text-white shadow-lg">
+                            <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2L1 12h3v9h6v-6h4v6h6v-9h3L12 2z"/></svg>
+                        </div>
+                        <p class="text-secondary/70 italic leading-relaxed mb-6">"Soal-soal CPNS di sini update banget dan pembahasannya super gampang dimengerti. Gak nyesel langganan di OneLearning, akhirnya jadi ASN!"</p>
+                        <div class="flex items-center gap-4 pt-6 border-t border-gray-50">
+                            <img src="https://ui-avatars.com/api/?name=Andi+Saputra&background=1E3A8A&color=fff" class="w-12 h-12 rounded-full border-2 border-primary/20" alt="Alumni">
+                            <div>
+                                <div class="font-black text-secondary text-sm">Andi Saputra</div>
+                                <div class="text-[10px] text-primary font-bold uppercase tracking-wider">Lolos Kemenkeu</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Testi 3 -->
+                    <div class="bg-white p-8 rounded-[2.5rem] shadow-sm border border-gray-100 relative group hover:shadow-2xl hover:shadow-primary/10 transition-all duration-500">
+                        <div class="absolute -top-5 left-8 w-10 h-10 bg-accent rounded-full flex items-center justify-center text-secondary shadow-lg">
+                            <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20"><path d="M10.394 2.827c.097-.312.424-.51.748-.445l.135.034a.75.75 0 0 1 .553.868l-.403 1.848a2.99 2.99 0 0 0-.256-.03l-.135-.03a.75.75 0 0 1-.553-.868l.403-1.848Z"/></svg>
+                        </div>
+                        <p class="text-secondary/70 italic leading-relaxed mb-6">"Fitur analisis peluang kelulusannya akurat banget. Saya jadi tau harus fokus belajar di materi mana yang masih lemah. Thank you OneLearning!"</p>
+                        <div class="flex items-center gap-4 pt-6 border-t border-gray-50">
+                            <img src="https://ui-avatars.com/api/?name=Siti+Aminah&background=FBBF24&color=fff" class="w-12 h-12 rounded-full border-2 border-primary/20" alt="Alumni">
+                            <div>
+                                <div class="font-black text-secondary text-sm">Siti Aminah</div>
+                                <div class="text-[10px] text-primary font-bold uppercase tracking-wider">Lolos STIS</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 4: Alur Belajar -->
+        <section class="py-24 bg-white">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center mb-16">
+                    <div class="text-primary font-black text-xs uppercase tracking-[0.3em] mb-3">Langkah Mudah</div>
+                    <h2 class="text-3xl md:text-4xl font-black text-secondary tracking-tight">Cara Kerja OneLearning</h2>
+                </div>
+
+                <div class="relative">
+                    <!-- Connecting Line (Desktop) -->
+                    <div class="hidden lg:block absolute top-12 left-0 w-full h-0.5 border-t-2 border-dashed border-gray-100 -z-10"></div>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 lg:gap-8">
+                        <!-- Step 1 -->
+                        <div class="text-center group">
+                            <div class="w-20 h-20 bg-white border-4 border-gray-50 rounded-3xl flex items-center justify-center mx-auto mb-6 shadow-xl group-hover:bg-primary group-hover:text-white group-hover:border-primary transition-all duration-500">
+                                <span class="text-2xl font-black text-secondary group-hover:text-white">01</span>
+                            </div>
+                            <h3 class="text-lg font-bold text-secondary mb-2">Pilih Paket</h3>
+                            <p class="text-xs md:text-sm text-secondary/60 font-medium">Temukan paket tryout yang sesuai dengan target impianmu.</p>
+                        </div>
+
+                        <!-- Step 2 -->
+                        <div class="text-center group">
+                            <div class="w-20 h-20 bg-white border-4 border-gray-50 rounded-3xl flex items-center justify-center mx-auto mb-6 shadow-xl group-hover:bg-primary group-hover:text-white group-hover:border-primary transition-all duration-500">
+                                <span class="text-2xl font-black text-secondary group-hover:text-white">02</span>
+                            </div>
+                            <h3 class="text-lg font-bold text-secondary mb-2">Simulasi Ujian</h3>
+                            <p class="text-xs md:text-sm text-secondary/60 font-medium">Kerjakan soal dengan timer dan sistem penilaian IRT asli.</p>
+                        </div>
+
+                        <!-- Step 3 -->
+                        <div class="text-center group">
+                            <div class="w-20 h-20 bg-white border-4 border-gray-50 rounded-3xl flex items-center justify-center mx-auto mb-6 shadow-xl group-hover:bg-primary group-hover:text-white group-hover:border-primary transition-all duration-500">
+                                <span class="text-2xl font-black text-secondary group-hover:text-white">03</span>
+                            </div>
+                            <h3 class="text-lg font-bold text-secondary mb-2">Review Materi</h3>
+                            <p class="text-xs md:text-sm text-secondary/60 font-medium">Tonton pembahasan video dan pelajari kesalahanmu secara detail.</p>
+                        </div>
+
+                        <!-- Step 4 -->
+                        <div class="text-center group">
+                            <div class="w-20 h-20 bg-white border-4 border-gray-50 rounded-3xl flex items-center justify-center mx-auto mb-6 shadow-xl group-hover:bg-accent group-hover:text-secondary group-hover:border-accent transition-all duration-500">
+                                <span class="text-2xl font-black text-secondary group-hover:text-secondary">04</span>
+                            </div>
+                            <h3 class="text-lg font-bold text-secondary mb-2">Lolos Ujian</h3>
+                            <p class="text-xs md:text-sm text-secondary/60 font-medium">Siap menghadapi ujian sesungguhnya dan raih masa depanmu!</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Bottom CTA -->
+                <div class="mt-20 bg-primary p-8 md:p-12 rounded-[3rem] shadow-2xl shadow-primary/30 flex flex-col md:flex-row items-center justify-between gap-8 relative overflow-hidden group">
+                    <div class="absolute top-0 right-0 w-64 h-64 bg-white/10 rounded-full blur-3xl -mr-32 -mt-32 group-hover:scale-110 transition-transform duration-700"></div>
+                    <div class="relative z-10 text-center md:text-left">
+                        <h2 class="text-3xl md:text-4xl font-black text-white mb-3">Siap Menaklukkan Ujianmu?</h2>
+                        <p class="text-white/80 font-bold">Daftar sekarang dan dapatkan Tryout Gratis pertamamu!</p>
+                    </div>
+                    <a href="#" class="relative z-10 px-10 py-5 bg-white text-primary font-black rounded-full hover:bg-secondary hover:text-white transition-all transform hover:scale-105 active:scale-95 shadow-xl">
+                        Mulai Sekarang - Gratis
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer class="bg-secondary pt-20 pb-10">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-16">
+                    <!-- Brand -->
+                    <div class="lg:col-span-1">
+                        <a href="/" class="flex items-center gap-3 mb-6">
+                            <img src="{{ asset('images/logo.png') }}" alt="OneLearning Logo" class="w-12 h-12">
+                            <span class="font-extrabold text-2xl tracking-tight text-white">One<span class="text-primary">Learning</span></span>
+                        </a>
+                        <p class="text-white/60 text-sm leading-relaxed mb-8">
+                            Platform simulasi tryout online nomor satu di Indonesia. Kami membantu kamu mempersiapkan diri menghadapi ujian masa depan dengan teknologi pendidikan tercanggih.
+                        </p>
+                        <div class="flex items-center gap-4">
+                            <a href="#" class="w-10 h-10 bg-white/10 rounded-full flex items-center justify-center text-white hover:bg-primary transition-colors">
+                                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M24 4.557c-.883.392-1.832.656-2.828.775 1.017-.609 1.798-1.574 2.165-2.724-.951.564-2.005.974-3.127 1.195-.897-.957-2.178-1.555-3.594-1.555-3.179 0-5.515 2.966-4.797 6.045-4.091-.205-7.719-2.165-10.148-5.144-1.29 2.213-.669 5.108 1.523 6.574-.806-.026-1.566-.247-2.229-.616-.054 2.281 1.581 4.415 3.949 4.89-.693.188-1.452.232-2.224.084.626 1.956 2.444 3.379 4.6 3.419-2.07 1.623-4.678 2.348-7.29 2.04 2.179 1.397 4.768 2.212 7.548 2.212 9.142 0 14.307-7.721 13.995-14.646.962-.695 1.797-1.562 2.457-2.549z"/></svg>
+                            </a>
+                            <a href="#" class="w-10 h-10 bg-white/10 rounded-full flex items-center justify-center text-white hover:bg-primary transition-colors">
+                                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- Links 1 -->
+                    <div>
+                        <h4 class="text-white font-black text-sm uppercase tracking-widest mb-6">Program Kami</h4>
+                        <ul class="space-y-4">
+                            <li><a href="#" class="text-white/60 text-sm hover:text-primary transition-colors">UTBK-SNBT 2024</a></li>
+                            <li><a href="#" class="text-white/60 text-sm hover:text-primary transition-colors">CPNS & PPPK</a></li>
+                            <li><a href="#" class="text-white/60 text-sm hover:text-primary transition-colors">Sekolah Kedinasan</a></li>
+                            <li><a href="#" class="text-white/60 text-sm hover:text-primary transition-colors">Ujian Mandiri PTN</a></li>
+                        </ul>
+                    </div>
+
+                    <!-- Links 2 -->
+                    <div>
+                        <h4 class="text-white font-black text-sm uppercase tracking-widest mb-6">Bantuan</h4>
+                        <ul class="space-y-4">
+                            <li><a href="#" class="text-white/60 text-sm hover:text-primary transition-colors">Cara Mendaftar</a></li>
+                            <li><a href="#" class="text-white/60 text-sm hover:text-primary transition-colors">Pusat Bantuan</a></li>
+                            <li><a href="#" class="text-white/60 text-sm hover:text-primary transition-colors">Kebijakan Privasi</a></li>
+                            <li><a href="#" class="text-white/60 text-sm hover:text-primary transition-colors">Syarat & Ketentuan</a></li>
+                        </ul>
+                    </div>
+
+                    <!-- Contact -->
+                    <div>
+                        <h4 class="text-white font-black text-sm uppercase tracking-widest mb-6">Hubungi Kami</h4>
+                        <ul class="space-y-4">
+                            <li class="flex items-start gap-3">
+                                <svg class="w-5 h-5 text-primary shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
+                                <span class="text-white/60 text-sm">support@onelearning.id</span>
+                            </li>
+                            <li class="flex items-start gap-3">
+                                <svg class="w-5 h-5 text-primary shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+                                <span class="text-white/60 text-sm">Jakarta Selatan, Indonesia</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Footer Bottom -->
+                <div class="pt-10 border-t border-white/5 flex flex-col md:flex-row items-center justify-between gap-6">
+                    <div class="text-white/40 text-xs font-medium text-center md:text-left">
+                        &copy; 2024 OneLearning Indonesia. All rights reserved.
+                    </div>
+                    <div class="flex items-center gap-6 grayscale opacity-30 hover:grayscale-0 hover:opacity-100 transition-all">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/7/72/Logo_dana_blue.svg" class="h-4" alt="Dana">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/e/eb/Logo_ovo_purple.svg" class="h-4" alt="OVO">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/b/b5/PayPal.svg" class="h-4" alt="PayPal">
+                    </div>
+                </div>
+            </div>
+        </footer>
 
         <style>
             @keyframes gradient-x {
