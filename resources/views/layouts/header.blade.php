@@ -1,9 +1,9 @@
 <!-- Navbar -->
-<nav class="sticky top-0 z-[1000] bg-white/90 backdrop-blur-md border-b border-gray-100">
+<nav class="sticky top-0 z-[100] bg-white/90 backdrop-blur-md border-b border-gray-100">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="flex justify-between items-center h-16">
             <!-- Logo (Kiri) -->
-            <div class="flex-shrink-0 flex items-center relative z-[1001]">
+            <div class="flex-shrink-0 flex items-center">
                 <a href="{{ url('/') }}" class="flex items-center gap-2">
                     <img src="{{ asset('images/logo.png') }}" alt="OneLearning Logo" class="w-10 h-10">
                     <span class="font-extrabold text-xl tracking-tight text-secondary">One<span class="text-primary">Learning</span></span>
@@ -11,33 +11,35 @@
             </div>
 
             <!-- Desktop Menu -->
-            <div class="hidden md:flex items-center space-x-6 relative z-[1001]">
+            <div class="hidden md:flex items-center space-x-6">
                 <a href="{{ url('/') }}" class="text-xs font-bold text-secondary/80 hover:text-primary transition-colors">Beranda</a>
                 
                 <!-- Dropdown Produk -->
-                <div class="relative" x-data="{ open: false }" @mouseenter="open = true" @mouseleave="open = false">
+                <div class="relative" @mouseenter="productDropdownOpen = true" @mouseleave="productDropdownOpen = false">
                     <button class="flex items-center gap-1 text-xs font-bold text-secondary/80 hover:text-primary transition-colors focus:outline-none py-5">
                         Produk
-                        <svg class="w-3 h-3 transition-transform duration-200" :class="open ? 'rotate-180' : ''" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <svg class="w-3 h-3 transition-transform duration-200" :class="productDropdownOpen ? 'rotate-180' : ''" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
                         </svg>
                     </button>
 
                     <!-- Mega Dropdown Menu -->
-                    <div x-show="open"
+                    <div x-show="productDropdownOpen"
                          x-transition:enter="transition ease-out duration-200"
                          x-transition:enter-start="opacity-0 translate-y-2"
                          x-transition:enter-end="opacity-100 translate-y-0"
                          x-transition:leave="transition ease-in duration-150"
                          x-transition:leave-start="opacity-100 translate-y-0"
-                         class="absolute left-0 w-[480px] bg-white rounded-2xl shadow-2xl border border-gray-100 p-6 z-[2000]"
-                         @mouseenter="open = true"
+                         x-transition:leave-end="opacity-0 translate-y-2"
+                         class="absolute left-0 w-[480px] bg-white rounded-2xl shadow-2xl border border-gray-100 p-6 z-[110]"
                          style="display: none;">
                         
                         <div class="grid grid-cols-2 gap-8">
+                            <!-- Unggulan -->
                             <div>
                                 <h4 class="text-[10px] font-black text-gray-400 uppercase tracking-widest mb-4 flex items-center gap-2">
-                                    <span class="w-1 h-1 bg-accent rounded-full"></span> Unggulan
+                                    <span class="w-1 h-1 bg-accent rounded-full"></span>
+                                    Unggulan
                                 </h4>
                                 <div class="space-y-5">
                                     <a href="{{ route('produk.snbp') }}" class="group block">
@@ -50,9 +52,12 @@
                                     </a>
                                 </div>
                             </div>
+
+                            <!-- Jenjang -->
                             <div class="border-l border-gray-50 pl-8">
                                 <h4 class="text-[10px] font-black text-gray-400 uppercase tracking-widest mb-4 flex items-center gap-2">
-                                    <span class="w-1 h-1 bg-primary rounded-full"></span> Jenjang
+                                    <span class="w-1 h-1 bg-primary rounded-full"></span>
+                                    Jenjang
                                 </h4>
                                 <div class="space-y-1">
                                     <a href="{{ route('produk.sd') }}" class="flex items-center justify-between text-[13px] font-bold text-secondary/80 hover:text-primary hover:bg-primary/5 px-3 py-2 rounded-lg transition-all">4 - 6 SD</a>
@@ -67,22 +72,23 @@
                 </div>
 
                 <!-- Dropdown Bisnis -->
-                <div class="relative" x-data="{ open: false }" @mouseenter="open = true" @mouseleave="open = false">
+                <div class="relative" @mouseenter="businessDropdownOpen = true" @mouseleave="businessDropdownOpen = false">
                     <button class="flex items-center gap-1 text-xs font-bold text-secondary/80 hover:text-primary transition-colors focus:outline-none py-5">
                         Bisnis
-                        <svg class="w-3 h-3 transition-transform duration-200" :class="open ? 'rotate-180' : ''" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <svg class="w-3 h-3 transition-transform duration-200" :class="businessDropdownOpen ? 'rotate-180' : ''" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
                         </svg>
                     </button>
 
                     <!-- Dropdown Menu Bisnis -->
-                    <div x-show="open"
+                    <div x-show="businessDropdownOpen"
                          x-transition:enter="transition ease-out duration-200"
                          x-transition:enter-start="opacity-0 translate-y-2"
                          x-transition:enter-end="opacity-100 translate-y-0"
                          x-transition:leave="transition ease-in duration-150"
-                         class="absolute left-0 w-[320px] bg-white rounded-2xl shadow-2xl border border-gray-100 p-5 z-[2000]"
-                         @mouseenter="open = true"
+                         x-transition:leave-start="opacity-100 translate-y-0"
+                         x-transition:leave-end="opacity-0 translate-y-2"
+                         class="absolute left-0 w-[320px] bg-white rounded-2xl shadow-2xl border border-gray-100 p-5 z-[110]"
                          style="display: none;">
                         
                         <div class="space-y-1">
@@ -107,23 +113,23 @@
                 <a href="{{ route('testimoni') }}" class="text-xs font-bold text-secondary/80 hover:text-primary transition-colors">Testimoni</a>
                 <a href="{{ route('blog') }}" class="text-xs font-bold text-secondary/80 hover:text-primary transition-colors">Blog</a>
                 
-                <div class="flex items-center gap-4 ml-4">
-                    @auth
+                @auth
+                    <div class="flex items-center gap-4 ml-4">
                         <a href="{{ url('/dashboard') }}" class="text-xs font-bold text-secondary/80 hover:text-primary transition-colors">Dashboard</a>
                         <form method="POST" action="{{ route('logout') }}" class="inline">
                             @csrf
                             <button type="submit" class="text-xs font-bold text-red-500 hover:text-red-700 transition-colors cursor-pointer">Keluar</button>
                         </form>
-                    @else
-                        <a href="{{ route('login') }}" class="inline-flex items-center justify-center px-6 py-2 border border-transparent text-xs font-bold rounded-full text-white bg-primary hover:bg-secondary shadow-lg shadow-primary/25 transition-all active:scale-95 cursor-pointer relative z-[3000]">
-                            Mulai Belajar
-                        </a>
-                    @endauth
-                </div>
+                    </div>
+                @else
+                    <a href="{{ route('login') }}" class="inline-flex items-center justify-center px-6 py-2 border border-transparent text-xs font-bold rounded-full text-white bg-primary hover:bg-secondary shadow-lg shadow-primary/25 transition-all active:scale-95 cursor-pointer">
+                        Mulai Belajar
+                    </a>
+                @endauth
             </div>
 
             <!-- Mobile Menu Button -->
-            <div class="md:hidden flex items-center relative z-[1001]">
+            <div class="md:hidden flex items-center">
                 <button @click="mobileMenuOpen = !mobileMenuOpen" class="text-secondary hover:text-primary focus:outline-none p-1">
                     <svg x-show="!mobileMenuOpen" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
@@ -145,6 +151,8 @@
          style="display: none;">
         <div class="px-4 pt-2 pb-4 space-y-0.5">
             <a href="{{ url('/') }}" class="block px-4 py-2 text-sm font-bold text-secondary hover:bg-primary/5 hover:text-primary rounded-lg">Beranda</a>
+            
+            <!-- Mobile Produk Accordion -->
             <div x-data="{ open: false }">
                 <button @click="open = !open" class="flex items-center justify-between w-full px-4 py-2 text-sm font-bold text-secondary hover:bg-primary/5 hover:text-primary rounded-lg">
                     Produk
@@ -160,9 +168,24 @@
                     <a href="{{ route('produk.alumni') }}" class="block text-xs font-bold text-secondary/70 py-1 font-black">Alumni</a>
                 </div>
             </div>
+
+            <!-- Mobile Bisnis Accordion -->
+            <div x-data="{ open: false }">
+                <button @click="open = !open" class="flex items-center justify-between w-full px-4 py-2 text-sm font-bold text-secondary hover:bg-primary/5 hover:text-primary rounded-lg">
+                    Bisnis
+                    <svg class="w-4 h-4 transition-transform" :class="open ? 'rotate-180' : ''" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M19 9l-7 7-7-7"/></svg>
+                </button>
+                <div x-show="open" class="pl-8 pr-4 py-2 space-y-2 bg-gray-50/50">
+                    <a href="{{ route('bisnis.layanan') }}" class="block text-xs font-bold text-secondary/70 py-1">Layanan Bisnis</a>
+                    <a href="{{ route('bisnis.educators') }}" class="block text-xs font-bold text-secondary/70 py-1">Future Educators</a>
+                    <a href="{{ route('bisnis.tentang') }}" class="block text-xs font-bold text-secondary/70 py-1 font-black">Tentang Kami</a>
+                </div>
+            </div>
+
             <a href="{{ route('paket.index') }}" class="block px-4 py-2 text-sm font-bold text-secondary hover:bg-primary/5 hover:text-primary rounded-lg">Paket Belajar</a>
             <a href="{{ route('testimoni') }}" class="block px-4 py-2 text-sm font-bold text-secondary hover:bg-primary/5 hover:text-primary rounded-lg">Testimoni</a>
             <a href="{{ route('blog') }}" class="block px-4 py-2 text-sm font-bold text-secondary hover:bg-primary/5 hover:text-primary rounded-lg">Blog</a>
+            
             <div class="pt-3 px-4">
                 @auth
                     <a href="{{ url('/dashboard') }}" class="block w-full text-center px-6 py-3 border border-transparent text-sm font-bold rounded-full text-white bg-primary shadow-lg shadow-primary/25">Dashboard</a>
