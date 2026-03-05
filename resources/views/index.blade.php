@@ -4,7 +4,7 @@
 
 @section('content')
     <!-- Hero Section -->
-    <section class="relative pt-2 pb-16 lg:pt-4 lg:pb-24 overflow-hidden">
+    <section class="relative pt-12 pb-16 lg:pt-20 lg:pb-24 overflow-hidden">
         <!-- Modern Abstract Background -->
         <div class="absolute inset-0 -z-10 overflow-hidden">
             <div class="absolute -top-[10%] -right-[10%] w-[600px] h-[600px] bg-primary/10 rounded-full blur-[120px] animate-pulse"></div>
