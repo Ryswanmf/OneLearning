@@ -5,6 +5,7 @@ use App\Http\Controllers\ProductController;
 use App\Http\Controllers\StudyPackageController;
 use App\Http\Controllers\TestimonialController;
 use App\Http\Controllers\BlogController;
+use App\Http\Controllers\BusinessController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 
@@ -88,6 +89,10 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
 
     Route::resource('blog', BlogController::class)->parameters([
         'blog' => 'blog:slug'
+    ]);
+
+    Route::resource('bisnis', BusinessController::class)->parameters([
+        'bisnis' => 'bisni:slug'
     ]);
 });
 
