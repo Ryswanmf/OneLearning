@@ -42,11 +42,11 @@
                                     Unggulan
                                 </h4>
                                 <div class="space-y-5">
-                                    <a href="#" class="group block">
+                                    <a href="{{ route('produk.snbp') }}" class="group block">
                                         <div class="font-bold text-sm text-secondary group-hover:text-primary transition-colors">Analisis SNBP</div>
                                         <p class="text-[11px] text-secondary/50 font-medium leading-relaxed mt-1">Prediksi kelulusan SNBP akurat.</p>
                                     </a>
-                                    <a href="#" class="group block">
+                                    <a href="{{ route('produk.utbk') }}" class="group block">
                                         <div class="font-bold text-sm text-secondary group-hover:text-primary transition-colors">Tryout UTBK</div>
                                         <p class="text-[11px] text-secondary/50 font-medium leading-relaxed mt-1">Simulasi UTBK dengan skor prediktif.</p>
                                     </a>
@@ -60,20 +60,19 @@
                                     Jenjang
                                 </h4>
                                 <div class="space-y-1">
-                                    <a href="#" class="flex items-center justify-between text-[13px] font-bold text-secondary/80 hover:text-primary hover:bg-primary/5 px-3 py-2 rounded-lg transition-all">
+                                    <a href="{{ route('produk.sd') }}" class="flex items-center justify-between text-[13px] font-bold text-secondary/80 hover:text-primary hover:bg-primary/5 px-3 py-2 rounded-lg transition-all">
                                         4 - 6 SD
-                                        <svg class="w-3 h-3 opacity-0 group-hover:opacity-100 transition-opacity" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M9 5l7 7-7 7"/></svg>
                                     </a>
-                                    <a href="#" class="flex items-center justify-between text-[13px] font-bold text-secondary/80 hover:text-primary hover:bg-primary/5 px-3 py-2 rounded-lg transition-all">
+                                    <a href="{{ route('produk.smp') }}" class="flex items-center justify-between text-[13px] font-bold text-secondary/80 hover:text-primary hover:bg-primary/5 px-3 py-2 rounded-lg transition-all">
                                         7 - 9 SMP
                                     </a>
-                                    <a href="#" class="flex items-center justify-between text-[13px] font-bold text-secondary/80 hover:text-primary hover:bg-primary/5 px-3 py-2 rounded-lg transition-all">
+                                    <a href="{{ route('produk.sma') }}" class="flex items-center justify-between text-[13px] font-bold text-secondary/80 hover:text-primary hover:bg-primary/5 px-3 py-2 rounded-lg transition-all">
                                         10 - 11 SMA
                                     </a>
-                                    <a href="#" class="flex items-center justify-between text-[13px] font-bold text-secondary/80 hover:text-primary hover:bg-primary/5 px-3 py-2 rounded-lg transition-all">
+                                    <a href="{{ route('produk.sma_utbk') }}" class="flex items-center justify-between text-[13px] font-bold text-secondary/80 hover:text-primary hover:bg-primary/5 px-3 py-2 rounded-lg transition-all">
                                         12 SMA & UTBK
                                     </a>
-                                    <a href="#" class="flex items-center justify-between text-[13px] font-bold text-secondary/80 hover:text-primary hover:bg-primary/5 px-3 py-2 rounded-lg transition-all text-primary">
+                                    <a href="{{ route('produk.alumni') }}" class="flex items-center justify-between text-[13px] font-bold text-secondary/80 hover:text-primary hover:bg-primary/5 px-3 py-2 rounded-lg transition-all text-primary">
                                         Alumni
                                     </a>
                                 </div>
@@ -163,13 +162,14 @@
                     <svg class="w-4 h-4 transition-transform" :class="open ? 'rotate-180' : ''" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M19 9l-7 7-7-7"/></svg>
                 </button>
                 <div x-show="open" class="pl-8 pr-4 py-2 space-y-2 bg-gray-50/50">
-                    <a href="#" class="block text-xs font-bold text-secondary/70 py-1 italic">Analisis SNBP</a>
-                    <a href="#" class="block text-xs font-bold text-secondary/70 py-1 italic">Tryout UTBK</a>
+                    <a href="{{ route('produk.snbp') }}" class="block text-xs font-bold text-secondary/70 py-1 italic">Analisis SNBP</a>
+                    <a href="{{ route('produk.utbk') }}" class="block text-xs font-bold text-secondary/70 py-1 italic">Tryout UTBK</a>
                     <div class="h-px bg-gray-200 my-2"></div>
-                    <a href="#" class="block text-xs font-bold text-secondary/70 py-1">4 - 6 SD</a>
-                    <a href="#" class="block text-xs font-bold text-secondary/70 py-1">7 - 9 SMP</a>
-                    <a href="#" class="block text-xs font-bold text-secondary/70 py-1">10 - 11 SMA</a>
-                    <a href="#" class="block text-xs font-bold text-secondary/70 py-1">12 SMA & UTBK</a>
+                    <a href="{{ route('produk.sd') }}" class="block text-xs font-bold text-secondary/70 py-1">4 - 6 SD</a>
+                    <a href="{{ route('produk.smp') }}" class="block text-xs font-bold text-secondary/70 py-1">7 - 9 SMP</a>
+                    <a href="{{ route('produk.sma') }}" class="block text-xs font-bold text-secondary/70 py-1">10 - 11 SMA</a>
+                    <a href="{{ route('produk.sma_utbk') }}" class="block text-xs font-bold text-secondary/70 py-1">12 SMA & UTBK</a>
+                    <a href="{{ route('produk.alumni') }}" class="block text-xs font-bold text-secondary/70 py-1 font-black">Alumni</a>
                 </div>
             </div>
 
@@ -180,15 +180,15 @@
                     <svg class="w-4 h-4 transition-transform" :class="open ? 'rotate-180' : ''" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M19 9l-7 7-7-7"/></svg>
                 </button>
                 <div x-show="open" class="pl-8 pr-4 py-2 space-y-2 bg-gray-50/50">
-                    <a href="#" class="block text-xs font-bold text-secondary/70 py-1">Layanan Bisnis</a>
-                    <a href="#" class="block text-xs font-bold text-secondary/70 py-1">Future Educators</a>
-                    <a href="#" class="block text-xs font-bold text-secondary/70 py-1 font-black">Tentang Kami</a>
+                    <a href="{{ route('bisnis.layanan') }}" class="block text-xs font-bold text-secondary/70 py-1">Layanan Bisnis</a>
+                    <a href="{{ route('bisnis.educators') }}" class="block text-xs font-bold text-secondary/70 py-1">Future Educators</a>
+                    <a href="{{ route('bisnis.tentang') }}" class="block text-xs font-bold text-secondary/70 py-1 font-black">Tentang Kami</a>
                 </div>
             </div>
 
-            <a href="#" class="block px-4 py-2 text-sm font-bold text-secondary hover:bg-primary/5 hover:text-primary rounded-lg">Paket Belajar</a>
-            <a href="#" class="block px-4 py-2 text-sm font-bold text-secondary hover:bg-primary/5 hover:text-primary rounded-lg">Testimoni</a>
-            <a href="#" class="block px-4 py-2 text-sm font-bold text-secondary hover:bg-primary/5 hover:text-primary rounded-lg">Blog</a>
+            <a href="{{ route('paket.index') }}" class="block px-4 py-2 text-sm font-bold text-secondary hover:bg-primary/5 hover:text-primary rounded-lg">Paket Belajar</a>
+            <a href="{{ route('testimoni') }}" class="block px-4 py-2 text-sm font-bold text-secondary hover:bg-primary/5 hover:text-primary rounded-lg">Testimoni</a>
+            <a href="{{ route('blog') }}" class="block px-4 py-2 text-sm font-bold text-secondary hover:bg-primary/5 hover:text-primary rounded-lg">Blog</a>
             <div class="pt-3 px-4">
                 <a href="#" class="block w-full text-center px-6 py-3 border border-transparent text-sm font-bold rounded-full text-white bg-primary shadow-lg shadow-primary/25">
                     Mulai Belajar
