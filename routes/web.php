@@ -9,3 +9,7 @@ Route::get('/', function () {
 Route::get('/testimoni', function () {
     return view('landing.testimoni.index');
 })->name('testimoni');
+
+Route::get('/blog', function () {
+    return view('landing.blog.index');
+})->name('blog');
