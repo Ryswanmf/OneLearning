@@ -22,6 +22,7 @@ use App\Http\Controllers\TermController;
 use App\Http\Controllers\FaqController;
 use App\Http\Controllers\HowToRegisterController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\StudentDashboardController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 
@@ -57,7 +58,7 @@ Route::get('/testimoni', function () { return view('landing.testimoni.index'); }
 Route::get('/blog', function () { return view('landing.blog.index'); })->name('blog');
 Route::get('/paket-belajar', function () { return view('landing.paket_belajar.index'); })->name('paket.index');
 
-// Rute Produk & Bisnis (tetap sama...)
+// Rute Produk & Bisnis
 Route::prefix('produk')->name('produk.')->group(function () {
     Route::get('/snbp', function () { $universities = \App\Models\SnbpMajor::select('university_name')->distinct()->where('is_active', true)->get(); return view('landing.produk.snbp', compact('universities')); })->name('snbp');
     Route::get('/utbk', function () { $tryouts = \App\Models\UtbkTryout::where('status', 'published')->get(); return view('landing.produk.utbk', compact('tryouts')); })->name('utbk');
@@ -103,6 +104,21 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
     Route::resource('how-to-register', HowToRegisterController::class);
     Route::get('/settings', [SettingController::class, 'index'])->name('settings.index');
     Route::put('/settings', [SettingController::class, 'update'])->name('settings.update');
+});
+
+/*
+|--------------------------------------------------------------------------
+| Student Dashboard Route
+|--------------------------------------------------------------------------
+*/
+Route::get('/dashboard', [StudentDashboardController::class, 'index'])
+    ->middleware(['auth', 'verified'])
+    ->name('dashboard');
+
+Route::middleware('auth')->group(function () {
+    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
+    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
 require __DIR__.'/auth.php';
