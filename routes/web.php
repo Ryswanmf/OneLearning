@@ -21,6 +21,7 @@ use App\Http\Controllers\PrivacyPolicyController;
 use App\Http\Controllers\TermController;
 use App\Http\Controllers\FaqController;
 use App\Http\Controllers\HowToRegisterController;
+use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 
@@ -46,32 +47,17 @@ Route::get('/', function () {
 });
 
 // Bantuan & Hukum (Publik)
-Route::get('/cara-mendaftar', function () {
-    $steps = \App\Models\HowToRegister::where('is_active', true)->orderBy('step_number')->get();
-    return view('landing.bantuan.caramendaftar', compact('steps'));
-})->name('how-to-register');
-
-Route::get('/pusat-bantuan', function () {
-    $faqs = \App\Models\Faq::where('is_active', true)->orderBy('category')->orderBy('order')->get();
-    return view('landing.bantuan.faq', compact('faqs'));
-})->name('faq');
-
-Route::get('/kebijakan-privasi', function () {
-    $policies = \App\Models\PrivacyPolicy::orderBy('order')->get();
-    return view('landing.bantuan.kebijakanprivasi', compact('policies'));
-})->name('privacy-policy');
-
-Route::get('/syarat-ketentuan', function () {
-    $terms = \App\Models\Term::orderBy('order')->get();
-    return view('landing.bantuan.syaratketentuan', compact('terms'));
-})->name('terms-conditions');
+Route::get('/cara-mendaftar', function () { $steps = \App\Models\HowToRegister::where('is_active', true)->orderBy('step_number')->get(); return view('landing.bantuan.caramendaftar', compact('steps')); })->name('how-to-register');
+Route::get('/pusat-bantuan', function () { $faqs = \App\Models\Faq::where('is_active', true)->orderBy('category')->orderBy('order')->get(); return view('landing.bantuan.faq', compact('faqs')); })->name('faq');
+Route::get('/kebijakan-privasi', function () { $policies = \App\Models\PrivacyPolicy::orderBy('order')->get(); return view('landing.bantuan.kebijakanprivasi', compact('policies')); })->name('privacy-policy');
+Route::get('/syarat-ketentuan', function () { $terms = \App\Models\Term::orderBy('order')->get(); return view('landing.bantuan.syaratketentuan', compact('terms')); })->name('terms-conditions');
 
 // Rute Landing Pages Lainnya
 Route::get('/testimoni', function () { return view('landing.testimoni.index'); })->name('testimoni');
 Route::get('/blog', function () { return view('landing.blog.index'); })->name('blog');
 Route::get('/paket-belajar', function () { return view('landing.paket_belajar.index'); })->name('paket.index');
 
-// Rute Produk & Bisnis
+// Rute Produk & Bisnis (tetap sama...)
 Route::prefix('produk')->name('produk.')->group(function () {
     Route::get('/snbp', function () { $universities = \App\Models\SnbpMajor::select('university_name')->distinct()->where('is_active', true)->get(); return view('landing.produk.snbp', compact('universities')); })->name('snbp');
     Route::get('/utbk', function () { $tryouts = \App\Models\UtbkTryout::where('status', 'published')->get(); return view('landing.produk.utbk', compact('tryouts')); })->name('utbk');
@@ -95,6 +81,7 @@ Route::prefix('bisnis')->name('bisnis.')->group(function () {
 */
 Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(function () {
     Route::get('/', function () { return view('admin.index'); })->name('index');
+    Route::resource('users', UserController::class);
     Route::resource('produk', ProductController::class)->parameters(['produk' => 'produk:slug']);
     Route::resource('paket-belajar', StudyPackageController::class)->parameters(['paket-belajar' => 'paket_belajar:slug']);
     Route::resource('testimoni', TestimonialController::class);
