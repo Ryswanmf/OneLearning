@@ -8,16 +8,18 @@ use Illuminate\Support\Str;
 class StudyPackage extends Model
 {
     protected $fillable = [
-        'name', 'slug', 'price', 'duration', 'description', 'features', 'is_popular', 'is_active'
+        'title', 'slug', 'category', 'price', 'description', 
+        'is_featured', 'package_count', 'duration'
     ];
 
     protected static function boot()
     {
         parent::boot();
-        static::creating(function ($package) {
-            if (empty($package->slug)) {
-                $package->slug = Str::slug($package->name);
-            }
-        });
+        static::creating(fn ($package) => $package->slug = $package->slug ?? Str::slug($package->title));
+    }
+
+    public function questions()
+    {
+        return $this->hasMany(Question::class);
     }
 }

@@ -23,6 +23,8 @@ use App\Http\Controllers\FaqController;
 use App\Http\Controllers\HowToRegisterController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\StudentDashboardController;
+use App\Http\Controllers\QuestionController;
+use App\Http\Controllers\TryoutEngineController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 
@@ -47,18 +49,27 @@ Route::get('/', function () {
     return view('index', compact('featuredProducts', 'settings', 'counts'));
 });
 
-// Bantuan & Hukum (Publik)
+// Bantuan & Hukum
 Route::get('/cara-mendaftar', function () { $steps = \App\Models\HowToRegister::where('is_active', true)->orderBy('step_number')->get(); return view('landing.bantuan.caramendaftar', compact('steps')); })->name('how-to-register');
 Route::get('/pusat-bantuan', function () { $faqs = \App\Models\Faq::where('is_active', true)->orderBy('category')->orderBy('order')->get(); return view('landing.bantuan.faq', compact('faqs')); })->name('faq');
 Route::get('/kebijakan-privasi', function () { $policies = \App\Models\PrivacyPolicy::orderBy('order')->get(); return view('landing.bantuan.kebijakanprivasi', compact('policies')); })->name('privacy-policy');
 Route::get('/syarat-ketentuan', function () { $terms = \App\Models\Term::orderBy('order')->get(); return view('landing.bantuan.syaratketentuan', compact('terms')); })->name('terms-conditions');
 
-// Rute Landing Pages Lainnya
+// Rute Tryout Engine
+Route::middleware(['auth'])->prefix('tryout')->name('tryout.')->group(function () {
+    Route::get('/{paket_belajar:slug}/instruksi', [TryoutEngineController::class, 'showInstructions'])->name('instructions');
+    Route::get('/{paket_belajar:slug}/start', [TryoutEngineController::class, 'start'])->name('start');
+    Route::post('/{paket_belajar:slug}/save-answer', [TryoutEngineController::class, 'saveAnswer'])->name('save-answer');
+    Route::post('/{paket_belajar:slug}/finish', [TryoutEngineController::class, 'finish'])->name('finish');
+    Route::get('/{paket_belajar:slug}/result', [TryoutEngineController::class, 'showResult'])->name('result');
+});
+
+// Rute Landing Pages
 Route::get('/testimoni', function () { return view('landing.testimoni.index'); })->name('testimoni');
 Route::get('/blog', function () { return view('landing.blog.index'); })->name('blog');
 Route::get('/paket-belajar', function () { return view('landing.paket_belajar.index'); })->name('paket.index');
 
-// Rute Produk & Bisnis
+// Rute Produk
 Route::prefix('produk')->name('produk.')->group(function () {
     Route::get('/snbp', function () { $universities = \App\Models\SnbpMajor::select('university_name')->distinct()->where('is_active', true)->get(); return view('landing.produk.snbp', compact('universities')); })->name('snbp');
     Route::get('/utbk', function () { $tryouts = \App\Models\UtbkTryout::where('status', 'published')->get(); return view('landing.produk.utbk', compact('tryouts')); })->name('utbk');
@@ -69,10 +80,22 @@ Route::prefix('produk')->name('produk.')->group(function () {
     Route::get('/alumni', function () { $tryouts = \App\Models\AlumniTryout::where('status', 'published')->get(); return view('landing.produk.alumni', ['title' => 'Alumni', 'level' => 'Alumni', 'tryouts' => $tryouts]); })->name('alumni');
 });
 
+// Rute Bisnis (Perbaikan Error)
 Route::prefix('bisnis')->name('bisnis.')->group(function () {
-    Route::get('/layanan', function () { $services = \App\Models\BusinessService::where('is_active', true)->get(); return view('landing.bisnis.layanan', compact('services')); })->name('layanan');
-    Route::get('/future-educators', function () { $programs = \App\Models\FutureEducator::where('is_active', true)->get(); return view('landing.bisnis.educators', compact('programs')); })->name('educators');
-    Route::get('/tentang-kami', function () { $profiles = \App\Models\About::where('is_active', true)->orderBy('order')->get(); return view('landing.bisnis.tentang', compact('profiles')); })->name('tentang');
+    Route::get('/layanan', function () { 
+        $services = \App\Models\BusinessService::where('is_active', true)->get(); 
+        return view('landing.bisnis.layanan', compact('services')); 
+    })->name('layanan');
+    
+    Route::get('/future-educators', function () { 
+        $programs = \App\Models\FutureEducator::where('is_active', true)->get(); 
+        return view('landing.bisnis.educators', compact('programs')); 
+    })->name('educators');
+    
+    Route::get('/tentang-kami', function () { 
+        $profiles = \App\Models\About::where('is_active', true)->orderBy('order')->get(); 
+        return view('landing.bisnis.tentang', compact('profiles')); 
+    })->name('tentang');
 });
 
 /*
@@ -85,9 +108,9 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
     Route::resource('users', UserController::class);
     Route::resource('produk', ProductController::class)->parameters(['produk' => 'produk:slug']);
     Route::resource('paket-belajar', StudyPackageController::class)->parameters(['paket-belajar' => 'paket_belajar:slug']);
+    Route::resource('paket-belajar.questions', QuestionController::class)->parameters(['paket-belajar' => 'paket_belajar:slug', 'questions' => 'question']);
     Route::resource('testimoni', TestimonialController::class);
     Route::resource('blog', BlogController::class)->parameters(['blog' => 'blog:slug']);
-    Route::resource('bisnis', BusinessController::class)->parameters(['bisnis' => 'bisni:slug']);
     Route::resource('layanan-bisnis', BusinessServiceController::class);
     Route::resource('future-educators', FutureEducatorController::class);
     Route::resource('tentang-kami', AboutController::class);
@@ -108,12 +131,10 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
 
 /*
 |--------------------------------------------------------------------------
-| Student Dashboard Route
+| Dashboard & Profile
 |--------------------------------------------------------------------------
 */
-Route::get('/dashboard', [StudentDashboardController::class, 'index'])
-    ->middleware(['auth', 'verified'])
-    ->name('dashboard');
+Route::get('/dashboard', [StudentDashboardController::class, 'index'])->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');

@@ -29,7 +29,6 @@
                     <tr class="bg-gray-50/50">
                         <th class="px-8 py-5 text-[10px] font-black text-secondary/40 uppercase tracking-widest">Nama Paket</th>
                         <th class="px-8 py-5 text-[10px] font-black text-secondary/40 uppercase tracking-widest text-center">Harga</th>
-                        <th class="px-8 py-5 text-[10px] font-black text-secondary/40 uppercase tracking-widest text-center">Masa Aktif</th>
                         <th class="px-8 py-5 text-[10px] font-black text-secondary/40 uppercase tracking-widest text-center">Status</th>
                         <th class="px-8 py-5 text-[10px] font-black text-secondary/40 uppercase tracking-widest text-right">Aksi</th>
                     </tr>
@@ -40,13 +39,11 @@
                         <td class="px-8 py-6">
                             <div class="flex items-center gap-3">
                                 <div class="w-10 h-10 rounded-xl bg-primary/10 flex items-center justify-center text-primary font-black text-xs italic">
-                                    {{ substr($package->name, 0, 1) }}
+                                    {{ substr($package->title, 0, 1) }}
                                 </div>
                                 <div>
-                                    <div class="text-sm font-black text-secondary">{{ $package->name }}</div>
-                                    @if($package->is_popular)
-                                        <span class="text-[8px] font-black text-accent uppercase tracking-widest">Terpopuler</span>
-                                    @endif
+                                    <div class="text-sm font-black text-secondary">{{ $package->title }}</div>
+                                    <div class="text-[9px] font-bold text-secondary/30 uppercase tracking-widest">{{ $package->category }}</div>
                                 </div>
                             </div>
                         </td>
@@ -54,17 +51,17 @@
                             <div class="text-sm font-black text-secondary italic">Rp {{ number_format($package->price, 0, ',', '.') }}</div>
                         </td>
                         <td class="px-8 py-6 text-center">
-                            <span class="text-[10px] font-bold text-secondary/60 uppercase tracking-widest">{{ $package->duration }}</span>
-                        </td>
-                        <td class="px-8 py-6 text-center">
-                            @if($package->is_active)
-                                <span class="inline-flex px-2.5 py-1 rounded-lg bg-green-50 text-green-600 text-[9px] font-black uppercase tracking-wider">Aktif</span>
+                            @if($package->is_featured)
+                                <span class="inline-flex px-2.5 py-1 rounded-lg bg-green-50 text-green-600 text-[9px] font-black uppercase tracking-wider">Unggulan</span>
                             @else
-                                <span class="inline-flex px-2.5 py-1 rounded-lg bg-red-50 text-red-600 text-[9px] font-black uppercase tracking-wider">Nonaktif</span>
+                                <span class="inline-flex px-2.5 py-1 rounded-lg bg-gray-50 text-gray-400 text-[9px] font-black uppercase tracking-wider">Reguler</span>
                             @endif
                         </td>
                         <td class="px-8 py-6 text-right">
                             <div class="flex items-center justify-end gap-2">
+                                <a href="{{ route('admin.paket-belajar.questions.index', $package->slug) }}" class="p-2 text-secondary/20 hover:text-accent transition-colors" title="Kelola Bank Soal">
+                                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" /></svg>
+                                </a>
                                 <a href="{{ route('admin.paket-belajar.edit', $package->slug) }}" class="p-2 text-secondary/20 hover:text-primary transition-colors">
                                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" /></svg>
                                 </a>
@@ -79,7 +76,7 @@
                     </tr>
                     @empty
                     <tr>
-                        <td colspan="5" class="px-8 py-20 text-center">
+                        <td colspan="4" class="px-8 py-20 text-center">
                             <p class="text-sm font-bold text-secondary/30">Belum ada paket belajar.</p>
                         </td>
                     </tr>
