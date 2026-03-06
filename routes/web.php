@@ -19,6 +19,7 @@ use App\Http\Controllers\SmaUtbkTryoutController;
 use App\Http\Controllers\AlumniTryoutController;
 use App\Http\Controllers\PrivacyPolicyController;
 use App\Http\Controllers\TermController;
+use App\Http\Controllers\FaqController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 
@@ -44,6 +45,11 @@ Route::get('/', function () {
 });
 
 // Bantuan & Hukum (Publik)
+Route::get('/pusat-bantuan', function () {
+    $faqs = \App\Models\Faq::where('is_active', true)->orderBy('category')->orderBy('order')->get();
+    return view('landing.bantuan.faq', compact('faqs'));
+})->name('faq');
+
 Route::get('/kebijakan-privasi', function () {
     $policies = \App\Models\PrivacyPolicy::orderBy('order')->get();
     return view('landing.bantuan.kebijakanprivasi', compact('policies'));
@@ -100,6 +106,7 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
     Route::resource('alumni', AlumniTryoutController::class);
     Route::resource('privacy-policy', PrivacyPolicyController::class);
     Route::resource('terms', TermController::class);
+    Route::resource('faq', FaqController::class);
     Route::get('/settings', [SettingController::class, 'index'])->name('settings.index');
     Route::put('/settings', [SettingController::class, 'update'])->name('settings.update');
 });
