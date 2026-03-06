@@ -11,12 +11,12 @@ class BusinessController extends Controller
     public function index()
     {
         $businesses = Business::latest()->paginate(10);
-        return view('admin.layananbisnis.index', compact('businesses'));
+        return view('admin.bisnis.others.index', compact('businesses'));
     }
 
     public function create()
     {
-        return view('admin.layananbisnis.create');
+        return view('admin.bisnis.others.create');
     }
 
     public function store(Request $request)
@@ -34,13 +34,12 @@ class BusinessController extends Controller
 
         Business::create($validated);
 
-        return redirect()->route('admin.bisnis.index')->with('success', 'Layanan bisnis berhasil ditambahkan.');
+        return redirect()->route('admin.bisnis.index')->with('success', 'Konten berhasil ditambahkan.');
     }
 
     public function edit(Business $bisni)
     {
-        // $bisni adalah parameter default Laravel untuk resource 'bisnis'
-        return view('admin.layananbisnis.edit', ['business' => $bisni]);
+        return view('admin.bisnis.others.edit', ['business' => $bisni]);
     }
 
     public function update(Request $request, Business $bisni)
@@ -58,12 +57,12 @@ class BusinessController extends Controller
 
         $bisni->update($validated);
 
-        return redirect()->route('admin.bisnis.index')->with('success', 'Layanan bisnis berhasil diperbarui.');
+        return redirect()->route('admin.bisnis.index')->with('success', 'Konten berhasil diperbarui.');
     }
 
     public function destroy(Business $bisni)
     {
         $bisni->delete();
-        return redirect()->route('admin.bisnis.index')->with('success', 'Layanan bisnis berhasil dihapus.');
+        return redirect()->route('admin.bisnis.index')->with('success', 'Konten berhasil dihapus.');
     }
 }

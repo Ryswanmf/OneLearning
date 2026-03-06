@@ -70,7 +70,7 @@
                         @endif
                     </div>
                     <div class="flex-1">
-                        <span class="inline-block px-3 py-1 bg-primary/10 text-primary font-black text-[10px] uppercase tracking-widest rounded-lg mb-4">{{ $service->category }}</span>
+                        <span class="inline-block px-3 py-1 bg-primary/10 text-primary font-black text-[10px] uppercase tracking-widest rounded-lg mb-4">Layanan Bisnis</span>
                         <h3 class="text-2xl font-black text-secondary mb-4 tracking-tight">{{ $service->title }}</h3>
                         <p class="text-secondary/60 text-sm font-medium leading-relaxed mb-6">
                             {{ $service->description }}

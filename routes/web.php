@@ -6,6 +6,9 @@ use App\Http\Controllers\StudyPackageController;
 use App\Http\Controllers\TestimonialController;
 use App\Http\Controllers\BlogController;
 use App\Http\Controllers\BusinessController;
+use App\Http\Controllers\BusinessServiceController;
+use App\Http\Controllers\FutureEducatorController;
+use App\Http\Controllers\AboutController;
 use App\Http\Controllers\SettingController;
 use App\Http\Controllers\SnbpMajorController;
 use App\Http\Controllers\UtbkTryoutController;
@@ -95,15 +98,15 @@ Route::prefix('produk')->name('produk.')->group(function () {
 // Rute Bisnis
 Route::prefix('bisnis')->name('bisnis.')->group(function () {
     Route::get('/layanan', function () { 
-        $services = \App\Models\Business::where('category', 'Layanan Bisnis')->where('is_active', true)->get();
+        $services = \App\Models\BusinessService::where('is_active', true)->get();
         return view('landing.bisnis.layanan', compact('services')); 
     })->name('layanan');
     Route::get('/future-educators', function () { 
-        $programs = \App\Models\Business::where('category', 'Future Educators')->where('is_active', true)->get();
+        $programs = \App\Models\FutureEducator::where('is_active', true)->get();
         return view('landing.bisnis.educators', compact('programs')); 
     })->name('educators');
     Route::get('/tentang-kami', function () { 
-        $profiles = \App\Models\Business::where('category', 'Tentang Kami')->where('is_active', true)->get();
+        $profiles = \App\Models\About::where('is_active', true)->orderBy('order')->get();
         return view('landing.bisnis.tentang', compact('profiles')); 
     })->name('tentang');
 });
@@ -123,6 +126,9 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
     Route::resource('testimoni', TestimonialController::class);
     Route::resource('blog', BlogController::class)->parameters(['blog' => 'blog:slug']);
     Route::resource('bisnis', BusinessController::class)->parameters(['bisnis' => 'bisni:slug']);
+    Route::resource('layanan-bisnis', BusinessServiceController::class);
+    Route::resource('future-educators', FutureEducatorController::class);
+    Route::resource('tentang-kami', AboutController::class);
     Route::resource('snbp', SnbpMajorController::class);
     Route::resource('utbk', UtbkTryoutController::class);
     Route::resource('sd', SdTryoutController::class);
