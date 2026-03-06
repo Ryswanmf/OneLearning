@@ -20,6 +20,7 @@ use App\Http\Controllers\AlumniTryoutController;
 use App\Http\Controllers\PrivacyPolicyController;
 use App\Http\Controllers\TermController;
 use App\Http\Controllers\FaqController;
+use App\Http\Controllers\HowToRegisterController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 
@@ -45,6 +46,11 @@ Route::get('/', function () {
 });
 
 // Bantuan & Hukum (Publik)
+Route::get('/cara-mendaftar', function () {
+    $steps = \App\Models\HowToRegister::where('is_active', true)->orderBy('step_number')->get();
+    return view('landing.bantuan.caramendaftar', compact('steps'));
+})->name('how-to-register');
+
 Route::get('/pusat-bantuan', function () {
     $faqs = \App\Models\Faq::where('is_active', true)->orderBy('category')->orderBy('order')->get();
     return view('landing.bantuan.faq', compact('faqs'));
@@ -107,6 +113,7 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
     Route::resource('privacy-policy', PrivacyPolicyController::class);
     Route::resource('terms', TermController::class);
     Route::resource('faq', FaqController::class);
+    Route::resource('how-to-register', HowToRegisterController::class);
     Route::get('/settings', [SettingController::class, 'index'])->name('settings.index');
     Route::put('/settings', [SettingController::class, 'update'])->name('settings.update');
 });

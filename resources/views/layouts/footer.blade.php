@@ -36,7 +36,7 @@
             <div>
                 <h4 class="text-white font-black text-sm uppercase tracking-widest mb-6">Bantuan</h4>
                 <ul class="space-y-4">
-                    <li><a href="#" class="text-white/60 text-sm hover:text-primary transition-colors">Cara Mendaftar</a></li>
+                    <li><a href="{{ route('how-to-register') }}" class="text-white/60 text-sm hover:text-primary transition-colors">Cara Mendaftar</a></li>
                     <li><a href="{{ route('faq') }}" class="text-white/60 text-sm hover:text-primary transition-colors">Pusat Bantuan</a></li>
                     <li><a href="{{ route('privacy-policy') }}" class="text-white/50 hover:text-primary transition-colors">Kebijakan Privasi</a></li>
                     <li><a href="{{ route('terms-conditions') }}" class="text-white/60 text-sm hover:text-primary transition-colors">Syarat & Ketentuan</a></li>
