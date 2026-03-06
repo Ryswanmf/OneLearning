@@ -116,7 +116,37 @@
             </div>
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
                 @foreach($featuredProducts as $product)
-                <div class="relative group rounded-[2.5rem] overflow-hidden aspect-[4/5] shadow-xl border border-gray-100">
+                @php
+                    // Logika untuk menentukan link dan count berdasarkan judul produk
+                    $route = '#';
+                    $count = $product->package_count;
+                    $title_low = strtolower($product->title);
+                    
+                    if(Str::contains($title_low, 'snbp')) {
+                        $route = route('produk.snbp');
+                    }
+                    elseif(Str::contains($title_low, 'utbk') && !Str::contains($title_low, 'sma')) {
+                        $route = route('produk.utbk');
+                        $count = $counts['utbk'] ?? $count;
+                    }
+                    elseif(Str::contains($title_low, 'sd')) {
+                        $route = route('produk.sd');
+                        $count = $counts['sd'] ?? $count;
+                    }
+                    elseif(Str::contains($title_low, 'smp')) {
+                        $route = route('produk.smp');
+                        $count = $counts['smp'] ?? $count;
+                    }
+                    elseif(Str::contains($title_low, 'sma') && Str::contains($title_low, 'utbk')) {
+                        $route = route('produk.sma_utbk');
+                        $count = $counts['sma_utbk'] ?? $count;
+                    }
+                    elseif(Str::contains($title_low, 'sma')) {
+                        $route = route('produk.sma');
+                        $count = $counts['sma'] ?? $count;
+                    }
+                @endphp
+                <a href="{{ $route }}" class="relative group rounded-[2.5rem] overflow-hidden aspect-[4/5] shadow-xl border border-gray-100 block transition-transform hover:-translate-y-2">
                     <div class="absolute inset-0 bg-secondary/40 group-hover:bg-secondary/20 transition-colors duration-500 z-10"></div>
                     <img src="{{ $product->image ?? 'https://images.unsplash.com/photo-1434030216411-0b793f4b4173?auto=format&fit=crop&q=80&w=600' }}" class="absolute inset-0 w-full h-full object-cover group-hover:scale-110 transition-transform duration-700">
                     <div class="absolute inset-0 bg-gradient-to-t from-secondary via-secondary/40 to-transparent z-20"></div>
@@ -124,11 +154,11 @@
                         <span class="inline-block px-3 py-1 bg-accent text-secondary font-black text-[9px] uppercase tracking-widest rounded-lg mb-3">{{ $product->category }}</span>
                         <h3 class="text-white font-extrabold text-2xl mb-4 leading-tight">{{ $product->title }}</h3>
                         <div class="flex items-center gap-4 pt-4 border-t border-white/20">
-                            <span class="text-[11px] text-white/80 font-bold flex items-center gap-1.5">{{ $product->package_count }} Paket</span>
+                            <span class="text-[11px] text-white/80 font-bold flex items-center gap-1.5">{{ $count }} Paket</span>
                             <span class="text-[11px] text-white/80 font-bold flex items-center gap-1.5">{{ $product->duration }}</span>
                         </div>
                     </div>
-                </div>
+                </a>
                 @endforeach
             </div>
         </div>
