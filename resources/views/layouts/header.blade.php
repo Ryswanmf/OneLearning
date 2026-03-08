@@ -114,15 +114,60 @@
                 <a href="{{ route('blog') }}" class="text-xs font-bold text-secondary/80 hover:text-primary transition-colors">Blog</a>
                 
                 @auth
-                    <div class="flex items-center gap-4 ml-4">
-                        <a href="{{ url('/dashboard') }}" class="text-xs font-bold text-secondary/80 hover:text-primary transition-colors">Dashboard</a>
-                        <form method="POST" action="{{ route('logout') }}" class="inline">
-                            @csrf
-                            <button type="submit" class="text-xs font-bold text-red-500 hover:text-red-700 transition-colors cursor-pointer">Keluar</button>
-                        </form>
+                    <!-- Profile Dropdown -->
+                    <div class="relative ml-4" @click.away="profileDropdownOpen = false">
+                        <button @click="profileDropdownOpen = !profileDropdownOpen" 
+                                class="flex items-center gap-3 p-1.5 rounded-2xl hover:bg-gray-50 transition-all focus:outline-none group">
+                            <div class="w-8 h-8 rounded-xl bg-primary/10 flex items-center justify-center text-primary border border-primary/10 overflow-hidden">
+                                <img src="https://ui-avatars.com/api/?name={{ urlencode(auth()->user()->name) }}&background=0EA5E9&color=fff&size=64&bold=true" class="w-full h-full object-cover">
+                            </div>
+                            <svg class="w-4 h-4 text-secondary/30 transition-transform duration-200" :class="profileDropdownOpen ? 'rotate-180 text-primary' : ''" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M19 9l-7 7-7-7" />
+                            </svg>
+                        </button>
+
+                        <!-- Dropdown Menu -->
+                        <div x-show="profileDropdownOpen"
+                             x-transition:enter="transition ease-out duration-200"
+                             x-transition:enter-start="opacity-0 translate-y-2 scale-95"
+                             x-transition:enter-end="opacity-100 translate-y-0 scale-100"
+                             x-transition:leave="transition ease-in duration-150"
+                             x-transition:leave-start="opacity-100 translate-y-0 scale-100"
+                             x-transition:leave-end="opacity-0 translate-y-2 scale-95"
+                             class="absolute right-0 mt-3 w-56 bg-white rounded-2xl shadow-2xl border border-gray-100 py-3 z-[120]"
+                             style="display: none;">
+                            
+                            <div class="px-5 py-3 border-b border-gray-50 mb-2">
+                                <div class="text-xs font-black text-secondary tracking-tight truncate">{{ auth()->user()->name }}</div>
+                                <div class="text-[10px] text-secondary/40 font-medium truncate">{{ auth()->user()->email }}</div>
+                            </div>
+
+                            <a href="{{ url('/dashboard') }}" class="flex items-center gap-3 px-5 py-2.5 text-xs font-bold text-secondary hover:bg-primary/5 hover:text-primary transition-all">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z" /></svg>
+                                Dashboard
+                            </a>
+                            <a href="{{ route('profile.edit') }}" class="flex items-center gap-3 px-5 py-2.5 text-xs font-bold text-secondary hover:bg-primary/5 hover:text-primary transition-all">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" /></svg>
+                                Edit Profil
+                            </a>
+                            <a href="{{ route('order.history') }}" class="flex items-center gap-3 px-5 py-2.5 text-xs font-bold text-secondary hover:bg-primary/5 hover:text-primary transition-all">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" /></svg>
+                                Riwayat Pesanan
+                            </a>
+                            
+                            <div class="h-px bg-gray-50 my-2"></div>
+                            
+                            <form method="POST" action="{{ route('logout') }}">
+                                @csrf
+                                <button type="submit" class="flex items-center gap-3 w-full px-5 py-2.5 text-xs font-bold text-red-500 hover:bg-red-50 transition-all text-left">
+                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" /></svg>
+                                    Keluar
+                                </button>
+                            </form>
+                        </div>
                     </div>
                 @else
-                    <a href="{{ route('login') }}" class="inline-flex items-center justify-center px-6 py-2 border border-transparent text-xs font-bold rounded-full text-white bg-primary hover:bg-secondary shadow-lg shadow-primary/25 transition-all active:scale-95 cursor-pointer">
+                    <a href="{{ route('login') }}" class="inline-flex items-center justify-center px-6 py-2 border border-transparent text-xs font-bold rounded-full text-white bg-primary hover:bg-secondary shadow-lg shadow-primary/25 transition-all active:scale-95 cursor-pointer ml-4">
                         Mulai Belajar
                     </a>
                 @endauth
@@ -186,9 +231,15 @@
             <a href="{{ route('testimoni') }}" class="block px-4 py-2 text-sm font-bold text-secondary hover:bg-primary/5 hover:text-primary rounded-lg">Testimoni</a>
             <a href="{{ route('blog') }}" class="block px-4 py-2 text-sm font-bold text-secondary hover:bg-primary/5 hover:text-primary rounded-lg">Blog</a>
             
-            <div class="pt-3 px-4">
+            <div class="pt-3 px-4 space-y-2">
                 @auth
-                    <a href="{{ url('/dashboard') }}" class="block w-full text-center px-6 py-3 border border-transparent text-sm font-bold rounded-full text-white bg-primary shadow-lg shadow-primary/25">Dashboard</a>
+                    <a href="{{ url('/dashboard') }}" class="block w-full text-center px-6 py-3 border border-transparent text-sm font-bold rounded-xl text-white bg-primary shadow-lg shadow-primary/25">Dashboard</a>
+                    <a href="{{ route('profile.edit') }}" class="block w-full text-center px-6 py-3 border border-gray-100 text-sm font-bold rounded-xl text-secondary bg-gray-50">Edit Profil</a>
+                    <a href="{{ route('order.history') }}" class="block w-full text-center px-6 py-3 border border-gray-100 text-sm font-bold rounded-xl text-secondary bg-gray-50">Riwayat Pesanan</a>
+                    <form method="POST" action="{{ route('logout') }}" class="block w-full">
+                        @csrf
+                        <button type="submit" class="w-full text-center px-6 py-3 border border-red-100 text-sm font-bold rounded-xl text-red-500 bg-red-50">Keluar</button>
+                    </form>
                 @else
                     <a href="{{ route('login') }}" class="block w-full text-center px-6 py-3 border border-transparent text-sm font-bold rounded-full text-white bg-primary shadow-lg shadow-primary/25">Mulai Belajar</a>
                 @endauth

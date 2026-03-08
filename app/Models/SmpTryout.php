@@ -8,7 +8,7 @@ use Illuminate\Support\Str;
 class SmpTryout extends Model
 {
     protected $fillable = [
-        'name', 'slug', 'subject', 'question_count', 'duration_minutes', 'status'
+        'name', 'slug', 'subject', 'question_count', 'duration_minutes', 'price', 'status'
     ];
 
     protected static function boot()

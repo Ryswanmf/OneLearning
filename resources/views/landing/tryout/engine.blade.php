@@ -1,131 +1,132 @@
 @extends('layouts.app')
 
-@section('title', 'Ujian Berlangsung - ' . $paket_belajar->title)
+@section('title', 'Ujian - ' . $paket_belajar->name)
 
 @section('content')
-<div class="min-h-screen bg-[#F8FAFC]" x-data="tryoutEngine()">
-    <!-- Top Exam Bar -->
-    <header class="bg-white border-b border-gray-100 sticky top-0 z-[100] px-4 md:px-12 py-4 shadow-sm">
+<div class="min-h-screen bg-[#F8FAFC] font-sans selection:bg-primary selection:text-white" x-data="tryoutEngine()">
+    <!-- Ultra Compact Header -->
+    <header class="bg-white border-b border-gray-100 sticky top-16 z-[90] px-4 md:px-12 py-2 shadow-sm">
         <div class="max-w-7xl mx-auto flex items-center justify-between">
-            <div class="flex items-center gap-4">
-                <div class="w-10 h-10 bg-primary rounded-xl flex items-center justify-center text-white shadow-lg">
-                    <img src="{{ asset('images/logo.png') }}" class="w-6 h-6">
+            <div class="flex items-center gap-3">
+                <div class="w-8 h-8 bg-secondary rounded-lg flex items-center justify-center text-white shadow-lg">
+                    <img src="{{ asset('images/logo.png') }}" class="w-4 h-4">
                 </div>
                 <div class="hidden sm:block">
-                    <h2 class="text-sm font-black text-secondary uppercase tracking-widest line-clamp-1">{{ $paket_belajar->title }}</h2>
-                    <p class="text-[10px] font-bold text-secondary/30 uppercase tracking-tighter">Sistem Penilaian IRT Aktif</p>
+                    <h2 class="text-[9px] font-black text-secondary uppercase tracking-widest line-clamp-1 italic leading-none">{{ $paket_belajar->name }}</h2>
+                    <p class="text-[7px] font-bold text-secondary/30 uppercase tracking-tighter mt-0.5">IRT System</p>
                 </div>
             </div>
 
-            <!-- Global Timer -->
-            <div class="px-6 py-2.5 bg-secondary rounded-2xl flex items-center gap-4 shadow-xl">
-                <svg class="w-5 h-5 text-primary animate-pulse" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
-                <span class="text-lg font-black text-white tabular-nums tracking-widest" x-text="formatTime(timeLeft)">00:00:00</span>
+            <!-- Compact Timer -->
+            <div class="px-4 py-1.5 bg-secondary rounded-xl flex items-center gap-3 shadow-lg border border-white/10">
+                <svg class="w-3.5 h-3.5 text-primary animate-pulse" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                <span class="text-sm font-black text-white tabular-nums tracking-widest" x-text="formatTime(timeLeft)">00:00:00</span>
             </div>
 
-            <div class="flex items-center gap-4">
-                <button @click="showFinishModal = true" class="px-6 py-2.5 bg-red-500 text-white text-[10px] font-black uppercase tracking-widest rounded-xl hover:bg-red-600 transition-all shadow-lg shadow-red-500/20">Selesai Ujian</button>
+            <div class="flex items-center gap-3">
+                <button @click="showFinishModal = true" class="px-4 py-1.5 bg-red-500 text-white text-[8px] font-black uppercase tracking-widest rounded-lg hover:bg-red-600 transition-all shadow-md">Selesai</button>
             </div>
         </div>
     </header>
 
-    <div class="max-w-7xl mx-auto px-4 md:px-12 py-10">
-        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+    <div class="max-w-7xl mx-auto px-4 md:px-12 py-4">
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
             
-            <!-- LEFT: Navigation Numbers (4 Col) -->
-            <div class="lg:col-span-4 order-2 lg:order-1">
-                <div class="bg-white p-8 rounded-[2.5rem] border border-gray-100 shadow-xl sticky top-28">
-                    <div class="flex items-center justify-between mb-8">
-                        <h3 class="text-xs font-black text-secondary uppercase tracking-widest italic">Navigasi Soal</h3>
-                        <span class="text-[10px] font-bold text-secondary/30" x-text="`${Object.keys(userAnswers).length} / ${questions.length} Terjawab` text"></span>
+            <!-- LEFT Sidebar: Navigation -->
+            <div class="lg:col-span-3 order-2 lg:order-1">
+                <div class="bg-white p-5 rounded-[2rem] border border-gray-100 shadow-xl sticky top-32">
+                    <div class="flex items-center justify-between mb-4">
+                        <h3 class="text-[8px] font-black text-secondary uppercase tracking-widest italic">Navigasi</h3>
+                        <span class="text-[8px] font-bold text-secondary/30 uppercase" x-text="`${Object.keys(userAnswers).length}/${questions.length}`"></span>
                     </div>
                     
-                    <div class="grid grid-cols-5 gap-3">
+                    <div class="grid grid-cols-5 gap-1.5">
                         <template x-for="(q, index) in questions" :key="q.id">
                             <button @click="currentQuestionIndex = index" 
-                                    class="aspect-square rounded-xl border-2 flex items-center justify-center text-xs font-black transition-all transform active:scale-90"
+                                    class="aspect-square rounded-lg border flex items-center justify-center text-[9px] font-black transition-all transform active:scale-90"
                                     :class="getQuestionStatusClass(index, q.id)">
                                 <span x-text="index + 1"></span>
                             </button>
                         </template>
                     </div>
 
-                    <div class="mt-8 pt-8 border-t border-gray-50 grid grid-cols-2 gap-4">
-                        <div class="flex items-center gap-2">
-                            <div class="w-3 h-3 bg-primary rounded-md"></div>
-                            <span class="text-[9px] font-black text-secondary/40 uppercase tracking-wider">Terjawab</span>
+                    <div class="mt-4 pt-3 border-t border-gray-50 flex items-center justify-between">
+                        <div class="flex items-center gap-1">
+                            <div class="w-1.5 h-1.5 bg-primary rounded-sm shadow-sm"></div>
+                            <span class="text-[7px] font-black text-secondary/40 uppercase">Isi</span>
                         </div>
-                        <div class="flex items-center gap-2">
-                            <div class="w-3 h-3 bg-white border-2 border-gray-100 rounded-md"></div>
-                            <span class="text-[9px] font-black text-secondary/40 uppercase tracking-wider">Belum</span>
+                        <div class="flex items-center gap-1">
+                            <div class="w-1.5 h-1.5 bg-yellow-400 rounded-sm shadow-sm"></div>
+                            <span class="text-[7px] font-black text-secondary/40 uppercase">Ragu</span>
+                        </div>
+                        <div class="flex items-center gap-1">
+                            <div class="w-1.5 h-1.5 bg-white border border-gray-100 rounded-sm shadow-sm"></div>
+                            <span class="text-[7px] font-black text-secondary/40 uppercase">Kosong</span>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <!-- RIGHT: Question Area (8 Col) -->
-            <div class="lg:col-span-8 order-1 lg:order-2 space-y-6">
-                <div class="bg-white p-10 md:p-16 rounded-[3rem] border border-gray-100 shadow-2xl relative overflow-hidden">
-                    <!-- Progress Bar Header -->
+            <!-- RIGHT Area: Question -->
+            <div class="lg:col-span-9 order-1 lg:order-2 space-y-4">
+                <div class="bg-white p-6 md:p-10 rounded-[2.5rem] border border-gray-100 shadow-2xl relative overflow-hidden min-h-[400px] flex flex-col">
                     <div class="absolute top-0 left-0 w-full h-1 bg-gray-50">
-                        <div class="h-full bg-primary transition-all duration-500" :style="`width: ${((currentQuestionIndex + 1) / questions.length) * 100}%`"></div>
+                        <div class="h-full bg-primary transition-all duration-500" :style="`width: ${((currentQuestionIndex + 1) / (questions.length || 1)) * 100}%` text"></div>
                     </div>
 
-                    <!-- Question Header -->
-                    <div class="flex items-center justify-between mb-10">
-                        <div class="text-xs font-black text-primary uppercase tracking-[0.3em] italic">Pertanyaan ke <span x-text="currentQuestionIndex + 1"></span></div>
+                    <div class="flex items-center justify-between mb-6">
+                        <div class="text-[8px] font-black text-primary uppercase tracking-[0.3em] italic">No <span x-text="currentQuestionIndex + 1"></span></div>
                         <button @click="toggleMark(questions[currentQuestionIndex].id)" class="flex items-center gap-2 text-yellow-500 hover:text-yellow-600 transition-colors">
-                            <svg class="w-5 h-5" :fill="isMarked(questions[currentQuestionIndex].id) ? 'currentColor' : 'none'" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-3.5L5 21V5z" /></svg>
-                            <span class="text-[10px] font-black uppercase tracking-widest">Ragu-ragu</span>
+                            <svg class="w-3.5 h-3.5" :fill="isMarked(questions[currentQuestionIndex].id) ? 'currentColor' : 'none'" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-3.5L5 21V5z" /></svg>
+                            <span class="text-[8px] font-black uppercase tracking-widest">Ragu-ragu</span>
                         </button>
                     </div>
 
-                    <!-- Question Content -->
-                    <div class="space-y-10">
+                    <div class="flex-1 space-y-6 animate-fade-up" :key="currentQuestionIndex">
                         <template x-if="questions[currentQuestionIndex].question_image">
-                            <div class="w-full max-w-lg rounded-2xl overflow-hidden border border-gray-100 mx-auto shadow-sm">
-                                <img :src="`/storage/${questions[currentQuestionIndex].question_image}`" class="w-full h-auto">
+                            <div class="w-full max-w-sm rounded-xl overflow-hidden border border-gray-100 mx-auto shadow-sm p-1 bg-white mb-4">
+                                <img :src="`/storage/${questions[currentQuestionIndex].question_image}`" class="w-full h-auto rounded-lg">
                             </div>
                         </template>
                         
-                        <div class="text-xl md:text-2xl font-bold text-secondary leading-relaxed" x-text="questions[currentQuestionIndex].question_text"></div>
+                        <div class="text-base md:text-lg font-bold text-secondary leading-relaxed italic" x-text="questions[currentQuestionIndex].question_text"></div>
 
-                        <!-- Options -->
-                        <div class="space-y-4 pt-4">
+                        <div class="grid grid-cols-1 gap-2 pt-2">
                             <template x-for="opt in ['a', 'b', 'c', 'd', 'e']" :key="opt">
-                                <label class="flex items-center p-6 rounded-2xl border-2 cursor-pointer transition-all group"
-                                       :class="userAnswers['q' + questions[currentQuestionIndex].id] === opt ? 'bg-primary/5 border-primary shadow-lg shadow-primary/5' : 'bg-gray-50/50 border-transparent hover:border-gray-200'">
+                                <label class="flex items-center p-3 rounded-xl border-2 cursor-pointer transition-all duration-300 group"
+                                       :class="userAnswers['q' + questions[currentQuestionIndex].id] === opt ? 'bg-primary border-primary shadow-md' : 'bg-gray-50/50 border-transparent hover:border-gray-200'">
                                     <input type="radio" :name="'q' + questions[currentQuestionIndex].id" :value="opt" 
                                            class="hidden" @change="saveAnswer(questions[currentQuestionIndex].id, opt)"
                                            :checked="userAnswers['q' + questions[currentQuestionIndex].id] === opt">
-                                    <div class="w-10 h-10 rounded-xl flex items-center justify-center font-black text-sm uppercase transition-all duration-300"
-                                         :class="userAnswers['q' + questions[currentQuestionIndex].id] === opt ? 'bg-primary text-white' : 'bg-white border border-gray-100 text-secondary/30 group-hover:bg-primary/10 group-hover:text-primary'">
+                                    <div class="w-7 h-7 rounded-lg flex items-center justify-center font-black text-[10px] uppercase transition-all duration-300 flex-shrink-0"
+                                         :class="userAnswers['q' + questions[currentQuestionIndex].id] === opt ? 'bg-white text-primary' : 'bg-white border border-gray-100 text-secondary/30 group-hover:text-primary'">
                                         <span x-text="opt"></span>
                                     </div>
-                                    <div class="ml-6 text-sm font-bold text-secondary/70 group-hover:text-secondary transition-colors" x-text="questions[currentQuestionIndex]['option_' + opt]"></div>
+                                    <div class="ml-4 text-xs font-bold transition-all duration-300" 
+                                         :class="userAnswers['q' + questions[currentQuestionIndex].id] === opt ? 'text-white' : 'text-secondary/60 group-hover:text-secondary'"
+                                         x-text="questions[currentQuestionIndex]['option_' + opt]"></div>
                                 </label>
                             </template>
                         </div>
                     </div>
 
-                    <!-- Navigation Buttons -->
-                    <div class="flex items-center justify-between mt-16 pt-10 border-t border-gray-50">
+                    <div class="flex items-center justify-between mt-8 pt-6 border-t border-gray-50">
                         <button @click="prevQuestion" :disabled="currentQuestionIndex === 0" 
-                                class="px-8 py-4 text-xs font-black text-secondary/40 uppercase tracking-widest hover:text-secondary disabled:opacity-20 transition-all flex items-center gap-2">
-                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M7 16l-4-4m0 0l4-4m-4 4h18" /></svg>
+                                class="px-4 py-2 text-[8px] font-black text-secondary/30 uppercase tracking-widest hover:text-secondary disabled:opacity-10 transition-all flex items-center gap-2">
+                            <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M15 19l-7-7 7-7" /></svg>
                             Kembali
                         </button>
                         
                         <button @click="nextQuestion" x-show="currentQuestionIndex < questions.length - 1"
-                                class="px-10 py-4 bg-secondary text-white text-xs font-black uppercase tracking-widest rounded-xl hover:bg-primary transition-all shadow-xl shadow-secondary/10 flex items-center gap-2 group">
-                            Selanjutnya
-                            <svg class="w-4 h-4 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M17 8l4 4m0 0l-4 4m4-4H3" /></svg>
+                                class="px-6 py-2.5 bg-secondary text-white text-[8px] font-black uppercase tracking-widest rounded-xl hover:bg-primary transition-all shadow-md flex items-center gap-2 active:scale-95">
+                            Lanjut
+                            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 5l7 7-7 7" /></svg>
                         </button>
 
                         <button @click="showFinishModal = true" x-show="currentQuestionIndex === questions.length - 1"
-                                class="px-10 py-4 bg-green-500 text-white text-xs font-black uppercase tracking-widest rounded-xl hover:bg-green-600 transition-all shadow-xl shadow-green-500/10 flex items-center gap-2">
-                            Selesai Ujian
-                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7" /></svg>
+                                class="px-6 py-2.5 bg-green-500 text-white text-[8px] font-black uppercase tracking-widest rounded-xl hover:bg-green-600 transition-all shadow-md flex items-center gap-2 active:scale-95">
+                            Selesai
+                            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7" /></svg>
                         </button>
                     </div>
                 </div>
@@ -133,22 +134,30 @@
         </div>
     </div>
 
-    <!-- Finish Modal -->
-    <div x-show="showFinishModal" class="fixed inset-0 z-[200] flex items-center justify-center p-4 bg-secondary/80 backdrop-blur-md" x-cloak>
-        <div class="bg-white rounded-[3rem] p-12 max-w-md w-full shadow-2xl text-center space-y-8 animate-fade-up">
-            <div class="w-20 h-20 bg-primary/10 rounded-full flex items-center justify-center mx-auto text-primary">
-                <svg class="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+    <!-- Finish Modal (Clean Popup Style) -->
+    <div x-show="showFinishModal" 
+         x-transition:enter="transition ease-out duration-300"
+         x-transition:enter-start="opacity-0"
+         x-transition:enter-end="opacity-100"
+         x-transition:leave="transition ease-in duration-200"
+         x-transition:leave-start="opacity-100"
+         x-transition:leave-end="opacity-0"
+         class="fixed inset-0 z-[200] flex items-center justify-center p-4 bg-secondary/20 backdrop-blur-sm" x-cloak>
+        
+        <div class="bg-white rounded-[2.5rem] p-8 max-w-xs w-full shadow-[0_50px_100px_-20px_rgba(0,0,0,0.2)] text-center space-y-6 animate-fade-up border border-gray-100" @click.away="showFinishModal = false">
+            <div class="w-12 h-12 bg-green-50 rounded-xl flex items-center justify-center mx-auto text-green-500 border border-green-100">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
             </div>
             <div>
-                <h3 class="text-2xl font-black text-secondary italic">Akhiri Ujian?</h3>
-                <p class="text-secondary/50 font-medium mt-2">Pastikan semua jawaban telah terisi. Anda tidak dapat kembali setelah mengakhiri sesi ini.</p>
+                <h3 class="text-lg font-black text-secondary italic uppercase tracking-tight">Akhiri Ujian?</h3>
+                <p class="text-secondary/40 text-[10px] font-medium leading-relaxed">Seluruh jawaban Anda akan dikumpulkan dan diproses secara permanen.</p>
             </div>
-            <div class="flex flex-col gap-3">
-                <form action="{{ route('tryout.finish', $paket_belajar->slug) }}" method="POST">
+            <div class="flex flex-col gap-2">
+                <form action="{{ route('tryout.finish', ['type' => $type, 'id' => $id]) }}" method="POST">
                     @csrf
-                    <button type="submit" class="w-full py-4 bg-primary text-white font-black text-xs uppercase tracking-widest rounded-2xl hover:bg-secondary transition-all shadow-xl shadow-primary/20">Ya, Selesaikan</button>
+                    <button type="submit" class="w-full py-3 bg-secondary text-white font-black text-[9px] uppercase tracking-widest rounded-xl hover:bg-primary transition-all shadow-lg shadow-secondary/20 active:scale-95">Ya, Kumpulkan</button>
                 </form>
-                <button @click="showFinishModal = false" class="w-full py-4 text-xs font-black text-secondary/40 uppercase tracking-widest hover:text-secondary transition-all">Belum, Kembali</button>
+                <button @click="showFinishModal = false" class="w-full py-2 text-[8px] font-black text-secondary/30 uppercase tracking-widest hover:text-secondary transition-all">Batalkan</button>
             </div>
         </div>
     </div>
@@ -161,12 +170,11 @@ function tryoutEngine() {
         questions: @json($questions),
         userAnswers: @json(json_decode($submission->answers, true) ?? []),
         markedQuestions: [],
-        timeLeft: {{ (int)str_replace(' Menit', '', $paket_belajar->duration) * 60 }},
+        timeLeft: {{ (int)$paket_belajar->duration_minutes * 60 }},
         showFinishModal: false,
 
         init() {
             this.startTimer();
-            // Load marked questions from local storage if any
             const saved = localStorage.getItem('marked_q_' + {{ $submission->id }});
             if(saved) this.markedQuestions = JSON.parse(saved);
         },
@@ -191,18 +199,10 @@ function tryoutEngine() {
 
         saveAnswer(questionId, option) {
             this.userAnswers['q' + questionId] = option;
-            
-            // Send to server (Auto-save)
-            fetch("{{ route('tryout.save-answer', $paket_belajar->slug) }}", {
+            fetch("{{ route('tryout.save-answer', ['type' => $type, 'id' => $id]) }}", {
                 method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'X-CSRF-TOKEN': '{{ csrf_token() }}'
-                },
-                body: JSON.stringify({
-                    question_id: questionId,
-                    answer: option
-                })
+                headers: { 'Content-Type': 'application/json', 'X-CSRF-TOKEN': '{{ csrf_token() }}' },
+                body: JSON.stringify({ question_id: questionId, answer: option })
             });
         },
 
@@ -215,37 +215,18 @@ function tryoutEngine() {
             localStorage.setItem('marked_q_' + {{ $submission->id }}, JSON.stringify(this.markedQuestions));
         },
 
-        isMarked(qId) {
-            return this.markedQuestions.includes(qId);
-        },
+        isMarked(qId) { return this.markedQuestions.includes(qId); },
 
         getQuestionStatusClass(index, qId) {
-            let classes = '';
-            if (this.currentQuestionIndex === index) classes += ' border-primary text-primary shadow-lg scale-110 z-10 ';
-            else classes += ' border-gray-100 ';
-
-            if (this.userAnswers['q' + qId]) {
-                classes += ' bg-primary text-white border-primary ';
-            } else if (this.isMarked(qId)) {
-                classes += ' bg-yellow-400 text-white border-yellow-400 ';
-            } else {
-                classes += ' bg-white text-secondary/30 ';
-            }
-            return classes;
+            if (this.currentQuestionIndex === index) return ' bg-secondary text-white border-secondary ring-2 ring-secondary/10 ';
+            if (this.userAnswers['q' + qId]) return ' bg-primary text-white border-primary shadow-sm ';
+            if (this.isMarked(qId)) return ' bg-yellow-400 text-white border-yellow-400 shadow-sm ';
+            return ' bg-white border-gray-100 text-secondary/20 hover:border-primary/20 hover:text-primary ';
         },
 
-        nextQuestion() {
-            if (this.currentQuestionIndex < this.questions.length - 1) this.currentQuestionIndex++;
-        },
-
-        prevQuestion() {
-            if (this.currentQuestionIndex > 0) this.currentQuestionIndex--;
-        },
-
-        autoFinish() {
-            alert('Waktu habis! Jawaban Anda akan dikirim otomatis.');
-            document.querySelector('form').submit();
-        }
+        nextQuestion() { if (this.currentQuestionIndex < this.questions.length - 1) this.currentQuestionIndex++; },
+        prevQuestion() { if (this.currentQuestionIndex > 0) this.currentQuestionIndex--; },
+        autoFinish() { document.querySelector('form').submit(); }
     }
 }
 </script>

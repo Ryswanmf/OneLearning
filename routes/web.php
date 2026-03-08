@@ -25,6 +25,10 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\StudentDashboardController;
 use App\Http\Controllers\QuestionController;
 use App\Http\Controllers\TryoutEngineController;
+use App\Http\Controllers\OrderController;
+use App\Http\Controllers\AdminTransactionController;
+use App\Http\Controllers\MidtransCallbackController;
+use App\Http\Controllers\SnbpAnalysisController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 
@@ -34,7 +38,7 @@ use Illuminate\Support\Facades\Auth;
 |--------------------------------------------------------------------------
 */
 
-// Halaman Utama Dinamis
+// Halaman Utama
 Route::get('/', function () {
     $featuredProducts = \App\Models\Product::where('is_featured', true)->take(4)->get();
     $counts = [
@@ -55,23 +59,40 @@ Route::get('/pusat-bantuan', function () { $faqs = \App\Models\Faq::where('is_ac
 Route::get('/kebijakan-privasi', function () { $policies = \App\Models\PrivacyPolicy::orderBy('order')->get(); return view('landing.bantuan.kebijakanprivasi', compact('policies')); })->name('privacy-policy');
 Route::get('/syarat-ketentuan', function () { $terms = \App\Models\Term::orderBy('order')->get(); return view('landing.bantuan.syaratketentuan', compact('terms')); })->name('terms-conditions');
 
-// Rute Tryout Engine
-Route::middleware(['auth'])->prefix('tryout')->name('tryout.')->group(function () {
-    Route::get('/{paket_belajar:slug}/instruksi', [TryoutEngineController::class, 'showInstructions'])->name('instructions');
-    Route::get('/{paket_belajar:slug}/start', [TryoutEngineController::class, 'start'])->name('start');
-    Route::post('/{paket_belajar:slug}/save-answer', [TryoutEngineController::class, 'saveAnswer'])->name('save-answer');
-    Route::post('/{paket_belajar:slug}/finish', [TryoutEngineController::class, 'finish'])->name('finish');
-    Route::get('/{paket_belajar:slug}/result', [TryoutEngineController::class, 'showResult'])->name('result');
+// Midtrans Callback (Webhook resmi untuk server online)
+Route::post('/midtrans/callback', [MidtransCallbackController::class, 'handle'])->name('midtrans.callback');
+
+// Rute Transaksi Siswa
+Route::middleware(['auth'])->prefix('order')->name('order.')->group(function () {
+    Route::get('/checkout/{type}/{id}', [OrderController::class, 'checkout'])->name('checkout');
+    Route::post('/checkout/{type}/{id}', [OrderController::class, 'store'])->name('store');
+    Route::get('/payment/{reference_id}', [OrderController::class, 'payment'])->name('payment');
+    Route::get('/history', [OrderController::class, 'history'])->name('history');
+    
+    // Handler untuk memperbarui status otomatis setelah pembayaran di popup selesai
+    Route::get('/check-status/{reference_id}', [OrderController::class, 'handleSuccess'])->name('handle-success');
 });
 
-// Rute Landing Pages
+// Rute Tryout Engine
+Route::middleware(['auth'])->prefix('tryout')->name('tryout.')->group(function () {
+    Route::get('/{type}/{id}/instruksi', [TryoutEngineController::class, 'showInstructions'])->name('instructions');
+    Route::get('/{type}/{id}/start', [TryoutEngineController::class, 'start'])->name('start');
+    Route::post('/{type}/{id}/save-answer', [TryoutEngineController::class, 'saveAnswer'])->name('save-answer');
+    Route::post('/{type}/{id}/finish', [TryoutEngineController::class, 'finish'])->name('finish');
+    Route::get('/{type}/{id}/result', [TryoutEngineController::class, 'showResult'])->name('result');
+    Route::get('/{type}/{id}/certificate', [TryoutEngineController::class, 'showCertificate'])->name('certificate');
+});
+
+// Rute Landing Pages & Produk
 Route::get('/testimoni', function () { return view('landing.testimoni.index'); })->name('testimoni');
 Route::get('/blog', function () { return view('landing.blog.index'); })->name('blog');
 Route::get('/paket-belajar', function () { return view('landing.paket_belajar.index'); })->name('paket.index');
 
-// Rute Produk
 Route::prefix('produk')->name('produk.')->group(function () {
-    Route::get('/snbp', function () { $universities = \App\Models\SnbpMajor::select('university_name')->distinct()->where('is_active', true)->get(); return view('landing.produk.snbp', compact('universities')); })->name('snbp');
+    Route::get('/snbp', [SnbpAnalysisController::class, 'index'])->name('snbp');
+    Route::get('/snbp/majors', [SnbpAnalysisController::class, 'getMajors'])->name('snbp.get-majors');
+    Route::post('/snbp/analyze', [SnbpAnalysisController::class, 'analyze'])->name('snbp.analyze');
+
     Route::get('/utbk', function () { $tryouts = \App\Models\UtbkTryout::where('status', 'published')->get(); return view('landing.produk.utbk', compact('tryouts')); })->name('utbk');
     Route::get('/sd', function () { $tryouts = \App\Models\SdTryout::where('status', 'published')->get(); return view('landing.produk.sd', ['title' => 'SD 4-6', 'level' => '4 - 6 SD', 'tryouts' => $tryouts]); })->name('sd');
     Route::get('/smp', function () { $tryouts = \App\Models\SmpTryout::where('status', 'published')->get(); return view('landing.produk.smp', ['title' => 'SMP 7-9', 'level' => '7 - 9 SMP', 'tryouts' => $tryouts]); })->name('smp');
@@ -80,22 +101,10 @@ Route::prefix('produk')->name('produk.')->group(function () {
     Route::get('/alumni', function () { $tryouts = \App\Models\AlumniTryout::where('status', 'published')->get(); return view('landing.produk.alumni', ['title' => 'Alumni', 'level' => 'Alumni', 'tryouts' => $tryouts]); })->name('alumni');
 });
 
-// Rute Bisnis (Perbaikan Error)
 Route::prefix('bisnis')->name('bisnis.')->group(function () {
-    Route::get('/layanan', function () { 
-        $services = \App\Models\BusinessService::where('is_active', true)->get(); 
-        return view('landing.bisnis.layanan', compact('services')); 
-    })->name('layanan');
-    
-    Route::get('/future-educators', function () { 
-        $programs = \App\Models\FutureEducator::where('is_active', true)->get(); 
-        return view('landing.bisnis.educators', compact('programs')); 
-    })->name('educators');
-    
-    Route::get('/tentang-kami', function () { 
-        $profiles = \App\Models\About::where('is_active', true)->orderBy('order')->get(); 
-        return view('landing.bisnis.tentang', compact('profiles')); 
-    })->name('tentang');
+    Route::get('/layanan', function () { $services = \App\Models\BusinessService::where('is_active', true)->get(); return view('landing.bisnis.layanan', compact('services')); })->name('layanan');
+    Route::get('/future-educators', function () { $programs = \App\Models\FutureEducator::where('is_active', true)->get(); return view('landing.bisnis.educators', compact('programs')); })->name('educators');
+    Route::get('/tentang-kami', function () { $profiles = \App\Models\About::where('is_active', true)->orderBy('order')->get(); return view('landing.bisnis.tentang', compact('profiles')); })->name('tentang');
 });
 
 /*
@@ -106,6 +115,7 @@ Route::prefix('bisnis')->name('bisnis.')->group(function () {
 Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(function () {
     Route::get('/', function () { return view('admin.index'); })->name('index');
     Route::resource('users', UserController::class);
+    Route::resource('transactions', AdminTransactionController::class)->only(['index', 'show', 'update']);
     Route::resource('produk', ProductController::class)->parameters(['produk' => 'produk:slug']);
     Route::resource('paket-belajar', StudyPackageController::class)->parameters(['paket-belajar' => 'paket_belajar:slug']);
     Route::resource('paket-belajar.questions', QuestionController::class)->parameters(['paket-belajar' => 'paket_belajar:slug', 'questions' => 'question']);

@@ -3,54 +3,8 @@
 @section('title', 'Tryout UTBK-SNBT - Simulasi Terakurat | OneLearning')
 
 @section('content')
-    <!-- Hero UTBK -->
-    <section class="pt-12 pb-24 bg-white overflow-hidden text-center lg:text-left">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex flex-col lg:flex-row items-center gap-16">
-                <div class="flex-1">
-                    <div class="inline-flex items-center gap-2 px-4 py-2 bg-primary/10 rounded-full border border-primary/20 mb-8">
-                        <span class="text-[10px] font-black text-primary uppercase tracking-[0.2em]">Update Terkini SNBT 2024</span>
-                    </div>
-                    <h1 class="text-4xl md:text-6xl font-black text-secondary mb-8 leading-[1.1]">
-                        Simulasi <span class="text-primary italic">UTBK-SNBT</span> Paling Mirip Aslinya
-                    </h1>
-                    <p class="text-lg text-secondary/60 mb-10 leading-relaxed font-medium">
-                        Rasakan pengalaman ujian sesungguhnya dengan sistem <span class="text-secondary font-bold underline decoration-primary decoration-2 underline-offset-4">IRT & Ranking Real-time</span>.
-                    </p>
-                    <div class="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
-                        <a href="#daftar-tryout" class="px-10 py-5 bg-secondary text-white font-black rounded-2xl hover:bg-primary transition-all shadow-xl">Lihat Paket Tryout</a>
-                        <a href="{{ route('register') }}" class="px-10 py-5 border-2 border-secondary/10 text-secondary font-black rounded-2xl hover:bg-secondary hover:text-white transition-all">Daftar Akun Gratis</a>
-                    </div>
-                </div>
-                <div class="flex-1 relative">
-                    <!-- Mock Exam UI (Static Visual) -->
-                    <div class="relative bg-secondary p-6 rounded-[2.5rem] shadow-2xl border-4 border-white/10 rotate-2 hover:rotate-0 transition-transform duration-700">
-                        <div class="bg-white rounded-2xl overflow-hidden shadow-inner">
-                            <div class="bg-gray-100 px-4 py-3 flex justify-between items-center border-b">
-                                <div class="text-[10px] font-black text-secondary uppercase tracking-widest">Subtes: Penalaran Matematika</div>
-                                <div class="text-xs font-black text-red-500">29:59</div>
-                            </div>
-                            <div class="p-8">
-                                <div class="w-full h-4 bg-gray-100 rounded-full mb-4"></div>
-                                <div class="w-[60%] h-4 bg-gray-100 rounded-full mb-10"></div>
-                                <div class="space-y-4">
-                                    @foreach(['A', 'B', 'C'] as $opt)
-                                    <div class="flex items-center gap-4 p-4 rounded-xl border border-gray-100">
-                                        <div class="w-8 h-8 rounded-full bg-gray-50 border border-gray-200 flex items-center justify-center text-xs font-bold">{{ $opt }}</div>
-                                        <div class="w-full h-3 bg-gray-50 rounded-full"></div>
-                                    </div>
-                                    @endforeach
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
     <!-- Dynamic Tryout Section -->
-    <section id="daftar-tryout" class="py-24 bg-gray-50">
+    <section id="daftar-tryout" class="py-24 bg-white">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="text-center mb-16">
                 <h2 class="text-3xl md:text-5xl font-black text-secondary tracking-tight">Pilih Paket <span class="text-primary italic">Simulasi</span></h2>
@@ -91,7 +45,18 @@
                                     @endif
                                 </div>
                             </div>
-                            <a href="{{ route('login') }}" class="px-6 py-3 bg-secondary text-white font-black text-xs uppercase tracking-widest rounded-xl hover:bg-primary transition-all">Kerjakan</a>
+                            @auth
+                                @php
+                                    $hasAccess = $tryout->price == 0 || auth()->user()->hasAccessTo($tryout);
+                                @endphp
+                                @if($hasAccess)
+                                    <a href="{{ route('tryout.instructions', ['type' => 'utbk', 'id' => $tryout->slug]) }}" class="px-6 py-3 bg-secondary text-white font-black text-xs uppercase tracking-widest rounded-xl hover:bg-primary transition-all">Kerjakan</a>
+                                @else
+                                    <a href="{{ route('order.checkout', ['type' => 'utbk', 'id' => $tryout->slug]) }}" class="px-6 py-3 bg-primary text-white font-black text-xs uppercase tracking-widest rounded-xl hover:bg-secondary transition-all">Beli Paket</a>
+                                @endif
+                            @else
+                                <a href="{{ route('login') }}" class="px-6 py-3 bg-secondary text-white font-black text-xs uppercase tracking-widest rounded-xl hover:bg-primary transition-all">Mulai Belajar</a>
+                            @endauth
                         </div>
                     </div>
                 </div>

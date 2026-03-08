@@ -8,16 +8,18 @@ use Illuminate\Support\Str;
 class UtbkTryout extends Model
 {
     protected $fillable = [
-        'name', 'slug', 'category', 'question_count', 'duration_minutes', 'price', 'status'
+        'name', 'slug', 'category', 'question_count', 
+        'duration_minutes', 'price', 'status'
     ];
 
     protected static function boot()
     {
         parent::boot();
-        static::creating(function ($tryout) {
-            if (empty($tryout->slug)) {
-                $tryout->slug = Str::slug($tryout->name);
-            }
-        });
+        static::creating(fn ($item) => $item->slug = $item->slug ?? Str::slug($item->name));
+    }
+
+    public function questions()
+    {
+        return $this->morphMany(Question::class, 'questionable');
     }
 }

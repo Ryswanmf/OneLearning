@@ -199,6 +199,7 @@
                     elseif(Str::contains($title_low, 'smp')) { $route = route('produk.smp'); $count = $counts['smp'] ?? $count; }
                     elseif(Str::contains($title_low, 'sma') && Str::contains($title_low, 'utbk')) { $route = route('produk.sma_utbk'); $count = $counts['sma_utbk'] ?? $count; }
                     elseif(Str::contains($title_low, 'sma')) { $route = route('produk.sma'); $count = $counts['sma'] ?? $count; }
+                    elseif(Str::contains($title_low, 'alumni')) { $route = route('produk.alumni'); $count = $counts['alumni'] ?? $count; }
                 @endphp
                 <a href="{{ $route }}" class="relative group rounded-[3.5rem] overflow-hidden aspect-[4/5] shadow-[0_20px_50px_rgba(30,58,138,0.05)] border border-white block transition-all duration-700 hover:-translate-y-4 hover:shadow-2xl">
                     <div class="absolute inset-0 bg-secondary/40 group-hover:bg-secondary/10 transition-colors duration-700 z-10"></div>

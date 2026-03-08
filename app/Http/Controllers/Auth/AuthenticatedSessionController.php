@@ -29,10 +29,10 @@ class AuthenticatedSessionController extends Controller
         $request->session()->regenerate();
 
         if ($request->user()->role === 'admin') {
-            return redirect()->intended(route('admin.index', absolute: false));
+            return redirect()->intended(route('admin.index', absolute: false))->with('success', 'Selamat datang kembali, Admin!');
         }
 
-        return redirect()->intended(route('dashboard', absolute: false));
+        return redirect()->intended(route('dashboard', absolute: false))->with('success', 'Selamat datang kembali, ' . $request->user()->name . '!');
     }
 
     /**
@@ -46,6 +46,6 @@ class AuthenticatedSessionController extends Controller
 
         $request->session()->regenerateToken();
 
-        return redirect('/');
+        return redirect('/')->with('success', 'Anda telah berhasil keluar. Sampai jumpa lagi!');
     }
 }

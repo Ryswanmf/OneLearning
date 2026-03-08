@@ -1,36 +1,68 @@
 @extends('layouts.app')
 
-@section('title', $title . ' - OneLearning')
+@section('title', 'Tryout SMP 7-9 - Persiapan Masuk SMA Favorit | OneLearning')
 
 @section('content')
-    <section class="py-20 bg-white">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-            <h1 class="text-4xl md:text-6xl font-black text-secondary mb-6">Program <span class="text-primary italic">{{ $level }}</span></h1>
-            <p class="text-lg text-secondary/60 max-w-2xl mx-auto font-medium mb-12">
-                Persiapan tryout komprehensif yang dirancang khusus untuk kurikulum {{ $level }}. 
-                Tingkatkan nilai akademik dan siapkan diri untuk jenjang berikutnya.
-            </p>
+    <!-- Dynamic Tryout Section -->
+    <section id="daftar-tryout" class="py-24 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl md:text-5xl font-black text-secondary tracking-tight">Daftar <span class="text-accent italic">Paket Tryout</span></h2>
+                <p class="text-secondary/50 font-medium mt-4">Tingkatkan skor akademikmu dengan latihan rutin setiap hari.</p>
+            </div>
 
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                 @forelse($tryouts as $tryout)
-                <div class="bg-gray-50 p-8 rounded-[2.5rem] border border-gray-100 hover:bg-white hover:shadow-2xl transition-all duration-500 group text-left relative overflow-hidden">
-                    <div class="w-12 h-12 bg-primary/10 rounded-xl flex items-center justify-center mb-6 text-primary group-hover:bg-primary group-hover:text-white transition-all">
-                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.247 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" /></svg>
+                <div class="bg-white p-8 rounded-[2.5rem] border border-gray-100 shadow-sm hover:shadow-2xl transition-all duration-500 group relative overflow-hidden">
+                    @if($tryout->price == 0)
+                    <div class="absolute top-6 right-6 px-3 py-1 bg-green-500 text-white text-[10px] font-black uppercase tracking-widest rounded-full z-10 animate-pulse">Gratis</div>
+                    @endif
+                    
+                    <div class="relative z-10">
+                        <span class="inline-block px-3 py-1 bg-accent/10 text-accent font-black text-[10px] uppercase tracking-widest rounded-lg mb-4">{{ $tryout->subject ?? 'Mata Pelajaran' }}</span>
+                        <h3 class="text-2xl font-black text-secondary mb-2 group-hover:text-accent transition-colors italic leading-tight">{{ $tryout->name }}</h3>
+                        
+                        <div class="flex gap-6 my-6 pt-6 border-t border-gray-50">
+                            <div>
+                                <div class="text-xl font-black text-secondary">{{ $tryout->question_count }}</div>
+                                <div class="text-[10px] text-secondary/40 font-bold uppercase tracking-widest">Butir Soal</div>
+                            </div>
+                            <div class="w-px h-10 bg-gray-100"></div>
+                            <div>
+                                <div class="text-xl font-black text-secondary">{{ $tryout->duration_minutes }}</div>
+                                <div class="text-[10px] text-secondary/40 font-bold uppercase tracking-widest">Menit</div>
+                            </div>
+                        </div>
+
+                        <div class="flex items-center justify-between mt-8">
+                            <div>
+                                <div class="text-[10px] text-secondary/40 font-bold uppercase tracking-widest leading-none mb-1">Harga Paket</div>
+                                <div class="text-xl font-black text-secondary italic">
+                                    @if($tryout->price > 0)
+                                        Rp {{ number_format($tryout->price, 0, ',', '.') }}
+                                    @else
+                                        FREE
+                                    @endif
+                                </div>
+                            </div>
+                            @auth
+                                @php
+                                    $hasAccess = $tryout->price == 0 || auth()->user()->hasAccessTo($tryout);
+                                @endphp
+                                @if($hasAccess)
+                                    <a href="{{ route('tryout.instructions', ['type' => 'smp', 'id' => $tryout->slug]) }}" class="px-6 py-3 bg-secondary text-white font-black text-xs uppercase tracking-widest rounded-xl hover:bg-accent transition-all">Kerjakan</a>
+                                @else
+                                    <a href="{{ route('order.checkout', ['type' => 'smp', 'id' => $tryout->slug]) }}" class="px-6 py-3 bg-accent text-white font-black text-xs uppercase tracking-widest rounded-xl hover:bg-secondary transition-all">Beli Paket</a>
+                                @endif
+                            @else
+                                <a href="{{ route('login') }}" class="px-6 py-3 bg-secondary text-white font-black text-xs uppercase tracking-widest rounded-xl hover:bg-accent transition-all">Mulai</a>
+                            @endauth
+                        </div>
                     </div>
-                    <span class="absolute top-8 right-8 text-[10px] font-black text-secondary/20 uppercase tracking-widest">{{ $tryout->subject }}</span>
-                    <h3 class="text-xl font-black text-secondary mb-4 italic">{{ $tryout->name }}</h3>
-                    <div class="flex gap-4 mb-6">
-                        <div class="px-3 py-1 bg-white border border-gray-100 rounded-lg text-[10px] font-bold text-secondary/60">{{ $tryout->question_count }} Soal</div>
-                        <div class="px-3 py-1 bg-white border border-gray-100 rounded-lg text-[10px] font-bold text-secondary/60">{{ $tryout->duration_minutes }} Menit</div>
-                    </div>
-                    <a href="{{ route('login') }}" class="inline-flex items-center gap-2 text-xs font-black text-primary uppercase tracking-widest group-hover:gap-3 transition-all">
-                        Mulai Tryout 
-                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M13 7l5 5m0 0l-5 5m5-5H6" stroke-width="2"/></svg>
-                    </a>
                 </div>
                 @empty
-                <div class="col-span-full py-20 text-center bg-gray-50 rounded-[2.5rem] border border-dashed border-gray-200">
-                    <p class="text-secondary/30 font-bold italic">Belum ada paket tryout tersedia untuk jenjang ini.</p>
+                <div class="col-span-full text-center py-20 bg-white rounded-[3rem] border border-dashed border-gray-200">
+                    <p class="text-secondary/30 font-bold italic">Belum ada paket tryout yang tersedia.</p>
                 </div>
                 @endforelse
             </div>
