@@ -19,7 +19,7 @@
         
         @stack('styles')
     </head>
-    <body class="bg-white font-sans text-secondary antialiased" x-data="{ mobileMenuOpen: false, productDropdownOpen: false, businessDropdownOpen: false, profileDropdownOpen: false }">
+    <body class="bg-white font-sans text-secondary antialiased">
         
         <!-- Global Notifications (Toast) -->
         <div x-data="{ show: false, message: '', type: 'success' }"

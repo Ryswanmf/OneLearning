@@ -1,5 +1,6 @@
 <!-- Navbar -->
-<nav class="sticky top-0 z-[100] bg-white/90 backdrop-blur-md border-b border-gray-100">
+<nav class="sticky top-0 z-[100] bg-white/90 backdrop-blur-md border-b border-gray-100" 
+     x-data="{ mobileMenuOpen: false, productDropdownOpen: false, businessDropdownOpen: false, profileDropdownOpen: false }">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="flex justify-between items-center h-16">
             <!-- Logo (Kiri) -->

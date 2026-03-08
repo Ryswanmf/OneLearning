@@ -201,11 +201,11 @@
                     elseif(Str::contains($title_low, 'sma')) { $route = route('produk.sma'); $count = $counts['sma'] ?? $count; }
                     elseif(Str::contains($title_low, 'alumni')) { $route = route('produk.alumni'); $count = $counts['alumni'] ?? $count; }
                 @endphp
-                <a href="{{ $route }}" class="relative group rounded-[3.5rem] overflow-hidden aspect-[4/5] shadow-[0_20px_50px_rgba(30,58,138,0.05)] border border-white block transition-all duration-700 hover:-translate-y-4 hover:shadow-2xl">
+                <a href="{{ $route }}" class="relative group rounded-[3.5rem] overflow-hidden aspect-[4/5] shadow-[0_20px_50px_rgba(30,58,138,0.05)] border border-white block transition-all duration-700 hover:shadow-2xl">
                     <div class="absolute inset-0 bg-secondary/40 group-hover:bg-secondary/10 transition-colors duration-700 z-10"></div>
                     <img src="{{ $product->image ?? 'https://images.unsplash.com/photo-1434030216411-0b793f4b4173?auto=format&fit=crop&q=80&w=600' }}" class="absolute inset-0 w-full h-full object-cover group-hover:scale-110 transition-transform duration-1000">
                     <div class="absolute inset-0 bg-gradient-to-t from-secondary via-secondary/20 to-transparent z-20"></div>
-                    <div class="absolute bottom-0 left-0 p-10 z-30 w-full text-left transform translate-y-2 group-hover:translate-y-0 transition-transform duration-500">
+                    <div class="absolute bottom-0 left-0 p-10 z-30 w-full text-left transform translate-y-6 group-hover:translate-y-0 transition-transform duration-500">
                         <span class="inline-block px-3 py-1 bg-accent text-secondary font-black text-[9px] uppercase tracking-widest rounded-lg mb-4">{{ $product->category }}</span>
                         <h3 class="text-white font-extrabold text-2xl mb-5 leading-tight italic">{{ $product->title }}</h3>
                         <div class="flex items-center gap-5 pt-5 border-t border-white/20">

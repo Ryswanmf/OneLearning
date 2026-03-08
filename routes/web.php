@@ -85,7 +85,8 @@ Route::middleware(['auth'])->prefix('tryout')->name('tryout.')->group(function (
 
 // Rute Landing Pages & Produk
 Route::get('/testimoni', function () { return view('landing.testimoni.index'); })->name('testimoni');
-Route::get('/blog', function () { return view('landing.blog.index'); })->name('blog');
+Route::get('/blog', [BlogController::class, 'index'])->name('blog');
+Route::get('/blog/{blog:slug}', [BlogController::class, 'show'])->name('blog.show');
 Route::get('/paket-belajar', function () { return view('landing.paket_belajar.index'); })->name('paket.index');
 
 Route::prefix('produk')->name('produk.')->group(function () {
@@ -120,7 +121,8 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
     Route::resource('paket-belajar', StudyPackageController::class)->parameters(['paket-belajar' => 'paket_belajar:slug']);
     Route::resource('paket-belajar.questions', QuestionController::class)->parameters(['paket-belajar' => 'paket_belajar:slug', 'questions' => 'question']);
     Route::resource('testimoni', TestimonialController::class);
-    Route::resource('blog', BlogController::class)->parameters(['blog' => 'blog:slug']);
+    Route::get('/blog', [BlogController::class, 'adminIndex'])->name('blog.index');
+    Route::resource('blog', BlogController::class)->except(['index', 'show'])->parameters(['blog' => 'blog:slug']);
     Route::resource('layanan-bisnis', BusinessServiceController::class);
     Route::resource('future-educators', FutureEducatorController::class);
     Route::resource('tentang-kami', AboutController::class);
