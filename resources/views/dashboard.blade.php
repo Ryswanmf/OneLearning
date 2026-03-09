@@ -125,23 +125,41 @@
                             
                             <div class="relative z-10">
                                 <div class="flex items-center justify-between mb-8">
-                                    <span class="px-4 py-1.5 bg-primary/5 text-primary text-[10px] font-black uppercase tracking-[0.2em] rounded-full border border-primary/5">{{ $package->category }}</span>
-                                    <button class="text-secondary/20 hover:text-primary transition-colors">
-                                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 12h.01M12 12h.01M19 12h.01M6 12a1 1 0 11-2 0 1 1 0 012 0zm7 0a1 1 0 11-2 0 1 1 0 012 0zm7 0a1 1 0 11-2 0 1 1 0 012 0z" /></svg>
-                                    </button>
+                                    <span class="px-4 py-1.5 bg-primary/5 text-primary text-[10px] font-black uppercase tracking-[0.2em] rounded-full border border-primary/5">{{ $package->category ?? ($package->subject ?? 'Paket Belajar') }}</span>
                                 </div>
-                                <h3 class="text-2xl font-black text-secondary mb-4 leading-tight group-hover:text-primary transition-colors duration-500 italic">{{ $package->title }}</h3>
+                                <h3 class="text-2xl font-black text-secondary mb-4 leading-tight group-hover:text-primary transition-colors duration-500 italic">{{ $package->name ?? $package->title }}</h3>
                                 <div class="flex items-center gap-6 text-secondary/40 text-[11px] font-bold">
-                                    <span class="flex items-center gap-2"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.247 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" stroke-width="2"/></svg> 12 Materi</span>
-                                    <span class="flex items-center gap-2"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" stroke-width="2"/></svg> 5 Tryout</span>
+                                    @if(isset($package->question_count))
+                                    <span class="flex items-center gap-2"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.247 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" stroke-width="2"/></svg> {{ $package->question_count }} Soal</span>
+                                    @endif
+                                    @if(isset($package->duration_minutes))
+                                    <span class="flex items-center gap-2"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" stroke-width="2"/></svg> {{ $package->duration_minutes }} Menit</span>
+                                    @endif
                                 </div>
                             </div>
                             
                             <div class="relative z-10 mt-10">
-                                <a href="#" class="w-full py-5 bg-secondary text-white text-center font-black text-xs uppercase tracking-[0.2em] rounded-[1.8rem] hover:bg-primary shadow-2xl shadow-secondary/20 transition-all flex items-center justify-center gap-3 active:scale-95 group-hover:gap-4 duration-500">
+                                @if($package->is_completed)
+                                <div class="flex flex-col gap-3">
+                                    <div class="flex items-center gap-2 px-4 py-2 bg-green-50 text-green-600 rounded-xl border border-green-100 justify-center">
+                                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7" /></svg>
+                                        <span class="text-[10px] font-black uppercase tracking-widest">Selesai Dikerjakan</span>
+                                    </div>
+                                    <div class="grid grid-cols-2 gap-3">
+                                        <a href="{{ route('tryout.result', ['type' => $package->type, 'id' => $package->slug]) }}" class="py-4 bg-primary text-white text-center font-black text-[10px] uppercase tracking-widest rounded-2xl hover:bg-secondary transition-all">
+                                            Selesai
+                                        </a>
+                                        <a href="{{ route('tryout.instructions', ['type' => $package->type, 'id' => $package->slug]) }}" class="py-4 bg-gray-50 text-secondary text-center font-black text-[10px] uppercase tracking-widest rounded-2xl hover:bg-gray-100 transition-all border border-gray-100">
+                                            Kerjakan Ulang
+                                        </a>
+                                    </div>
+                                </div>
+                                @else
+                                <a href="{{ route('tryout.instructions', ['type' => $package->type, 'id' => $package->slug]) }}" class="w-full py-5 bg-secondary text-white text-center font-black text-xs uppercase tracking-[0.2em] rounded-[1.8rem] hover:bg-primary shadow-2xl shadow-secondary/20 transition-all flex items-center justify-center gap-3 active:scale-95 group-hover:gap-4 duration-500">
                                     Mulai Ujian
                                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M13 10V3L4 14h7v7l9-11h-7z" /></svg>
                                 </a>
+                                @endif
                             </div>
                         </div>
                         @empty
@@ -165,7 +183,18 @@
 
                     <div class="space-y-4">
                         @foreach($recommendedPackages as $item)
-                        <div class="bg-white p-6 rounded-[2.5rem] border border-gray-50 shadow-[0_15px_40px_-15px_rgba(0,0,0,0.05)] flex items-center gap-8 hover:shadow-xl hover:-translate-y-1 transition-all duration-500 group">
+                        @php
+                            $route = '#';
+                            $title_low = strtolower($item->title);
+                            if(Str::contains($title_low, 'snbp')) $route = route('produk.snbp');
+                            elseif(Str::contains($title_low, 'utbk') && !Str::contains($title_low, 'sma')) $route = route('produk.utbk');
+                            elseif(Str::contains($title_low, 'sd')) $route = route('produk.sd');
+                            elseif(Str::contains($title_low, 'smp')) $route = route('produk.smp');
+                            elseif(Str::contains($title_low, 'sma') && Str::contains($title_low, 'utbk')) $route = route('produk.sma_utbk');
+                            elseif(Str::contains($title_low, 'sma')) $route = route('produk.sma');
+                            elseif(Str::contains($title_low, 'alumni')) $route = route('produk.alumni');
+                        @endphp
+                        <a href="{{ $route }}" class="bg-white p-6 rounded-[2.5rem] border border-gray-50 shadow-[0_15px_40px_-15px_rgba(0,0,0,0.05)] flex items-center gap-8 hover:shadow-xl hover:-translate-y-1 transition-all duration-500 group block">
                             <div class="w-24 h-24 rounded-3xl bg-gray-50 overflow-hidden flex-shrink-0 border border-gray-100">
                                 <img src="{{ $item->image ?? 'https://images.unsplash.com/photo-1434030216411-0b793f4b4173?auto=format&fit=crop&q=80&w=200' }}" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-1000">
                             </div>
@@ -177,15 +206,15 @@
                                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" stroke-width="2"/></svg>
                                         {{ $item->duration }}
                                     </div>
-                                    <div class="text-[11px] font-bold text-primary italic bg-primary/5 px-3 py-1 rounded-full">Investasi Masa Depan Rp 49.000</div>
+                                    <div class="text-[11px] font-bold text-primary italic bg-primary/5 px-3 py-1 rounded-full">Investasi Masa Depan</div>
                                 </div>
                             </div>
                             <div class="hidden md:block pr-4">
-                                <a href="#" class="w-12 h-12 bg-gray-50 text-secondary border border-gray-100 rounded-2xl flex items-center justify-center hover:bg-secondary hover:text-white hover:shadow-lg transition-all duration-500">
+                                <div class="w-12 h-12 bg-gray-50 text-secondary border border-gray-100 rounded-2xl flex items-center justify-center group-hover:bg-secondary group-hover:text-white group-hover:shadow-lg transition-all duration-500">
                                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 6v6m0 0v6m0-6h6m-6 0H6" /></svg>
-                                </a>
+                                </div>
                             </div>
-                        </div>
+                        </a>
                         @endforeach
                     </div>
                 </div>

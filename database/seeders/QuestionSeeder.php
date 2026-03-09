@@ -2,43 +2,53 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Seeder;
+use App\Models\StudyPackage;
 use App\Models\Question;
-use App\Models\UtbkTryout;
+use Illuminate\Database\Seeder;
 
 class QuestionSeeder extends Seeder
 {
     public function run(): void
     {
-        // Isi Jilid I
-        $utbk1 = UtbkTryout::where('slug', 'tryout-akbar-utbk-2024-jilid-i')->first();
-        if ($utbk1 && $utbk1->questions()->count() == 0) {
-            $this->createSample($utbk1);
-        }
+        $package = StudyPackage::where('slug', 'all-in-one-sd-4-6')->first();
+        
+        if ($package) {
+            $questions = [
+                [
+                    'question_text' => 'Hasil dari 125 + 75 adalah...',
+                    'option_a' => '150',
+                    'option_b' => '175',
+                    'option_c' => '200',
+                    'option_d' => '225',
+                    'option_e' => '250',
+                    'correct_answer' => 'c',
+                    'order' => 1
+                ],
+                [
+                    'question_text' => 'Hewan yang memakan tumbuhan disebut...',
+                    'option_a' => 'Karnivora',
+                    'option_b' => 'Herbivora',
+                    'option_c' => 'Omnivora',
+                    'option_d' => 'Insektivora',
+                    'option_e' => 'Mamalia',
+                    'correct_answer' => 'b',
+                    'order' => 2
+                ],
+                [
+                    'question_text' => 'Ibukota negara Indonesia adalah...',
+                    'option_a' => 'Bandung',
+                    'option_b' => 'Surabaya',
+                    'option_c' => 'Medan',
+                    'option_d' => 'Jakarta',
+                    'option_e' => 'Semarang',
+                    'correct_answer' => 'd',
+                    'order' => 3
+                ]
+            ];
 
-        // Isi Jilid II
-        $utbk2 = UtbkTryout::where('slug', 'tryout-akbar-utbk-2024-jilid-ii')->first();
-        if ($utbk2 && $utbk2->questions()->count() == 0) {
-            $this->createSample($utbk2);
-        }
-    }
-
-    private function createSample($model)
-    {
-        $questions = [
-            [
-                'question_text' => 'Berapakah hasil dari 15% dari 200?',
-                'option_a' => '20', 'option_b' => '25', 'option_c' => '30', 'option_d' => '35', 'option_e' => '40',
-                'correct_answer' => 'c', 'explanation' => '15/100 * 200 = 30.', 'order' => 1
-            ],
-            [
-                'question_text' => 'Antonim dari kata "Pramuria" adalah...',
-                'option_a' => 'Wanita', 'option_b' => 'Pelayan', 'option_c' => 'Tuan Rumah', 'option_d' => 'Pramupintu', 'option_e' => 'Pramuniaga',
-                'correct_answer' => 'c', 'explanation' => 'Pramuria adalah pelayan hiburan, lawan katanya berkaitan dengan pemilik/tuan rumah.', 'order' => 2
-            ]
-        ];
-        foreach ($questions as $q) {
-            $model->questions()->create($q);
+            foreach ($questions as $q) {
+                $package->questions()->create($q);
+            }
         }
     }
 }

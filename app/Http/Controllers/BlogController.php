@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Blog;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
 class BlogController extends Controller
@@ -47,18 +48,32 @@ class BlogController extends Controller
 
     public function store(Request $request)
     {
-        $validated = $request->validate([
+        $request->validate([
             'title' => 'required|string|max:255',
             'content' => 'required',
             'category' => 'required|string',
             'status' => 'required|in:published,draft',
-            'image' => 'nullable|string',
+            'image_file' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:2048',
+            'image_url' => 'nullable|url',
         ]);
 
-        $validated['user_id'] = Auth::id();
-        $validated['slug'] = Str::slug($request->title);
+        $imagePath = $request->image_url;
 
-        Blog::create($validated);
+        // Jika ada file yang diupload, utamakan file upload
+        if ($request->hasFile('image_file')) {
+            $path = $request->file('image_file')->store('blogs', 'public');
+            $imagePath = asset('storage/' . $path);
+        }
+
+        Blog::create([
+            'title' => $request->title,
+            'slug' => Str::slug($request->title),
+            'content' => $request->content,
+            'category' => $request->category,
+            'status' => $request->status,
+            'image' => $imagePath,
+            'user_id' => Auth::id(),
+        ]);
 
         return redirect()->route('admin.blog.index')->with('success', 'Artikel berhasil diterbitkan.');
     }
@@ -70,23 +85,48 @@ class BlogController extends Controller
 
     public function update(Request $request, Blog $blog)
     {
-        $validated = $request->validate([
+        $request->validate([
             'title' => 'required|string|max:255',
             'content' => 'required',
             'category' => 'required|string',
             'status' => 'required|in:published,draft',
-            'image' => 'nullable|string',
+            'image_file' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:2048',
+            'image_url' => 'nullable|url',
         ]);
 
-        $validated['slug'] = Str::slug($request->title);
+        $imagePath = $request->image_url ?: $blog->image;
 
-        $blog->update($validated);
+        if ($request->hasFile('image_file')) {
+            // Hapus file lama jika ada (jika berupa path lokal)
+            if (Str::contains($blog->image, asset('storage/'))) {
+                $oldPath = str_replace(asset('storage/'), '', $blog->image);
+                Storage::disk('public')->delete($oldPath);
+            }
+            
+            $path = $request->file('image_file')->store('blogs', 'public');
+            $imagePath = asset('storage/' . $path);
+        }
+
+        $blog->update([
+            'title' => $request->title,
+            'slug' => Str::slug($request->title),
+            'content' => $request->content,
+            'category' => $request->category,
+            'status' => $request->status,
+            'image' => $imagePath,
+        ]);
 
         return redirect()->route('admin.blog.index')->with('success', 'Artikel berhasil diperbarui.');
     }
 
     public function destroy(Blog $blog)
     {
+        // Hapus file fisik jika ada
+        if (Str::contains($blog->image, asset('storage/'))) {
+            $oldPath = str_replace(asset('storage/'), '', $blog->image);
+            Storage::disk('public')->delete($oldPath);
+        }
+
         $blog->delete();
         return redirect()->route('admin.blog.index')->with('success', 'Artikel berhasil dihapus.');
     }

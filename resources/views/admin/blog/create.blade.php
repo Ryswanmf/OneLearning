@@ -14,7 +14,7 @@
         </div>
     </div>
 
-    <form action="{{ route('admin.blog.store') }}" method="POST" class="space-y-6">
+    <form action="{{ route('admin.blog.store') }}" method="POST" enctype="multipart/form-data" class="space-y-6">
         @csrf
         <div class="bg-white p-10 rounded-[2.5rem] border border-gray-100 shadow-sm space-y-8">
             <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
@@ -52,9 +52,25 @@
                             </select>
                         </div>
 
-                        <div class="space-y-2">
-                            <x-input-label for="image" value="URL Gambar Sampul" />
-                            <x-text-input id="image" name="image" type="text" :value="old('image')" placeholder="https://..." />
+                        <hr class="border-gray-200">
+
+                        <!-- Image Section -->
+                        <div class="space-y-4" x-data="{ imageType: 'url' }">
+                            <x-input-label value="Gambar Sampul" />
+                            <div class="flex gap-4 p-1 bg-white border border-gray-100 rounded-xl">
+                                <button type="button" @click="imageType = 'url'" :class="imageType === 'url' ? 'bg-secondary text-white' : 'text-secondary/40'" class="flex-1 py-2 text-[10px] font-black uppercase tracking-widest rounded-lg transition-all">Link URL</button>
+                                <button type="button" @click="imageType = 'upload'" :class="imageType === 'upload' ? 'bg-secondary text-white' : 'text-secondary/40'" class="flex-1 py-2 text-[10px] font-black uppercase tracking-widest rounded-lg transition-all">Upload File</button>
+                            </div>
+
+                            <div x-show="imageType === 'url'" class="animate-fade-up">
+                                <x-text-input id="image_url" name="image_url" type="text" :value="old('image_url')" placeholder="https://..." class="text-xs" />
+                                <p class="text-[9px] text-secondary/30 mt-2 font-medium">Masukkan link gambar dari Unsplash atau sumber lain.</p>
+                            </div>
+
+                            <div x-show="imageType === 'upload'" class="animate-fade-up" x-cloak>
+                                <input type="file" name="image_file" class="block w-full text-xs text-secondary/40 file:mr-4 file:py-2 file:px-4 file:rounded-xl file:border-0 file:text-[10px] file:font-black file:uppercase file:bg-primary file:text-white hover:file:bg-secondary transition-all cursor-pointer">
+                                <p class="text-[9px] text-secondary/30 mt-2 font-medium">Format: JPG, PNG, WebP. Maksimal 2MB.</p>
+                            </div>
                         </div>
                     </div>
 

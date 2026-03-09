@@ -87,7 +87,10 @@ Route::middleware(['auth'])->prefix('tryout')->name('tryout.')->group(function (
 Route::get('/testimoni', function () { return view('landing.testimoni.index'); })->name('testimoni');
 Route::get('/blog', [BlogController::class, 'index'])->name('blog');
 Route::get('/blog/{blog:slug}', [BlogController::class, 'show'])->name('blog.show');
-Route::get('/paket-belajar', function () { return view('landing.paket_belajar.index'); })->name('paket.index');
+Route::get('/paket-belajar', function () { 
+    $packages = \App\Models\StudyPackage::where('is_active', true)->get();
+    return view('landing.paket_belajar.index', compact('packages')); 
+})->name('paket.index');
 
 Route::prefix('produk')->name('produk.')->group(function () {
     Route::get('/snbp', [SnbpAnalysisController::class, 'index'])->name('snbp');
