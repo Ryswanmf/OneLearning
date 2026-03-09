@@ -70,7 +70,7 @@ class TryoutEngineController extends Controller
         $user = Auth::user();
         $submission = TryoutSubmission::firstOrCreate(
             ['user_id' => $user->id, 'tryoutable_id' => $tryout->id, 'tryoutable_type' => get_class($tryout), 'status' => 'ongoing'],
-            ['started_at' => now(), 'answers' => json_encode([])]
+            ['started_at' => now(), 'answers' => []]
         );
         $questions = $tryout->questions()->orderBy('order')->get();
         return view('landing.tryout.engine', [
@@ -83,9 +83,11 @@ class TryoutEngineController extends Controller
         $tryout = $this->getTryout($type, $id);
         $submission = TryoutSubmission::where('user_id', Auth::id())->where('tryoutable_id', $tryout->id)->where('tryoutable_type', get_class($tryout))->where('status', 'ongoing')->first();
         if (!$submission) return response()->json(['success' => false], 403);
-        $answers = json_decode($submission->answers, true) ?? [];
+        
+        $answers = $submission->answers ?? [];
         $answers['q' . $request->question_id] = $request->answer;
-        $submission->update(['answers' => json_encode($answers)]);
+        
+        $submission->update(['answers' => $answers]);
         return response()->json(['success' => true]);
     }
 
@@ -94,15 +96,41 @@ class TryoutEngineController extends Controller
         $tryout = $this->getTryout($type, $id);
         $submission = TryoutSubmission::where('user_id', Auth::id())->where('tryoutable_id', $tryout->id)->where('tryoutable_type', get_class($tryout))->where('status', 'ongoing')->first();
         if (!$submission) return redirect()->route('dashboard');
-        $userAnswers = json_decode($submission->answers, true) ?? [];
+        
+        $userAnswers = $submission->answers ?? [];
         $questions = $tryout->questions;
         $correctCount = 0;
+        
+        // Analisis Per Topik
+        $topicAnalysis = [];
+
         foreach ($questions as $q) {
+            $topic = $q->topic ?? 'Umum';
+            if (!isset($topicAnalysis[$topic])) {
+                $topicAnalysis[$topic] = ['correct' => 0, 'total' => 0];
+            }
+            $topicAnalysis[$topic]['total']++;
+
             $key = 'q' . $q->id;
-            if (isset($userAnswers[$key]) && $userAnswers[$key] === $q->correct_answer) $correctCount++;
+            if (isset($userAnswers[$key]) && strtolower($userAnswers[$key]) === strtolower($q->correct_answer)) {
+                $correctCount++;
+                $topicAnalysis[$topic]['correct']++;
+            }
         }
+
         $score = ($questions->count() > 0) ? round(($correctCount / $questions->count()) * 1000) : 0;
-        $submission->update(['status' => 'completed', 'finished_at' => now(), 'score' => $score]);
+        
+        $submission->update([
+            'status' => 'completed', 
+            'finished_at' => now(), 
+            'score' => $score,
+            'score_metadata' => [
+                'correct_count' => $correctCount,
+                'total_questions' => $questions->count(),
+                'topic_analysis' => $topicAnalysis
+            ]
+        ]);
+
         return redirect()->route('tryout.result', [$type, $id]);
     }
 
@@ -111,18 +139,33 @@ class TryoutEngineController extends Controller
         $tryout = $this->getTryout($type, $id);
         $submission = TryoutSubmission::where('user_id', Auth::id())->where('tryoutable_id', $tryout->id)->where('tryoutable_type', get_class($tryout))->where('status', 'completed')->latest()->first();
         if (!$submission) return redirect()->route('dashboard');
+        
         $questions = $tryout->questions()->orderBy('order')->get();
-        $userAnswers = json_decode($submission->answers, true) ?? [];
+        $userAnswers = $submission->answers ?? [];
         $stats = ['correct' => 0, 'wrong' => 0, 'empty' => 0, 'total' => $questions->count()];
+        
+        // Jika belum ada metadata (tryout lama), hitung manual
+        $topicAnalysis = $submission->score_metadata['topic_analysis'] ?? [];
+        
         foreach ($questions as $q) {
             $ans = $userAnswers['q' . $q->id] ?? null;
             if (!$ans) $stats['empty']++;
-            elseif ($ans === $q->correct_answer) $stats['correct']++;
+            elseif (strtolower($ans) === strtolower($q->correct_answer)) $stats['correct']++;
             else $stats['wrong']++;
+
+            // Fallback analisis topik untuk tryout lama
+            if (empty($topicAnalysis)) {
+                $topic = $q->topic ?? 'Umum';
+                if (!isset($topicAnalysis[$topic])) $topicAnalysis[$topic] = ['correct' => 0, 'total' => 0];
+                $topicAnalysis[$topic]['total']++;
+                if ($ans && strtolower($ans) === strtolower($q->correct_answer)) $topicAnalysis[$topic]['correct']++;
+            }
         }
+
         return view('landing.tryout.result', [
             'paket_belajar' => $tryout, 'submission' => $submission, 'questions' => $questions, 
-            'userAnswers' => $userAnswers, 'stats' => $stats, 'type' => $type, 'id' => $id
+            'userAnswers' => $userAnswers, 'stats' => $stats, 'type' => $type, 'id' => $id,
+            'topicAnalysis' => $topicAnalysis
         ]);
     }
 

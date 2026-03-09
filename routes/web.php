@@ -27,16 +27,12 @@ use App\Http\Controllers\QuestionController;
 use App\Http\Controllers\TryoutEngineController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\AdminTransactionController;
+use App\Http\Controllers\AdminBankSoalController;
 use App\Http\Controllers\MidtransCallbackController;
 use App\Http\Controllers\SnbpAnalysisController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 
-/*
-|--------------------------------------------------------------------------
-| OneLearning Routes
-|--------------------------------------------------------------------------
-*/
 
 // Halaman Utama
 Route::get('/', function () {
@@ -111,18 +107,25 @@ Route::prefix('bisnis')->name('bisnis.')->group(function () {
     Route::get('/tentang-kami', function () { $profiles = \App\Models\About::where('is_active', true)->orderBy('order')->get(); return view('landing.bisnis.tentang', compact('profiles')); })->name('tentang');
 });
 
-/*
-|--------------------------------------------------------------------------
-| Admin Routes
-|--------------------------------------------------------------------------
-*/
+
 Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(function () {
     Route::get('/', function () { return view('admin.index'); })->name('index');
     Route::resource('users', UserController::class);
     Route::resource('transactions', AdminTransactionController::class)->only(['index', 'show', 'update']);
+    
+    // Bank Soal (Excel)
+    Route::get('bank-soal', [AdminBankSoalController::class, 'index'])->name('bank-soal.index');
+    
     Route::resource('produk', ProductController::class)->parameters(['produk' => 'produk:slug']);
     Route::resource('paket-belajar', StudyPackageController::class)->parameters(['paket-belajar' => 'paket_belajar:slug']);
-    Route::resource('paket-belajar.questions', QuestionController::class)->parameters(['paket-belajar' => 'paket_belajar:slug', 'questions' => 'question']);
+    // Universal Question Management (for all types)
+    Route::get('questions/{type}/{id}', [QuestionController::class, 'index'])->name('questions.index');
+    Route::get('questions/{type}/{id}/create', [QuestionController::class, 'create'])->name('questions.create');
+    Route::post('questions/{type}/{id}', [QuestionController::class, 'store'])->name('questions.store');
+    Route::get('questions/{type}/{id}/{question}/edit', [QuestionController::class, 'edit'])->name('questions.edit');
+    Route::put('questions/{type}/{id}/{question}', [QuestionController::class, 'update'])->name('questions.update');
+    Route::delete('questions/{type}/{id}/{question}', [QuestionController::class, 'destroy'])->name('questions.destroy');
+    Route::post('questions/{type}/{id}/import', [QuestionController::class, 'import'])->name('questions.import');
     Route::resource('testimoni', TestimonialController::class);
     Route::get('/blog', [BlogController::class, 'adminIndex'])->name('blog.index');
     Route::resource('blog', BlogController::class)->except(['index', 'show'])->parameters(['blog' => 'blog:slug']);
@@ -144,11 +147,7 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
     Route::put('/settings', [SettingController::class, 'update'])->name('settings.update');
 });
 
-/*
-|--------------------------------------------------------------------------
-| Dashboard & Profile
-|--------------------------------------------------------------------------
-*/
+
 Route::get('/dashboard', [StudentDashboardController::class, 'index'])->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {

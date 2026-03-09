@@ -168,7 +168,7 @@ function tryoutEngine() {
     return {
         currentQuestionIndex: 0,
         questions: @json($questions),
-        userAnswers: @json(json_decode($submission->answers, true) ?? []),
+        userAnswers: @json($submission->answers ?? []),
         markedQuestions: [],
         timeLeft: {{ (int)$paket_belajar->duration_minutes * 60 }},
         showFinishModal: false,
@@ -180,11 +180,24 @@ function tryoutEngine() {
         },
 
         startTimer() {
+            // Refresh session & CSRF token setiap 5 menit
+            const sessionKeeper = setInterval(() => {
+                fetch('/dashboard', { headers: { 'X-Requested-With': 'XMLHttpRequest' } })
+                .then(response => {
+                    if (response.status === 401 || response.status === 419) {
+                        console.warn('Session expired, attempting to stay alive...');
+                        // Jika sesi mati, coba hit login page untuk dapet cookie baru (silent refresh)
+                        fetch('/login');
+                    }
+                });
+            }, 300000);
+
             const interval = setInterval(() => {
                 if (this.timeLeft > 0) {
                     this.timeLeft--;
                 } else {
                     clearInterval(interval);
+                    clearInterval(sessionKeeper);
                     this.autoFinish();
                 }
             }, 1000);
@@ -197,13 +210,34 @@ function tryoutEngine() {
             return [h, m, s].map(v => v < 10 ? '0' + v : v).join(':');
         },
 
-        saveAnswer(questionId, option) {
+        async saveAnswer(questionId, option) {
             this.userAnswers['q' + questionId] = option;
-            fetch("{{ route('tryout.save-answer', ['type' => $type, 'id' => $id]) }}", {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json', 'X-CSRF-TOKEN': '{{ csrf_token() }}' },
-                body: JSON.stringify({ question_id: questionId, answer: option })
-            });
+            
+            try {
+                const response = await fetch("{{ route('tryout.save-answer', ['type' => $type, 'id' => $id]) }}", {
+                    method: 'POST',
+                    headers: { 
+                        'Content-Type': 'application/json', 
+                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content') 
+                    },
+                    body: JSON.stringify({ question_id: questionId, answer: option })
+                });
+
+                if (response.status === 419 || response.status === 401) {
+                    // Token basi atau sesi habis, coba refresh token dari meta tag (jika ada update via JS) atau reload ringan
+                    console.error('Session mismatch detected. Saving to local storage as backup.');
+                    this.saveToLocalStorage(questionId, option);
+                }
+            } catch (error) {
+                console.error('Network error, saving to local storage.');
+                this.saveToLocalStorage(questionId, option);
+            }
+        },
+
+        saveToLocalStorage(qId, opt) {
+            let backup = JSON.parse(localStorage.getItem('backup_ans_' + {{ $submission->id }}) || '{}');
+            backup['q' + qId] = opt;
+            localStorage.setItem('backup_ans_' + {{ $submission->id }}, JSON.stringify(backup));
         },
 
         toggleMark(qId) {

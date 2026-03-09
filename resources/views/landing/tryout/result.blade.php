@@ -3,27 +3,21 @@
 @section('title', 'Hasil - ' . $paket_belajar->name)
 
 @section('content')
-<div class="min-h-screen bg-white pb-20 pt-4" x-data="resultPage()">
+<div class="min-h-screen bg-[#F8FAFC] pb-20 pt-4" x-data="resultPage()">
     <!-- Header Section -->
-    <div class="relative bg-secondary pt-12 pb-24 overflow-hidden rounded-b-[3rem]">
-        <div class="absolute inset-0 bg-primary/5 mix-blend-overlay"></div>
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center">
-            <div class="animate-fade-up">
-                <div class="inline-flex items-center gap-2 px-3 py-1 bg-white/5 rounded-full border border-white/10 mb-4 backdrop-blur-md">
-                    <span class="w-1 h-1 bg-primary rounded-full animate-ping"></span>
-                    <span class="text-[8px] font-black text-white uppercase tracking-[0.3em]">Evaluation Report</span>
-                </div>
-                <h1 class="text-2xl md:text-3xl font-black text-white italic mb-8 tracking-tight leading-tight uppercase">{{ $paket_belajar->name }}</h1>
-                
-                <!-- Score Circle -->
-                <div class="relative inline-block group">
-                    <div class="relative w-36 h-36 md:w-40 md:h-40 rounded-full bg-white flex flex-col items-center justify-center shadow-2xl border-[6px] border-secondary/5 transform transition-transform duration-700 hover:scale-105">
-                        <div class="text-[8px] font-black text-secondary/20 uppercase tracking-[0.3em] mb-0.5">Final Score</div>
-                        <div class="text-5xl font-black text-secondary tracking-tighter italic leading-none">{{ $submission->score }}</div>
-                        <div class="mt-1 px-2 py-0.5 bg-primary/5 rounded-full">
-                            <span class="text-[7px] font-black text-primary uppercase tracking-widest">IRT Validated</span>
-                        </div>
-                    </div>
+    <div class="bg-secondary pt-16 pb-32">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <span class="px-4 py-1.5 bg-primary/10 text-primary rounded-full text-[10px] font-black uppercase tracking-[0.3em] border border-primary/10 mb-6 inline-block">Evaluation Report</span>
+            <h1 class="text-4xl md:text-5xl font-black text-white italic tracking-tight mb-4">
+                {{ $paket_belajar->name }}
+            </h1>
+            <p class="text-white/40 text-sm font-medium uppercase tracking-[0.2em]">Skor Akhir Kamu</p>
+            <div class="mt-6 flex items-center justify-center gap-4">
+                <div class="text-7xl md:text-8xl font-black text-primary italic leading-none">{{ round($submission->score) }}</div>
+                <div class="h-16 w-px bg-white/10 hidden md:block"></div>
+                <div class="hidden md:block text-left">
+                    <div class="text-white font-black text-xl italic uppercase leading-none mb-1">Point</div>
+                    <div class="text-white/30 text-[10px] font-bold uppercase tracking-widest">IRT Standardized</div>
                 </div>
             </div>
         </div>
@@ -111,8 +105,64 @@
             </div>
 
             <!-- RIGHT CONTENT -->
-            <div class="lg:col-span-8 space-y-4">
-                <div class="flex items-center justify-between px-4 py-2">
+            <div class="lg:col-span-8 space-y-8">
+                
+                <!-- Topic Analysis Card -->
+                <div class="bg-white rounded-[2.5rem] border border-gray-100 shadow-sm p-10 animate-fade-up">
+                    <div class="flex items-center justify-between mb-10">
+                        <div>
+                            <h3 class="text-2xl font-black text-secondary italic">Analisis <span class="text-primary not-italic">Materi</span></h3>
+                            <p class="text-secondary/40 text-[10px] font-black uppercase tracking-widest mt-1">Evaluasi penguasaan materi berdasarkan topik soal</p>
+                        </div>
+                        <div class="w-12 h-12 bg-primary/5 rounded-2xl flex items-center justify-center text-primary">
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" /></svg>
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+                        <div class="relative h-[250px]">
+                            <canvas id="topicChart"></canvas>
+                        </div>
+
+                        <div class="space-y-5">
+                            @foreach($topicAnalysis as $topic => $data)
+                            @php 
+                                $percent = ($data['total'] > 0) ? ($data['correct'] / $data['total']) * 100 : 0;
+                                $isWeak = $percent < 60;
+                            @endphp
+                            <div class="flex items-center justify-between group">
+                                <div class="flex items-center gap-3">
+                                    <div class="w-2 h-2 rounded-full {{ $isWeak ? 'bg-red-400' : 'bg-green-400' }}"></div>
+                                    <span class="text-xs font-bold text-secondary/70">{{ $topic }}</span>
+                                </div>
+                                <div class="flex items-center gap-4">
+                                    <div class="w-24 h-1.5 bg-gray-100 rounded-full overflow-hidden">
+                                        <div class="h-full {{ $isWeak ? 'bg-red-400' : 'bg-green-400' }}" style="width: {{ $percent }}%"></div>
+                                    </div>
+                                    <span class="text-[10px] font-black text-secondary w-8">{{ round($percent) }}%</span>
+                                </div>
+                            </div>
+                            @endforeach
+
+                            <div class="mt-8 p-6 bg-secondary text-white rounded-[2rem] border border-white/5 relative overflow-hidden">
+                                <div class="absolute -right-4 -bottom-4 w-16 h-16 bg-white/5 rounded-full blur-xl"></div>
+                                <h4 class="text-[10px] font-black uppercase tracking-widest mb-2 opacity-50 italic">Rekomendasi Belajar:</h4>
+                                <p class="text-xs font-medium leading-relaxed">
+                                    @php 
+                                        $weakTopics = collect($topicAnalysis)->filter(fn($d) => ($d['correct'] / ($d['total'] ?: 1) * 100) < 60)->keys();
+                                    @endphp
+                                    @if($weakTopics->count() > 0)
+                                        Fokus tingkatkan pemahamanmu pada materi <span class="text-primary font-bold">{{ $weakTopics->implode(', ') }}</span> untuk mencapai skor maksimal.
+                                    @else
+                                        Luar biasa! Penguasaan materimu sudah sangat merata. Pertahankan performamu!
+                                    @endif
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flex items-center justify-between px-4 py-2 mt-8">
                     <h2 class="text-lg font-black text-secondary tracking-tight italic uppercase">Review <span class="text-primary not-italic">&</span> Pembahasan</h2>
                     <span class="text-[9px] font-black text-secondary/20 uppercase tracking-widest">{{ $stats['total'] }} Soal</span>
                 </div>
@@ -138,6 +188,7 @@
                                     <span class="text-[8px] font-black {{ $isCorrect ? 'text-green-600' : ($userAns ? 'text-red-600' : 'text-gray-500') }} uppercase tracking-[0.2em]">
                                         {{ $isCorrect ? 'Benar' : ($userAns ? 'Salah' : 'Kosong') }}
                                     </span>
+                                    <span class="text-[8px] font-black text-secondary/20 uppercase tracking-widest ml-2 px-2 py-1 bg-gray-50 rounded-lg">Topik: {{ $q->topic ?? 'Umum' }}</span>
                                 </div>
                                 <button @click="toggleExpl({{ $q->id }})" 
                                         class="p-2 bg-gray-50 hover:bg-primary/10 text-secondary hover:text-primary rounded-xl transition-all">
@@ -147,7 +198,7 @@
 
                             <!-- Question Content -->
                             <div class="space-y-8">
-                                <div class="text-base font-bold text-secondary leading-relaxed italic pr-4">
+                                <div class="text-base font-bold text-secondary leading-relaxed pr-4">
                                     {!! nl2br(e($q->question_text)) !!}
                                 </div>
 
@@ -157,7 +208,6 @@
                                     </div>
                                 @endif
 
-                                <!-- CONTRAST Options Grid -->
                                 <div class="grid grid-cols-1 gap-2">
                                     @foreach(['a', 'b', 'c', 'd', 'e'] as $opt)
                                     @php
@@ -207,7 +257,53 @@
     </div>
 </div>
 
+@push('scripts')
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
+document.addEventListener('DOMContentLoaded', function() {
+    const ctx = document.getElementById('topicChart').getContext('2d');
+    const data = @json($topicAnalysis);
+    const labels = Object.keys(data);
+    const values = Object.values(data).map(d => Math.round((d.correct / (d.total || 1)) * 100));
+    
+    new Chart(ctx, {
+        type: 'radar',
+        data: {
+            labels: labels,
+            datasets: [{
+                label: 'Penguasaan (%)',
+                data: values,
+                backgroundColor: 'rgba(14, 165, 233, 0.2)',
+                borderColor: '#0EA5E9',
+                borderWidth: 3,
+                pointBackgroundColor: '#0EA5E9',
+                pointBorderColor: '#fff',
+                pointHoverBackgroundColor: '#fff',
+                pointHoverBorderColor: '#0EA5E9'
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            scales: {
+                r: {
+                    angleLines: { color: 'rgba(0,0,0,0.05)' },
+                    suggestedMin: 0,
+                    suggestedMax: 100,
+                    ticks: { display: false },
+                    pointLabels: {
+                        font: { family: 'Instrument Sans', size: 10, weight: 'bold' },
+                        color: '#1E3A8A'
+                    }
+                }
+            },
+            plugins: {
+                legend: { display: false }
+            }
+        }
+    });
+});
+
 function resultPage() {
     return {
         filter: 'all',
@@ -220,4 +316,5 @@ function resultPage() {
     }
 }
 </script>
+@endpush
 @endsection

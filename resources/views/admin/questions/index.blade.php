@@ -1,26 +1,26 @@
 @extends('layouts.admin')
 
-@section('title', 'Bank Soal - ' . $paket_belajar->title)
+@section('title', 'Kelola Soal - ' . ($owner->title ?? $owner->name))
 
 @section('content')
 <div class="space-y-8">
     <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div>
             <div class="flex items-center gap-3 mb-2">
-                <a href="{{ route('admin.paket-belajar.index') }}" class="p-1.5 bg-white border border-gray-100 rounded-lg text-secondary hover:text-primary transition-all shadow-sm">
+                <button onclick="history.back()" class="p-1.5 bg-white border border-gray-100 rounded-lg text-secondary hover:text-primary transition-all shadow-sm">
                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" /></svg>
-                </a>
-                <span class="text-[10px] font-black text-primary uppercase tracking-[0.2em]">Bank Soal Paket</span>
+                </button>
+                <span class="text-[10px] font-black text-primary uppercase tracking-[0.2em]">Bank Soal {{ strtoupper($type) }}</span>
             </div>
-            <h2 class="text-3xl font-black text-secondary tracking-tight">{{ $paket_belajar->title ?? $paket_belajar->name }}</h2>
-            <p class="text-sm font-medium text-secondary/40 mt-1">Total {{ $questions->count() }} Pertanyaan tersedia di paket ini.</p>
+            <h2 class="text-3xl font-black text-secondary tracking-tight">{{ $owner->title ?? $owner->name }}</h2>
+            <p class="text-sm font-medium text-secondary/40 mt-1">Total {{ $questions->count() }} Pertanyaan tersedia.</p>
         </div>
         <div class="flex items-center gap-3" x-data="{ importModalOpen: false }">
             <button @click="importModalOpen = true" class="inline-flex items-center gap-2 px-6 py-3 bg-green-500 text-white rounded-2xl text-xs font-black uppercase tracking-widest hover:bg-green-600 shadow-xl shadow-green-500/20 transition-all active:scale-95">
                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12" /></svg>
                 Import Excel
             </button>
-            <a href="{{ route('admin.paket-belajar.questions.create', $paket_belajar->slug) }}" class="inline-flex items-center gap-2 px-6 py-3 bg-primary text-white rounded-2xl text-xs font-black uppercase tracking-widest hover:bg-secondary shadow-xl shadow-primary/20 transition-all active:scale-95">
+            <a href="{{ route('admin.questions.create', [$type, $id]) }}" class="inline-flex items-center gap-2 px-6 py-3 bg-primary text-white rounded-2xl text-xs font-black uppercase tracking-widest hover:bg-secondary shadow-xl shadow-primary/20 transition-all active:scale-95">
                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 6v6m0 0v6m0-6h6m-6 0H6" /></svg>
                 Tambah Soal Baru
             </a>
@@ -48,7 +48,7 @@
                         <p class="text-xs text-secondary/50 font-medium mt-2">Unggah file .xlsx untuk memasukkan ratusan soal sekaligus.</p>
                     </div>
 
-                    <form action="{{ route('admin.paket-belajar.questions.import', $paket_belajar->slug) }}" method="POST" enctype="multipart/form-data" class="space-y-6">
+                    <form action="{{ route('admin.questions.import', [$type, $id]) }}" method="POST" enctype="multipart/form-data" class="space-y-6">
                         @csrf
                         <div class="border-2 border-dashed border-gray-200 rounded-3xl p-6 text-center hover:border-primary transition-colors cursor-pointer relative group">
                             <input type="file" name="excel_file" required accept=".xlsx,.xls,.csv" class="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10" onchange="document.getElementById('fileName').textContent = this.files[0].name">
@@ -60,7 +60,7 @@
 
                         <div class="bg-gray-50 p-5 rounded-2xl border border-gray-100">
                             <h4 class="text-[10px] font-black uppercase tracking-widest text-secondary/50 mb-2">Format Header Kolom Excel:</h4>
-                            <code class="text-[9px] text-primary break-all leading-relaxed font-mono">pertanyaan | opsi_a | opsi_b | opsi_c | opsi_d | opsi_e | kunci_jawaban | pembahasan | urutan</code>
+                            <code class="text-[9px] text-primary break-all leading-relaxed font-mono">pertanyaan | topik | opsi_a | opsi_b | opsi_c | opsi_d | opsi_e | kunci_jawaban | pembahasan | urutan</code>
                         </div>
 
                         <button type="submit" class="w-full py-4 bg-primary text-white font-black text-xs uppercase tracking-[0.2em] rounded-2xl hover:bg-secondary transition-all shadow-xl shadow-primary/20">
@@ -90,13 +90,13 @@
                             <span class="w-10 h-10 bg-secondary text-white rounded-xl flex items-center justify-center font-black italic text-sm">
                                 {{ $item->order }}
                             </span>
-                            <span class="text-[10px] font-black text-primary uppercase tracking-widest">Pilihan Ganda</span>
+                            <span class="px-3 py-1 bg-accent/10 text-secondary text-[9px] font-black uppercase tracking-widest rounded-lg">{{ $item->topic ?? 'Umum' }}</span>
                         </div>
                         <div class="flex items-center gap-2">
-                            <a href="{{ route('admin.paket-belajar.questions.edit', [$paket_belajar->slug, $item->id]) }}" class="p-2 text-secondary/20 hover:text-primary transition-colors">
+                            <a href="{{ route('admin.questions.edit', [$type, $id, $item->id]) }}" class="p-2 text-secondary/20 hover:text-primary transition-colors">
                                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" /></svg>
                             </a>
-                            <form action="{{ route('admin.paket-belajar.questions.destroy', [$paket_belajar->slug, $item->id]) }}" method="POST" onsubmit="return confirm('Hapus soal ini?')">
+                            <form action="{{ route('admin.questions.destroy', [$type, $id, $item->id]) }}" method="POST" onsubmit="return confirm('Hapus soal ini?')">
                                 @csrf @method('DELETE')
                                 <button type="submit" class="p-2 text-secondary/20 hover:text-red-500 transition-colors">
                                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" /></svg>
@@ -136,8 +136,8 @@
         </div>
         @empty
         <div class="py-20 bg-white rounded-[3rem] border-2 border-dashed border-gray-100 text-center">
-            <p class="text-sm font-bold text-secondary/30 italic">Belum ada soal di paket ini.</p>
-            <a href="{{ route('admin.paket-belajar.questions.create', $paket_belajar->slug) }}" class="text-xs font-black text-primary uppercase tracking-widest mt-4 inline-block hover:underline">Buat Soal Pertama</a>
+            <p class="text-sm font-bold text-secondary/30 italic">Belum ada soal tersedia.</p>
+            <a href="{{ route('admin.questions.create', [$type, $id]) }}" class="text-xs font-black text-primary uppercase tracking-widest mt-4 inline-block hover:underline">Buat Soal Pertama</a>
         </div>
         @endforelse
     </div>

@@ -20,4 +20,9 @@ class SdTryout extends Model
             }
         });
     }
+
+    public function questions()
+    {
+        return $this->morphMany(Question::class, 'questionable');
+    }
 }

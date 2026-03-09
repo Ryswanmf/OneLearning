@@ -8,12 +8,14 @@ class TryoutSubmission extends Model
 {
     protected $fillable = [
         'user_id', 'tryoutable_id', 'tryoutable_type', 
-        'answers', 'score', 'started_at', 'finished_at', 'status'
+        'answers', 'score', 'score_metadata', 'started_at', 'finished_at', 'status'
     ];
 
     protected $casts = [
         'started_at' => 'datetime',
         'finished_at' => 'datetime',
+        'answers' => 'array',
+        'score_metadata' => 'array',
     ];
 
     public function user()
