@@ -180,24 +180,27 @@ function tryoutEngine() {
         },
 
         startTimer() {
-            // Refresh session & CSRF token setiap 5 menit
-            const sessionKeeper = setInterval(() => {
-                fetch('/dashboard', { headers: { 'X-Requested-With': 'XMLHttpRequest' } })
+            // Heartbeat: Kirim sinyal ke server setiap 2 menit agar sesi tidak mati
+            const heartbeat = setInterval(() => {
+                fetch('/dashboard', { 
+                    headers: { 'X-Requested-With': 'XMLHttpRequest' } 
+                })
                 .then(response => {
                     if (response.status === 401 || response.status === 419) {
-                        console.warn('Session expired, attempting to stay alive...');
-                        // Jika sesi mati, coba hit login page untuk dapet cookie baru (silent refresh)
-                        fetch('/login');
+                        console.warn('Sesi habis, mencoba menyambungkan kembali...');
+                        // Jika sesi mati, arahkan ke login dengan pesan yang jelas
+                        window.location.href = "/login?error=session_expired";
                     }
-                });
-            }, 300000);
+                })
+                .catch(err => console.error('Koneksi terputus:', err));
+            }, 120000); // 120 detik (2 menit)
 
             const interval = setInterval(() => {
                 if (this.timeLeft > 0) {
                     this.timeLeft--;
                 } else {
                     clearInterval(interval);
-                    clearInterval(sessionKeeper);
+                    clearInterval(heartbeat);
                     this.autoFinish();
                 }
             }, 1000);
@@ -218,18 +221,24 @@ function tryoutEngine() {
                     method: 'POST',
                     headers: { 
                         'Content-Type': 'application/json', 
-                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content') 
+                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
+                        'Accept': 'application/json',
+                        'X-Requested-With': 'XMLHttpRequest'
                     },
                     body: JSON.stringify({ question_id: questionId, answer: option })
                 });
 
                 if (response.status === 419 || response.status === 401) {
-                    // Token basi atau sesi habis, coba refresh token dari meta tag (jika ada update via JS) atau reload ringan
-                    console.error('Session mismatch detected. Saving to local storage as backup.');
+                    // Jika sesi benar-benar hilang, simpan ke local storage agar jawaban tidak hilang
+                    console.error('Sesi terputus. Menyimpan jawaban ke memori lokal browser.');
                     this.saveToLocalStorage(questionId, option);
+                    
+                    // Coba refresh token atau beritahu user
+                    alert('Sesi Anda telah berakhir. Silakan login kembali, jawaban Anda tetap tersimpan di browser ini.');
+                    window.location.href = "/login";
                 }
             } catch (error) {
-                console.error('Network error, saving to local storage.');
+                console.error('Gagal mengirim jawaban:', error);
                 this.saveToLocalStorage(questionId, option);
             }
         },

@@ -68,13 +68,31 @@ class TryoutEngineController extends Controller
         }
 
         $user = Auth::user();
-        $submission = TryoutSubmission::firstOrCreate(
-            ['user_id' => $user->id, 'tryoutable_id' => $tryout->id, 'tryoutable_type' => get_class($tryout), 'status' => 'ongoing'],
-            ['started_at' => now(), 'answers' => []]
+        
+        // Gunakan updateOrCreate untuk memastikan tidak ada duplikasi yang menyebabkan error
+        $submission = TryoutSubmission::updateOrCreate(
+            [
+                'user_id' => $user->id, 
+                'tryoutable_id' => $tryout->id, 
+                'tryoutable_type' => get_class($tryout), 
+                'status' => 'ongoing'
+            ],
+            [
+                'started_at' => now(),
+                'answers' => []
+            ]
         );
+
+        // Pastikan sesi disimpan secara eksplisit sebelum return view
+        session()->save();
+
         $questions = $tryout->questions()->orderBy('order')->get();
         return view('landing.tryout.engine', [
-            'paket_belajar' => $tryout, 'type' => $type, 'id' => $id, 'questions' => $questions, 'submission' => $submission
+            'paket_belajar' => $tryout, 
+            'type' => $type, 
+            'id' => $id, 
+            'questions' => $questions, 
+            'submission' => $submission
         ]);
     }
 
