@@ -52,7 +52,20 @@ class StudentDashboardController extends Controller
             }
         }
 
-        return view('dashboard', compact('user', 'stats', 'recommendedPackages', 'myPackages'));
+        // Ambil riwayat nilai untuk chart (maksimal 7 pengerjaan terakhir)
+        $scoreHistory = \App\Models\TryoutSubmission::where('user_id', $user->id)
+            ->where('status', 'completed')
+            ->orderBy('finished_at', 'asc')
+            ->take(7)
+            ->get(['score', 'finished_at'])
+            ->map(function($item) {
+                return [
+                    'score' => round($item->score),
+                    'date' => $item->finished_at->format('d/m')
+                ];
+            });
+
+        return view('dashboard', compact('user', 'stats', 'recommendedPackages', 'myPackages', 'scoreHistory'));
     }
 
     private function getTypeFromClass($class)

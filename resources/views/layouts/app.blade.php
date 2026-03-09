@@ -66,7 +66,9 @@
             @yield('content')
         </main>
 
-        @include('layouts.footer')
+        @if(!request()->routeIs('dashboard'))
+            @include('layouts.footer')
+        @endif
 
         @stack('scripts')
 
