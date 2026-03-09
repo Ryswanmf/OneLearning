@@ -5,7 +5,9 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="csrf-token" content="{{ csrf_token() }}">
 
-        <title>@yield('title', 'OneLearning - Platform Belajar Masa Kini')</title>
+        <title>@yield('title', \App\Models\Setting::where('key', 'meta_title')->first()?->value ?? 'OneLearning - Platform Belajar Masa Kini')</title>
+        <meta name="description" content="@yield('meta_description', \App\Models\Setting::where('key', 'meta_description')->first()?->value ?? 'Platform simulasi tryout terbaik untuk SD, SMP, SMA, dan UTBK.')">
+        <meta name="keywords" content="@yield('meta_keywords', \App\Models\Setting::where('key', 'meta_keywords')->first()?->value ?? 'tryout, utbk, snbt, simulasi ujian, belajar online')">
 
         <!-- Favicon -->
         <link rel="icon" type="image/png" href="{{ asset('images/logo.png') }}">

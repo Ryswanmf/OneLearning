@@ -77,10 +77,13 @@ class BlogSeeder extends Seeder
         ];
 
         foreach ($blogs as $blog) {
-            Blog::create(array_merge($blog, [
-                'user_id' => $userId,
-                'status' => 'published',
-            ]));
+            Blog::updateOrCreate(
+                ['title' => $blog['title']],
+                array_merge($blog, [
+                    'user_id' => $userId,
+                    'status' => 'published',
+                ])
+            );
         }
     }
 }

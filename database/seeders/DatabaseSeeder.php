@@ -23,11 +23,13 @@ class DatabaseSeeder extends Seeder
         ]);
 
         $this->call([
+            SettingSeeder::class,
             TermSeeder::class,
             PrivacyPolicySeeder::class,
             FaqSeeder::class,
             AboutSeeder::class,
             HowToRegisterSeeder::class,
+            TestimonialSeeder::class,
         ]);
     }
 }

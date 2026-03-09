@@ -33,6 +33,11 @@ class SettingSeeder extends Seeder
             ['key' => 'whatsapp_number', 'value' => '6289515915699', 'group' => 'contact', 'type' => 'text'],
             ['key' => 'contact_email', 'value' => 'support@onelearning.id', 'group' => 'contact', 'type' => 'text'],
             ['key' => 'contact_address', 'value' => 'Jakarta Selatan, Indonesia', 'group' => 'contact', 'type' => 'textarea'],
+
+            // SEO
+            ['key' => 'meta_title', 'value' => 'OneLearning - Solusi Lolos Kampus Impian & Ujian Sekolah', 'group' => 'seo', 'type' => 'text'],
+            ['key' => 'meta_description', 'value' => 'Platform e-learning dan simulasi tryout IRT tercanggih di Indonesia. Persiapan akurat untuk SD, SMP, SMA, dan UTBK-SNBT.', 'group' => 'seo', 'type' => 'textarea'],
+            ['key' => 'meta_keywords', 'value' => 'tryout online, simulasi utbk, snbt 2024, soal cpns, ujian mandiri, belajar online indonesia, bimbel digital', 'group' => 'seo', 'type' => 'textarea'],
         ];
 
         foreach ($settings as $setting) {
