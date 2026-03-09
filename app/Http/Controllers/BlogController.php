@@ -3,24 +3,35 @@
 namespace App\Http\Controllers;
 
 use App\Models\Blog;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
+use Illuminate\View\View;
+use Illuminate\Http\RedirectResponse;
 
 class BlogController extends Controller
 {
-    // --- Public Methods (Landing Page) ---
-
-    public function index()
+    /**
+     * Display a listing of the published blogs.
+     */
+    public function index(): View
     {
         $blogs = Blog::with('author')->where('status', 'published')->latest()->paginate(9);
         return view('landing.blog.index', compact('blogs'));
     }
 
-    public function show(Blog $blog)
+    /**
+     * Display the specified blog.
+     */
+    public function show(Blog $blog): View
     {
-        if ($blog->status !== 'published' && (!Auth::check() || Auth::user()->role !== 'admin')) {
+        // Check if user is admin
+        $user = Auth::user();
+        $isAdmin = $user && isset($user->role) && $user->role === 'admin';
+        
+        if ($blog->status !== 'published' && !$isAdmin) {
             abort(404);
         }
 
@@ -33,20 +44,27 @@ class BlogController extends Controller
         return view('landing.blog.show', compact('blog', 'relatedBlogs'));
     }
 
-    // --- Admin Methods ---
-
-    public function adminIndex()
+    /**
+     * Admin: Display a listing of all blogs.
+     */
+    public function adminIndex(): View
     {
         $blogs = Blog::with('author')->latest()->paginate(10);
         return view('admin.blog.index', compact('blogs'));
     }
 
-    public function create()
+    /**
+     * Admin: Show the form for creating a new blog.
+     */
+    public function create(): View
     {
         return view('admin.blog.create');
     }
 
-    public function store(Request $request)
+    /**
+     * Admin: Store a newly created blog.
+     */
+    public function store(Request $request): RedirectResponse
     {
         $request->validate([
             'title' => 'required|string|max:255',
@@ -57,20 +75,19 @@ class BlogController extends Controller
             'image_url' => 'nullable|url',
         ]);
 
-        $imagePath = $request->image_url;
+        $imagePath = $request->input('image_url');
 
-        // Jika ada file yang diupload, utamakan file upload
         if ($request->hasFile('image_file')) {
             $path = $request->file('image_file')->store('blogs', 'public');
             $imagePath = asset('storage/' . $path);
         }
 
         Blog::create([
-            'title' => $request->title,
-            'slug' => Str::slug($request->title),
-            'content' => $request->content,
-            'category' => $request->category,
-            'status' => $request->status,
+            'title' => $request->input('title'),
+            'slug' => Str::slug($request->input('title')),
+            'content' => $request->input('content'),
+            'category' => $request->input('category'),
+            'status' => $request->input('status'),
             'image' => $imagePath,
             'user_id' => Auth::id(),
         ]);
@@ -78,12 +95,18 @@ class BlogController extends Controller
         return redirect()->route('admin.blog.index')->with('success', 'Artikel berhasil diterbitkan.');
     }
 
-    public function edit(Blog $blog)
+    /**
+     * Admin: Show the form for editing the specified blog.
+     */
+    public function edit(Blog $blog): View
     {
         return view('admin.blog.edit', compact('blog'));
     }
 
-    public function update(Request $request, Blog $blog)
+    /**
+     * Admin: Update the specified blog.
+     */
+    public function update(Request $request, Blog $blog): RedirectResponse
     {
         $request->validate([
             'title' => 'required|string|max:255',
@@ -94,12 +117,12 @@ class BlogController extends Controller
             'image_url' => 'nullable|url',
         ]);
 
-        $imagePath = $request->image_url ?: $blog->image;
+        $imagePath = $request->input('image_url') ?: $blog->image;
 
         if ($request->hasFile('image_file')) {
-            // Hapus file lama jika ada (jika berupa path lokal)
-            if (Str::contains($blog->image, asset('storage/'))) {
-                $oldPath = str_replace(asset('storage/'), '', $blog->image);
+            // Delete old file if it exists in local storage
+            if ($blog->image && Str::contains((string)$blog->image, asset('storage/'))) {
+                $oldPath = str_replace(asset('storage/'), '', (string)$blog->image);
                 Storage::disk('public')->delete($oldPath);
             }
             
@@ -108,22 +131,24 @@ class BlogController extends Controller
         }
 
         $blog->update([
-            'title' => $request->title,
-            'slug' => Str::slug($request->title),
-            'content' => $request->content,
-            'category' => $request->category,
-            'status' => $request->status,
+            'title' => $request->input('title'),
+            'slug' => Str::slug($request->input('title')),
+            'content' => $request->input('content'),
+            'category' => $request->input('category'),
+            'status' => $request->input('status'),
             'image' => $imagePath,
         ]);
 
         return redirect()->route('admin.blog.index')->with('success', 'Artikel berhasil diperbarui.');
     }
 
-    public function destroy(Blog $blog)
+    /**
+     * Admin: Remove the specified blog.
+     */
+    public function destroy(Blog $blog): RedirectResponse
     {
-        // Hapus file fisik jika ada
-        if (Str::contains($blog->image, asset('storage/'))) {
-            $oldPath = str_replace(asset('storage/'), '', $blog->image);
+        if ($blog->image && Str::contains((string)$blog->image, asset('storage/'))) {
+            $oldPath = str_replace(asset('storage/'), '', (string)$blog->image);
             Storage::disk('public')->delete($oldPath);
         }
 

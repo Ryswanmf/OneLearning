@@ -1,5 +1,10 @@
 # OneLearning - Smart EdTech Platform
 
+[![Laravel 12](https://img.shields.io/badge/Laravel-12.x-FF2D20?style=for-the-badge&logo=laravel)](https://laravel.com)
+[![PHP 8.2](https://img.shields.io/badge/PHP-8.2+-777BB4?style=for-the-badge&logo=php)](https://php.net)
+[![Status](https://img.shields.io/badge/Status-Development-yellow?style=for-the-badge)](https://github.com/)
+[![License](https://img.shields.io/badge/License-Private-red?style=for-the-badge)](https://github.com/)
+
 ![OneLearning Hero](public/images/hero.png)
 
 OneLearning adalah platform pendidikan digital (EdTech) terdepan di Indonesia yang berfokus pada penyediaan simulasi ujian dan tryout berbasis Item Response Theory (IRT). Platform ini dirancang untuk membantu siswa dari berbagai jenjang (SD, SMP, SMA, hingga Alumni) dalam mempersiapkan ujian seleksi masuk perguruan tinggi dan ujian sekolah dengan cara yang cerdas, efisien, dan berkualitas.
