@@ -21,6 +21,10 @@ class SettingSeeder extends Seeder
             ['key' => 'stats_passing_rate', 'value' => '98%', 'group' => 'stats', 'type' => 'text'],
             ['key' => 'stats_total_tryouts', 'value' => '1.500+', 'group' => 'stats', 'type' => 'text'],
 
+            // POPULAR PROGRAMS SECTION
+            ['key' => 'programs_title', 'value' => 'Kategori Program Populer', 'group' => 'programs', 'type' => 'text'],
+            ['key' => 'programs_subtitle', 'value' => 'Pilih jalur pendidikan yang ingin Anda taklukkan hari ini.', 'group' => 'programs', 'type' => 'textarea'],
+
             // CTA BOTTOM SECTION
             ['key' => 'cta_bottom_title', 'value' => 'Siap Jadi Bagian Dari Alumni Sukses Kami?', 'group' => 'cta', 'type' => 'text'],
             ['key' => 'cta_bottom_subtitle', 'value' => 'Jangan tunda lagi masa depanmu. Mulai persiapan sekarang dan jadilah juara.', 'group' => 'cta', 'type' => 'textarea'],

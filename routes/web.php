@@ -40,7 +40,7 @@ use Illuminate\Support\Facades\Auth;
 
 // Halaman Utama
 Route::get('/', function () {
-    $featuredProducts = \App\Models\Product::where('is_featured', true)->take(4)->get();
+    $featuredProducts = \App\Models\Product::where('is_featured', true)->latest()->take(4)->get();
     $counts = [
         'utbk' => \App\Models\UtbkTryout::where('status', 'published')->count(),
         'sd' => \App\Models\SdTryout::where('status', 'published')->count(),

@@ -16,24 +16,24 @@
                 <a href="{{ url('/') }}" class="text-xs font-bold text-secondary/80 hover:text-primary transition-colors">Beranda</a>
                 
                 <!-- Dropdown Produk -->
-                <div class="relative" @mouseenter="productDropdownOpen = true" @mouseleave="productDropdownOpen = false">
-                    <button class="flex items-center gap-1 text-xs font-bold text-secondary/80 hover:text-primary transition-colors focus:outline-none py-5">
+                <div class="relative" @click.away="productDropdownOpen = false">
+                    <button @click="productDropdownOpen = !productDropdownOpen; businessDropdownOpen = false; profileDropdownOpen = false" 
+                            class="flex items-center gap-1 text-xs font-bold text-secondary/80 hover:text-primary transition-colors focus:outline-none py-5">
                         Produk
                         <svg class="w-3 h-3 transition-transform duration-200" :class="productDropdownOpen ? 'rotate-180' : ''" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
                         </svg>
                     </button>
 
-                    <!-- Mega Dropdown Menu -->
                     <div x-show="productDropdownOpen"
+                         x-cloak
                          x-transition:enter="transition ease-out duration-200"
                          x-transition:enter-start="opacity-0 translate-y-2"
                          x-transition:enter-end="opacity-100 translate-y-0"
                          x-transition:leave="transition ease-in duration-150"
                          x-transition:leave-start="opacity-100 translate-y-0"
                          x-transition:leave-end="opacity-0 translate-y-2"
-                         class="absolute left-0 w-[480px] bg-white rounded-2xl shadow-2xl border border-gray-100 p-6 z-[110]"
-                         style="display: none;">
+                         class="absolute left-0 w-[480px] bg-white rounded-2xl shadow-2xl border border-gray-100 p-6 z-[110]">
                         
                         <div class="grid grid-cols-2 gap-8">
                             <!-- Unggulan -->
@@ -73,24 +73,24 @@
                 </div>
 
                 <!-- Dropdown Bisnis -->
-                <div class="relative" @mouseenter="businessDropdownOpen = true" @mouseleave="businessDropdownOpen = false">
-                    <button class="flex items-center gap-1 text-xs font-bold text-secondary/80 hover:text-primary transition-colors focus:outline-none py-5">
+                <div class="relative" @click.away="businessDropdownOpen = false">
+                    <button @click="businessDropdownOpen = !businessDropdownOpen; productDropdownOpen = false; profileDropdownOpen = false" 
+                            class="flex items-center gap-1 text-xs font-bold text-secondary/80 hover:text-primary transition-colors focus:outline-none py-5">
                         Bisnis
                         <svg class="w-3 h-3 transition-transform duration-200" :class="businessDropdownOpen ? 'rotate-180' : ''" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
                         </svg>
                     </button>
 
-                    <!-- Dropdown Menu Bisnis -->
                     <div x-show="businessDropdownOpen"
+                         x-cloak
                          x-transition:enter="transition ease-out duration-200"
                          x-transition:enter-start="opacity-0 translate-y-2"
                          x-transition:enter-end="opacity-100 translate-y-0"
                          x-transition:leave="transition ease-in duration-150"
                          x-transition:leave-start="opacity-100 translate-y-0"
                          x-transition:leave-end="opacity-0 translate-y-2"
-                         class="absolute left-0 w-[320px] bg-white rounded-2xl shadow-2xl border border-gray-100 p-5 z-[110]"
-                         style="display: none;">
+                         class="absolute left-0 w-[320px] bg-white rounded-2xl shadow-2xl border border-gray-100 p-5 z-[110]">
                         
                         <div class="space-y-1">
                             <a href="{{ route('bisnis.layanan') }}" class="group block p-3 rounded-xl hover:bg-primary/5 transition-all">
@@ -117,26 +117,25 @@
                 @auth
                     <!-- Profile Dropdown -->
                     <div class="relative ml-4" @click.away="profileDropdownOpen = false">
-                        <button @click="profileDropdownOpen = !profileDropdownOpen" 
+                        <button @click="profileDropdownOpen = !profileDropdownOpen; productDropdownOpen = false; businessDropdownOpen = false" 
                                 class="flex items-center gap-3 p-1.5 rounded-2xl hover:bg-gray-50 transition-all focus:outline-none group">
                             <div class="w-8 h-8 rounded-xl bg-primary/10 flex items-center justify-center text-primary border border-primary/10 overflow-hidden">
                                 <img src="https://ui-avatars.com/api/?name={{ urlencode(auth()->user()->name) }}&background=0EA5E9&color=fff&size=64&bold=true" class="w-full h-full object-cover">
                             </div>
-                            <svg class="w-4 h-4 text-secondary/30 transition-transform duration-200" :class="profileDropdownOpen ? 'rotate-180 text-primary' : ''" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <svg class="w-4 h-4 text-secondary/30 transition-transform duration-200" :class="profileDropdownOpen ? 'rotate-180' : ''" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M19 9l-7 7-7-7" />
                             </svg>
                         </button>
 
-                        <!-- Dropdown Menu -->
                         <div x-show="profileDropdownOpen"
+                             x-cloak
                              x-transition:enter="transition ease-out duration-200"
                              x-transition:enter-start="opacity-0 translate-y-2 scale-95"
                              x-transition:enter-end="opacity-100 translate-y-0 scale-100"
                              x-transition:leave="transition ease-in duration-150"
                              x-transition:leave-start="opacity-100 translate-y-0 scale-100"
                              x-transition:leave-end="opacity-0 translate-y-2 scale-95"
-                             class="absolute right-0 mt-3 w-56 bg-white rounded-2xl shadow-2xl border border-gray-100 py-3 z-[120]"
-                             style="display: none;">
+                             class="absolute right-0 mt-3 w-56 bg-white rounded-2xl shadow-2xl border border-gray-100 py-3 z-[120]">
                             
                             <div class="px-5 py-3 border-b border-gray-50 mb-2">
                                 <div class="text-xs font-black text-secondary tracking-tight truncate">{{ auth()->user()->name }}</div>

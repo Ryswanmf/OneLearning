@@ -183,8 +183,12 @@
     <section class="py-32 bg-gray-50/50 relative overflow-hidden">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="text-center mb-20">
-                <h2 class="text-4xl md:text-5xl font-black text-secondary leading-tight tracking-tight">Kategori Program <span class="text-primary italic">Populer</span></h2>
-                <p class="text-secondary/50 font-medium mt-6 text-lg">Pilih jalur pendidikan yang ingin Anda taklukkan hari ini.</p>
+                <h2 class="text-4xl md:text-5xl font-black text-secondary leading-tight tracking-tight">
+                    {!! $settings['programs_title'] ?? 'Kategori Program <span class="text-primary italic">Populer</span>' !!}
+                </h2>
+                <p class="text-secondary/50 font-medium mt-6 text-lg">
+                    {{ $settings['programs_subtitle'] ?? 'Pilih jalur pendidikan yang ingin Anda taklukkan hari ini.' }}
+                </p>
             </div>
             
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10">
