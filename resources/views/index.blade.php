@@ -26,7 +26,7 @@
                         <span class="text-[10px] font-black text-primary uppercase tracking-[0.25em]">Sistem Penilaian IRT Terakreditasi</span>
                     </div>
 
-                    <h1 class="text-5xl md:text-6xl xl:text-7xl font-black text-secondary leading-[1.05] tracking-tight mb-8">
+                    <h1 class="text-4xl sm:text-5xl md:text-6xl xl:text-7xl font-black text-secondary leading-[1.1] sm:leading-[1.05] tracking-tight mb-8">
                         @php
                             $heroTitle = $settings['hero_title'] ?? 'Raih Kampus Impianmu Sekarang.';
                             $titleParts = explode(' ', $heroTitle);
@@ -107,20 +107,20 @@
     <!-- Stats Counter Section -->
     <section class="py-12 bg-white relative z-20">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="bg-secondary rounded-[3.5rem] p-12 lg:p-16 shadow-2xl shadow-secondary/30 relative overflow-hidden group">
+            <div class="bg-secondary rounded-[2.5rem] sm:rounded-[3.5rem] p-8 sm:p-12 lg:p-16 shadow-2xl shadow-secondary/30 relative overflow-hidden group">
                 <div class="absolute top-0 right-0 w-96 h-96 bg-primary/10 rounded-full -mr-48 -mt-48 blur-3xl group-hover:scale-110 transition-transform duration-1000"></div>
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-16 relative z-10 text-center">
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-16 relative z-10 text-center">
                     <div class="space-y-3">
-                        <div class="text-6xl font-black text-white tracking-tighter">{{ $settings['stats_students'] ?? '100.000+' }}</div>
-                        <div class="text-[11px] font-black text-primary uppercase tracking-[0.3em]">Siswa Aktif Belajar</div>
+                        <div class="text-5xl sm:text-6xl font-black text-white tracking-tighter">{{ $settings['stats_students'] ?? '100.000+' }}</div>
+                        <div class="text-[10px] sm:text-[11px] font-black text-primary uppercase tracking-[0.3em]">Siswa Aktif Belajar</div>
                     </div>
-                    <div class="space-y-3 border-y md:border-y-0 md:border-x border-white/10 py-12 md:py-0">
-                        <div class="text-6xl font-black text-white tracking-tighter">{{ $settings['stats_passing_rate'] ?? '98%' }}</div>
-                        <div class="text-[11px] font-black text-primary uppercase tracking-[0.3em]">Tingkat Kelulusan PTN</div>
+                    <div class="space-y-3 border-y md:border-y-0 md:border-x border-white/10 py-8 md:py-0">
+                        <div class="text-5xl sm:text-6xl font-black text-white tracking-tighter">{{ $settings['stats_passing_rate'] ?? '98%' }}</div>
+                        <div class="text-[10px] sm:text-[11px] font-black text-primary uppercase tracking-[0.3em]">Tingkat Kelulusan PTN</div>
                     </div>
                     <div class="space-y-3">
-                        <div class="text-6xl font-black text-white tracking-tighter">{{ $settings['stats_total_tryouts'] ?? '1.500+' }}</div>
-                        <div class="text-[11px] font-black text-primary uppercase tracking-[0.3em]">Materi & Bank Soal</div>
+                        <div class="text-5xl sm:text-6xl font-black text-white tracking-tighter">{{ $settings['stats_total_tryouts'] ?? '1.500+' }}</div>
+                        <div class="text-[10px] sm:text-[11px] font-black text-primary uppercase tracking-[0.3em]">Materi & Bank Soal</div>
                     </div>
                 </div>
             </div>
@@ -252,22 +252,22 @@
     <!-- Final CTA Section -->
     <section class="py-24 bg-white">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="bg-primary rounded-[4rem] p-12 md:p-24 relative overflow-hidden shadow-2xl text-center">
+            <div class="bg-primary rounded-[2.5rem] sm:rounded-[4rem] p-10 sm:p-12 md:p-24 relative overflow-hidden shadow-2xl text-center">
                 <div class="absolute inset-0 bg-secondary/10 mix-blend-overlay"></div>
                 <div class="absolute -top-[20%] -left-[10%] w-[500px] h-[500px] bg-white/10 rounded-full blur-[100px]"></div>
                 
                 <div class="relative z-10 max-w-4xl mx-auto">
-                    <h2 class="text-4xl md:text-7xl font-black text-white mb-8 leading-tight tracking-tight">
+                    <h2 class="text-3xl sm:text-4xl md:text-6xl lg:text-7xl font-black text-white mb-8 leading-tight tracking-tight">
                         {{ $settings['cta_bottom_title'] ?? 'Siap Jadi Bagian Dari Alumni Sukses Kami?' }}
                     </h2>
-                    <p class="text-white/80 text-xl md:text-2xl font-medium mb-16 leading-relaxed opacity-90">
+                    <p class="text-white/80 text-lg sm:text-xl md:text-2xl font-medium mb-12 sm:mb-16 leading-relaxed opacity-90">
                         {{ $settings['cta_bottom_subtitle'] ?? 'Jangan tunda lagi masa depanmu. Mulai persiapan sekarang dan jadilah juara.' }}
                     </p>
-                    <div class="flex flex-col sm:flex-row justify-center gap-6">
-                        <a href="{{ route('register') }}" class="px-14 py-6 bg-white text-primary font-black text-xl rounded-[2.5rem] hover:bg-secondary hover:text-white transition-all transform hover:scale-105 active:scale-95 shadow-2xl inline-block">
+                    <div class="flex flex-col sm:flex-row justify-center gap-4 sm:gap-6">
+                        <a href="{{ route('register') }}" class="px-8 sm:px-14 py-5 sm:py-6 bg-white text-primary font-black text-lg sm:text-xl rounded-2xl sm:rounded-[2.5rem] hover:bg-secondary hover:text-white transition-all transform hover:scale-105 active:scale-95 shadow-2xl inline-block">
                             Daftar Sekarang - Gratis
                         </a>
-                        <a href="https://wa.me/6289515915699" class="px-14 py-6 border-2 border-white/30 text-white font-black text-xl rounded-[2.5rem] hover:bg-white/10 transition-all inline-block">
+                        <a href="https://wa.me/6289515915699" class="px-8 sm:px-14 py-5 sm:py-6 border-2 border-white/30 text-white font-black text-lg sm:text-xl rounded-2xl sm:rounded-[2.5rem] hover:bg-white/10 transition-all inline-block">
                             Tanya Lewat WhatsApp
                         </a>
                     </div>

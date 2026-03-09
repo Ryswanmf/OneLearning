@@ -30,6 +30,12 @@ class DatabaseSeeder extends Seeder
             AboutSeeder::class,
             HowToRegisterSeeder::class,
             TestimonialSeeder::class,
+            BlogSeeder::class,
+            StudyPackageSeeder::class,
+            SnbpMajorSeeder::class,
+            QuestionSeeder::class,
+            BusinessServiceSeeder::class,
+            FutureEducatorSeeder::class,
         ]);
     }
 }

@@ -6,10 +6,10 @@
     <!-- Hero Section Paket -->
     <section class="relative pt-16 pb-12 overflow-hidden bg-white text-center">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <h1 class="text-4xl md:text-6xl font-black text-secondary mb-6 tracking-tight">
+            <h1 class="text-3xl sm:text-4xl md:text-6xl font-black text-secondary mb-6 tracking-tight leading-tight">
                 Pilih Paket <span class="text-primary italic">Terbaikmu</span>
             </h1>
-            <p class="text-lg text-secondary/60 max-w-2xl mx-auto font-medium mb-10">
+            <p class="text-base sm:text-lg text-secondary/60 max-w-2xl mx-auto font-medium mb-10">
                 Investasi terbaik untuk masa depanmu. Pilih paket simulasi yang sesuai dengan kebutuhan target ujianmu.
             </p>
             
@@ -27,9 +27,9 @@
     <!-- Pricing Grid -->
     <section class="py-20 bg-gray-50/50">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 lg:gap-10">
                 @foreach($packages as $package)
-                <div class="{{ $package->is_popular ? 'bg-secondary transform lg:scale-105 z-10 shadow-2xl shadow-primary/20' : 'bg-white border border-gray-100 shadow-sm hover:shadow-xl' }} p-10 rounded-[3.5rem] transition-all duration-500 relative flex flex-col group h-full">
+                <div class="{{ $package->is_popular ? 'bg-secondary lg:scale-105 z-10 shadow-2xl shadow-primary/20' : 'bg-white border border-gray-100 shadow-sm hover:shadow-xl' }} p-8 sm:p-10 rounded-[2.5rem] sm:rounded-[3.5rem] transition-all duration-500 relative flex flex-col group h-full">
                     @if($package->is_popular)
                     <div class="absolute -top-5 left-1/2 -translate-x-1/2 px-6 py-2 bg-accent text-secondary font-black text-[10px] uppercase tracking-widest rounded-full shadow-lg whitespace-nowrap">Paling Populer</div>
                     @endif

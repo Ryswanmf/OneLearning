@@ -50,8 +50,8 @@
     </div>
 
     <div class="bg-white rounded-[2.5rem] border border-gray-100 shadow-sm overflow-hidden">
-        <div class="overflow-x-auto">
-            <table class="w-full text-left">
+        <div class="overflow-x-auto custom-scrollbar">
+            <table class="w-full text-left min-w-[800px]">
                 <thead>
                     <tr class="bg-gray-50/50">
                         <th class="px-8 py-5 text-[10px] font-black text-secondary/40 uppercase tracking-widest">Identitas Siswa</th>

@@ -51,6 +51,19 @@
             min-height: 100vh;
             transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
+
+        @media (max-width: 1024px) {
+            #admin-content {
+                margin-left: 0 !important;
+            }
+            #admin-sidebar {
+                transform: translateX(-100%);
+            }
+            #admin-sidebar.open {
+                transform: translateX(0);
+            }
+        }
+
         .sidebar-item {
             display: flex;
             align-items: center;
@@ -81,20 +94,58 @@
             color: rgba(255,255,255,0.2);
             padding: 24px 32px 8px;
         }
+
+        /* Custom Scrollbar for Content Tables */
+        .custom-scrollbar::-webkit-scrollbar {
+            height: 6px;
+            width: 6px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 10px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #e2e8f0;
+            border-radius: 10px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+            background: #cbd5e1;
+        }
     </style>
 </head>
-<body class="bg-gray-50 font-sans text-secondary antialiased" x-data="{ sidebarOpen: true }">
+<body class="bg-gray-50 font-sans text-secondary antialiased" 
+      x-data="{ sidebarOpen: window.innerWidth > 1024 }"
+      @resize.window="if(window.innerWidth > 1024) sidebarOpen = true; else sidebarOpen = false">
     
+    <!-- Mobile Sidebar Overlay -->
+    <div x-show="sidebarOpen && window.innerWidth <= 1024" 
+         x-transition:enter="transition opacity-0 duration-300"
+         x-transition:enter-start="opacity-0"
+         x-transition:enter-end="opacity-100"
+         x-transition:leave="transition opacity-100 duration-300"
+         x-transition:leave-start="opacity-100"
+         x-transition:leave-end="opacity-0"
+         @click="sidebarOpen = false"
+         class="fixed inset-0 bg-secondary/60 backdrop-blur-sm z-[140] lg:hidden"
+         x-cloak>
+    </div>
+
     <!-- SIDEBAR -->
-    <aside id="admin-sidebar" :style="sidebarOpen ? '' : 'transform: translateX(-100%)'">
-        <div class="py-10 px-8 flex items-center gap-3">
-            <div class="p-2 bg-white rounded-xl shadow-sm">
-                <img src="{{ asset('images/logo.png') }}" alt="Logo" class="w-7 h-7">
+    <aside id="admin-sidebar" :class="sidebarOpen ? 'open' : ''" :style="sidebarOpen ? 'transform: translateX(0)' : ''">
+        <div class="py-10 px-8 flex items-center justify-between">
+            <div class="flex items-center gap-3">
+                <div class="p-2 bg-white rounded-xl shadow-sm">
+                    <img src="{{ asset('images/logo.png') }}" alt="Logo" class="w-7 h-7">
+                </div>
+                <div class="flex flex-col">
+                    <span class="font-black text-lg leading-none tracking-tighter text-white uppercase">One<span class="text-primary">Learning</span></span>
+                    <span class="text-[9px] font-black text-white/20 uppercase tracking-[0.2em] mt-1.5">Admin Dashboard</span>
+                </div>
             </div>
-            <div class="flex flex-col">
-                <span class="font-black text-lg leading-none tracking-tighter text-white uppercase">One<span class="text-primary">Learning</span></span>
-                <span class="text-[9px] font-black text-white/20 uppercase tracking-[0.2em] mt-1.5">Admin Dashboard</span>
-            </div>
+            <!-- Close button for mobile -->
+            <button @click="sidebarOpen = false" class="lg:hidden p-2 text-white/40 hover:text-white">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" /></svg>
+            </button>
         </div>
 
         <nav class="flex-1 overflow-y-auto">
