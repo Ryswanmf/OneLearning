@@ -27,6 +27,8 @@ class SettingSeeder extends Seeder
 
             // CONTACT
             ['key' => 'whatsapp_number', 'value' => '6289515915699', 'group' => 'contact', 'type' => 'text'],
+            ['key' => 'contact_email', 'value' => 'support@onelearning.id', 'group' => 'contact', 'type' => 'text'],
+            ['key' => 'contact_address', 'value' => 'Jakarta Selatan, Indonesia', 'group' => 'contact', 'type' => 'textarea'],
         ];
 
         foreach ($settings as $setting) {

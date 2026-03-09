@@ -1,14 +1,14 @@
 <!-- Footer -->
 <footer class="bg-secondary pt-20 pb-10">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-16">
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-12 mb-16">
             <!-- Brand -->
-            <div class="lg:col-span-1">
+            <div class="lg:col-span-2">
                 <a href="/" class="flex items-center gap-3 mb-6">
                     <img src="{{ asset('images/logo.png') }}" alt="OneLearning Logo" class="w-12 h-12">
                     <span class="font-extrabold text-2xl tracking-tight text-white">One<span class="text-primary">Learning</span></span>
                 </a>
-                <p class="text-white/60 text-sm leading-relaxed mb-8">
+                <p class="text-white/60 text-sm leading-relaxed mb-8 max-w-sm">
                     Platform simulasi tryout online nomor satu di Indonesia. Kami membantu kamu mempersiapkan diri menghadapi ujian masa depan dengan teknologi pendidikan tercanggih.
                 </p>
                 <div class="flex items-center gap-4">
@@ -23,12 +23,12 @@
 
             <!-- Links 1 -->
             <div>
-                <h4 class="text-white font-black text-sm uppercase tracking-widest mb-6">Program Kami</h4>
+                <h4 class="text-white font-black text-sm uppercase tracking-widest mb-6">Produk Kami</h4>
                 <ul class="space-y-4">
-                    <li><a href="#" class="text-white/60 text-sm hover:text-primary transition-colors">UTBK-SNBT 2024</a></li>
-                    <li><a href="#" class="text-white/60 text-sm hover:text-primary transition-colors">CPNS & PPPK</a></li>
-                    <li><a href="#" class="text-white/60 text-sm hover:text-primary transition-colors">Sekolah Kedinasan</a></li>
-                    <li><a href="#" class="text-white/60 text-sm hover:text-primary transition-colors">Ujian Mandiri PTN</a></li>
+                    <li><a href="{{ route('produk.utbk') }}" class="text-white/60 text-sm hover:text-primary transition-colors">Tryout UTBK</a></li>
+                    <li><a href="{{ route('produk.sd') }}" class="text-white/60 text-sm hover:text-primary transition-colors">Tryout SD</a></li>
+                    <li><a href="{{ route('produk.smp') }}" class="text-white/60 text-sm hover:text-primary transition-colors">Tryout SMP</a></li>
+                    <li><a href="{{ route('produk.sma') }}" class="text-white/60 text-sm hover:text-primary transition-colors">Tryout SMA</a></li>
                 </ul>
             </div>
 
@@ -49,11 +49,11 @@
                 <ul class="space-y-4">
                     <li class="flex items-start gap-3">
                         <svg class="w-5 h-5 text-primary shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
-                        <span class="text-white/60 text-sm">support@onelearning.id</span>
+                        <span class="text-white/60 text-sm">{{ $settings['contact_email'] ?? 'support@onelearning.id' }}</span>
                     </li>
                     <li class="flex items-start gap-3">
                         <svg class="w-5 h-5 text-primary shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
-                        <span class="text-white/60 text-sm">Jakarta Selatan, Indonesia</span>
+                        <span class="text-white/60 text-sm">{{ $settings['contact_address'] ?? 'Jakarta Selatan, Indonesia' }}</span>
                     </li>
                 </ul>
             </div>
@@ -63,11 +63,6 @@
         <div class="pt-10 border-t border-white/5 flex flex-col md:flex-row items-center justify-between gap-6">
             <div class="text-white/40 text-xs font-medium text-center md:text-left">
                 &copy; 2024 OneLearning Indonesia. All rights reserved.
-            </div>
-            <div class="flex items-center gap-6 grayscale opacity-30 hover:grayscale-0 hover:opacity-100 transition-all">
-                <img src="https://upload.wikimedia.org/wikipedia/commons/7/72/Logo_dana_blue.svg" class="h-4" alt="Dana">
-                <img src="https://upload.wikimedia.org/wikipedia/commons/e/eb/Logo_ovo_purple.svg" class="h-4" alt="OVO">
-                <img src="https://upload.wikimedia.org/wikipedia/commons/b/b5/PayPal.svg" class="h-4" alt="PayPal">
             </div>
         </div>
     </div>
