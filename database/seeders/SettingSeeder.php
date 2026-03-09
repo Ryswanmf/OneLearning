@@ -24,6 +24,9 @@ class SettingSeeder extends Seeder
             // CTA BOTTOM SECTION
             ['key' => 'cta_bottom_title', 'value' => 'Siap Jadi Bagian Dari Alumni Sukses Kami?', 'group' => 'cta', 'type' => 'text'],
             ['key' => 'cta_bottom_subtitle', 'value' => 'Jangan tunda lagi masa depanmu. Mulai persiapan sekarang dan jadilah juara.', 'group' => 'cta', 'type' => 'textarea'],
+
+            // CONTACT
+            ['key' => 'whatsapp_number', 'value' => '6289515915699', 'group' => 'contact', 'type' => 'text'],
         ];
 
         foreach ($settings as $setting) {

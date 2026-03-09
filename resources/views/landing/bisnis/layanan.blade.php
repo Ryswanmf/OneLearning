@@ -75,7 +75,7 @@
                         <p class="text-secondary/60 text-sm font-medium leading-relaxed mb-6">
                             {{ $service->description }}
                         </p>
-                        <a href="https://wa.me/your-number" class="inline-flex items-center gap-2 text-xs font-black text-primary uppercase tracking-widest hover:text-secondary transition-colors group-hover:gap-3 transition-all">
+                        <a href="https://wa.me/6289515915699" class="inline-flex items-center gap-2 text-xs font-black text-primary uppercase tracking-widest hover:text-secondary transition-colors group-hover:gap-3 transition-all">
                             Konsultasi Sekarang
                             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" /></svg>
                         </a>

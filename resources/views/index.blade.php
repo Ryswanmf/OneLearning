@@ -4,7 +4,7 @@
 
 @section('content')
     <!-- Hero Section -->
-    <section class="relative pt-12 pb-24 lg:pt-24 lg:pb-32 overflow-hidden bg-white">
+    <section class="relative pt-6 pb-24 lg:pb-32 overflow-hidden bg-white">
         <!-- Modern Abstract Background -->
         <div class="absolute inset-0 -z-10 overflow-hidden">
             <div class="absolute -top-[10%] -right-[10%] w-[600px] h-[600px] bg-primary/5 rounded-full blur-[120px] animate-pulse"></div>
@@ -263,7 +263,7 @@
                         <a href="{{ route('register') }}" class="px-14 py-6 bg-white text-primary font-black text-xl rounded-[2.5rem] hover:bg-secondary hover:text-white transition-all transform hover:scale-105 active:scale-95 shadow-2xl inline-block">
                             Daftar Sekarang - Gratis
                         </a>
-                        <a href="https://wa.me/your-number" class="px-14 py-6 border-2 border-white/30 text-white font-black text-xl rounded-[2.5rem] hover:bg-white/10 transition-all inline-block">
+                        <a href="https://wa.me/6289515915699" class="px-14 py-6 border-2 border-white/30 text-white font-black text-xl rounded-[2.5rem] hover:bg-white/10 transition-all inline-block">
                             Tanya Lewat WhatsApp
                         </a>
                     </div>

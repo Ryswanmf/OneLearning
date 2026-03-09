@@ -59,7 +59,7 @@
                 <h3 class="text-3xl md:text-4xl font-black mb-8 italic leading-tight">Sudah Paham Caranya? <br> Ayo <span class="text-primary">Mulai Sekarang!</span></h3>
                 <div class="flex flex-wrap justify-center gap-6">
                     <a href="{{ route('register') }}" class="px-12 py-5 bg-primary text-white font-black text-sm uppercase tracking-widest rounded-2xl hover:bg-white hover:text-secondary transition-all shadow-xl">Daftar Akun Gratis</a>
-                    <a href="https://wa.me/your-number" class="px-12 py-5 border-2 border-white/20 text-white font-black text-sm uppercase tracking-widest rounded-2xl hover:bg-white/10 transition-all">Butuh Bantuan?</a>
+                    <a href="https://wa.me/6289515915699" class="px-12 py-5 border-2 border-white/20 text-white font-black text-sm uppercase tracking-widest rounded-2xl hover:bg-white/10 transition-all">Butuh Bantuan?</a>
                 </div>
             </div>
         </div>

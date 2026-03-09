@@ -34,7 +34,7 @@
                 <div class="absolute top-0 right-0 w-32 h-32 bg-white/5 rounded-full -mr-16 -mt-16"></div>
                 <h3 class="text-xl font-black mb-4 italic">Punya pertanyaan lebih lanjut?</h3>
                 <p class="text-white/60 text-sm font-medium mb-8">Tim bantuan kami siap membantu Anda memahami bagaimana kami melindungi data Anda.</p>
-                <a href="https://wa.me/your-number" class="px-10 py-4 bg-primary text-white font-black text-xs uppercase tracking-widest rounded-full hover:bg-white hover:text-secondary transition-all shadow-xl">Hubungi Tim Bantuan</a>
+                <a href="https://wa.me/6289515915699" class="px-10 py-4 bg-primary text-white font-black text-xs uppercase tracking-widest rounded-full hover:bg-white hover:text-secondary transition-all shadow-xl">Hubungi Tim Bantuan</a>
             </div>
         </div>
     </section>

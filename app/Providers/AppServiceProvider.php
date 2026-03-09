@@ -19,6 +19,9 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        //
+        if (!app()->runningInConsole()) {
+            $settings = \App\Models\Setting::pluck('value', 'key');
+            view()->share('settings', $settings);
+        }
     }
 }
