@@ -59,7 +59,7 @@
                     <div class="mt-16 flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-6 opacity-80">
                         <div class="flex -space-x-3">
                             @for($i=1; $i<=4; $i++)
-                            <img class="w-10 h-10 rounded-xl border-4 border-white shadow-md object-cover" src="https://ui-avatars.com/api/?name=User+{{$i}}&background=random&color=fff" alt="User">
+                            <img class="w-10 h-10 rounded-xl border-4 border-white shadow-md object-cover" src="https://ui-avatars.com/api/?name=User+{{$i}}&background=random&color=fff" alt="User" loading="lazy">
                             @endfor
                         </div>
                         <div class="text-left">

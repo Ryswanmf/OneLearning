@@ -16,6 +16,15 @@ class Blog extends Model
         return $this->belongsTo(User::class, 'user_id');
     }
 
+    public function getImageUrlAttribute()
+    {
+        if (filter_var($this->image, FILTER_VALIDATE_URL)) {
+            return $this->image;
+        }
+        
+        return $this->image ? asset('storage/' . $this->image) : null;
+    }
+
     protected static function boot()
     {
         parent::boot();

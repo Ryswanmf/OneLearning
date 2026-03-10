@@ -23,7 +23,7 @@
             <a href="{{ route('blog.show', $featured->slug) }}" class="relative group rounded-[3rem] overflow-hidden bg-secondary text-white flex flex-col lg:flex-row shadow-2xl block">
                 <div class="absolute inset-0 bg-primary/10 mix-blend-overlay"></div>
                 <div class="flex-1 relative aspect-[16/9] lg:aspect-auto">
-                    <img src="{{ $featured->image ?? 'https://images.unsplash.com/photo-1434030216411-0b793f4b4173?auto=format&fit=crop&q=80&w=1200' }}" class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" alt="{{ $featured->title }}">
+                    <img src="{{ $featured->image_url ?? 'https://images.unsplash.com/photo-1434030216411-0b793f4b4173?auto=format&fit=crop&q=80&w=1200' }}" class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" alt="{{ $featured->title }}">
                 </div>
                 <div class="flex-1 p-8 md:p-16 flex flex-col justify-center relative z-10">
                     <div class="flex items-center gap-3 mb-6">
@@ -56,7 +56,7 @@
                 @foreach($blogs->skip(1) as $post)
                 <article class="bg-white rounded-[2.5rem] overflow-hidden border border-gray-100 shadow-sm hover:shadow-2xl hover:shadow-primary/5 transition-all duration-500 group flex flex-col h-full">
                     <div class="relative aspect-video overflow-hidden">
-                        <img src="{{ $post->image ?? 'https://images.unsplash.com/photo-1516321318423-f06f85e504b3?q=80&w=600' }}" class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" alt="{{ $post->title }}">
+                        <img src="{{ $post->image_url ?? 'https://images.unsplash.com/photo-1516321318423-f06f85e504b3?q=80&w=600' }}" class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" alt="{{ $post->title }}">
                         <div class="absolute top-4 left-4">
                             <span class="px-4 py-1.5 bg-white/90 backdrop-blur-md text-secondary font-black text-[9px] uppercase tracking-widest rounded-xl shadow-sm">{{ $post->category }}</span>
                         </div>

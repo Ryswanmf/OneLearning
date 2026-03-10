@@ -29,7 +29,7 @@
     <section class="bg-white">
         <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="relative aspect-[21/9] rounded-[3.5rem] overflow-hidden shadow-2xl">
-                <img src="{{ $blog->image ?? 'https://images.unsplash.com/photo-1434030216411-0b793f4b4173?auto=format&fit=crop&q=1200' }}" class="absolute inset-0 w-full h-full object-cover" alt="{{ $blog->title }}">
+                <img src="{{ $blog->image_url ?? 'https://images.unsplash.com/photo-1434030216411-0b793f4b4173?auto=format&fit=crop&q=1200' }}" class="absolute inset-0 w-full h-full object-cover" alt="{{ $blog->title }}">
             </div>
         </div>
     </section>
@@ -72,7 +72,7 @@
                 @foreach($relatedBlogs as $post)
                 <article class="bg-white rounded-[2.5rem] overflow-hidden border border-gray-100 shadow-sm hover:shadow-2xl transition-all duration-500 group">
                     <div class="relative aspect-video overflow-hidden">
-                        <img src="{{ $post->image ?? 'https://images.unsplash.com/photo-1516321318423-f06f85e504b3?q=80&w=600' }}" class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" alt="{{ $post->title }}">
+                        <img src="{{ $post->image_url ?? 'https://images.unsplash.com/photo-1516321318423-f06f85e504b3?q=80&w=600' }}" class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" alt="{{ $post->title }}">
                     </div>
                     <div class="p-8">
                         <div class="text-[10px] font-bold text-secondary/40 uppercase tracking-widest mb-3">{{ $post->created_at->format('d M Y') }}</div>
