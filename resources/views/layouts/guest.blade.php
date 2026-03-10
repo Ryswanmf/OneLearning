@@ -28,7 +28,30 @@
             ::-webkit-scrollbar-thumb:hover { background: #d1d5db; }
         </style>
     </head>
-    <body class="font-sans text-secondary antialiased bg-white">
+    <body class="font-sans text-secondary antialiased bg-white" x-data="{ loading: false }">
+        <!-- Full Screen Loading Overlay -->
+        <div x-show="loading" 
+             x-transition:enter="transition ease-out duration-300"
+             x-transition:enter-start="opacity-0"
+             x-transition:enter-end="opacity-100"
+             class="fixed inset-0 z-[999] flex items-center justify-center bg-white/80 backdrop-blur-md"
+             style="display: none;">
+            <div class="flex flex-col items-center">
+                <div class="relative">
+                    <!-- Outer Ring -->
+                    <div class="w-20 h-20 border-4 border-primary/10 border-t-primary rounded-full animate-spin"></div>
+                    <!-- Inner Logo -->
+                    <div class="absolute inset-0 flex items-center justify-center">
+                        <img src="{{ asset('images/logo.png') }}" alt="Logo" class="w-8 h-8 animate-pulse">
+                    </div>
+                </div>
+                <div class="mt-6 flex flex-col items-center">
+                    <h3 class="text-sm font-black text-secondary uppercase tracking-[0.3em] animate-pulse">Menyiapkan <span class="text-primary italic">Dashboard</span></h3>
+                    <p class="text-[9px] font-bold text-secondary/30 uppercase tracking-widest mt-2">Mohon tunggu sebentar...</p>
+                </div>
+            </div>
+        </div>
+
         <div class="min-h-screen flex flex-col lg:flex-row">
             <!-- Sisi Kiri: Visual (Desktop Only) -->
             <div class="hidden lg:flex lg:w-[45%] xl:w-[50%] relative overflow-hidden bg-secondary sticky top-0 h-screen">
