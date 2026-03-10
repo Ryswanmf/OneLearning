@@ -39,20 +39,21 @@
                         <td class="px-8 py-6">
                             <div class="flex items-center gap-3">
                                 <div class="w-10 h-10 rounded-xl bg-primary/10 flex items-center justify-center text-primary font-black text-xs italic">
-                                    {{ substr($package->title, 0, 1) }}
+                                    {{ substr($package->name, 0, 1) }}
                                 </div>
                                 <div>
-                                    <div class="text-sm font-black text-secondary">{{ $package->title }}</div>
-                                    <div class="text-[9px] font-bold text-secondary/30 uppercase tracking-widest">{{ $package->category }}</div>
+                                    <div class="text-sm font-black text-secondary">{{ $package->name }}</div>
+                                    <div class="text-[9px] font-bold text-secondary/40 uppercase tracking-widest">{{ $package->duration_minutes }} Menit</div>
                                 </div>
                             </div>
                         </td>
                         <td class="px-8 py-6 text-center">
                             <div class="text-sm font-black text-secondary italic">Rp {{ number_format($package->price, 0, ',', '.') }}</div>
+                            <div class="text-[9px] font-bold text-secondary/30 uppercase tracking-widest">Akses: {{ $package->duration }}</div>
                         </td>
                         <td class="px-8 py-6 text-center">
-                            @if($package->is_featured)
-                                <span class="inline-flex px-2.5 py-1 rounded-lg bg-green-50 text-green-600 text-[9px] font-black uppercase tracking-wider">Unggulan</span>
+                            @if($package->is_popular)
+                                <span class="inline-flex px-2.5 py-1 rounded-lg bg-green-50 text-green-600 text-[9px] font-black uppercase tracking-wider">Terpopuler</span>
                             @else
                                 <span class="inline-flex px-2.5 py-1 rounded-lg bg-gray-50 text-gray-400 text-[9px] font-black uppercase tracking-wider">Reguler</span>
                             @endif

@@ -28,10 +28,14 @@
                 </div>
             </div>
 
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
                 <div class="space-y-2">
                     <x-input-label for="duration" value="Masa Aktif" />
                     <x-text-input id="duration" name="duration" type="text" :value="old('duration', $paket_belajar->duration)" required />
+                </div>
+                <div class="space-y-2">
+                    <x-input-label for="duration_minutes" value="Durasi Pengerjaan (Menit)" />
+                    <x-text-input id="duration_minutes" name="duration_minutes" type="number" :value="old('duration_minutes', $paket_belajar->duration_minutes)" required />
                 </div>
                 <div class="flex items-center gap-8 pt-8">
                     <label class="relative inline-flex items-center cursor-pointer">

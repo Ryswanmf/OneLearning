@@ -8,7 +8,7 @@ use Illuminate\Support\Str;
 class StudyPackage extends Model
 {
     protected $fillable = [
-        'name', 'slug', 'price', 'duration', 'description', 
+        'name', 'slug', 'price', 'duration', 'duration_minutes', 'description', 
         'features', 'is_popular', 'is_active'
     ];
 
