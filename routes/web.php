@@ -18,6 +18,8 @@ use App\Models\{Product, HowToRegister, Faq, PrivacyPolicy, Term, Setting, Study
 | 1. HALAMAN PUBLIK (LANDING PAGE)
 |--------------------------------------------------------------------------
 */
+Route::get('/sitemap.xml', [App\Http\Controllers\SitemapController::class, 'index']);
+
 // Halaman Utama
 Route::get('/', function () {
     $featuredProducts = Product::where('is_featured', true)->latest()->take(4)->get();
@@ -105,8 +107,12 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::prefix('tryout')->name('tryout.')->group(function () {
         Route::get('/{type}/{id}/instruksi', [TryoutEngineController::class, 'showInstructions'])->name('instructions');
         Route::get('/{type}/{id}/start', [TryoutEngineController::class, 'start'])->name('start');
-        Route::post('/{type}/{id}/save-answer', [TryoutEngineController::class, 'saveAnswer'])->name('save-answer');
-        Route::post('/{type}/{id}/finish', [TryoutEngineController::class, 'finish'])->name('finish');
+        Route::post('/{type}/{id}/save-answer', [TryoutEngineController::class, 'saveAnswer'])
+            ->middleware('throttle:60,1') // Max 60 request per menit untuk simpan jawaban
+            ->name('save-answer');
+        Route::post('/{type}/{id}/finish', [TryoutEngineController::class, 'finish'])
+            ->middleware('throttle:3,1') // Max 3 klik finish per menit
+            ->name('finish');
         Route::get('/{type}/{id}/result', [TryoutEngineController::class, 'showResult'])->name('result');
         Route::get('/{type}/{id}/certificate', [TryoutEngineController::class, 'showCertificate'])->name('certificate');
     });

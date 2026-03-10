@@ -2,26 +2,13 @@
     @section('title', 'Masuk Akun - OneLearning')
 
     <div class="mb-8 text-center lg:text-left">
+        <div class="flex justify-center lg:justify-start mb-6">
+            <a href="/">
+                <img src="{{ asset('images/logo.png') }}" alt="OneLearning Logo" class="w-12 h-12 shadow-sm">
+            </a>
+        </div>
         <h2 class="text-3xl font-black text-secondary leading-tight tracking-tight mb-2">Selamat <span class="text-primary italic">Datang</span>.</h2>
         <p class="text-xs font-semibold text-secondary/40 leading-relaxed">Masuk untuk melanjutkan tryout dan akses analisis IRT terbarumu.</p>
-    </div>
-
-    <!-- Social Login -->
-    <div class="grid grid-cols-2 gap-3 mb-6">
-        <a href="#" class="flex items-center justify-center gap-2.5 px-4 py-3 border border-gray-100 rounded-xl hover:bg-gray-50 transition-all group">
-            <img src="https://www.svgrepo.com/show/475656/google-color.svg" class="w-4 h-4" alt="Google">
-            <span class="text-[9px] font-black text-secondary uppercase tracking-widest">Google</span>
-        </a>
-        <a href="#" class="flex items-center justify-center gap-2.5 px-4 py-3 border border-gray-100 rounded-xl hover:bg-gray-50 transition-all group">
-            <img src="https://www.svgrepo.com/show/442935/apple-v2.svg" class="w-4 h-4" alt="Apple">
-            <span class="text-[9px] font-black text-secondary uppercase tracking-widest">Apple ID</span>
-        </a>
-    </div>
-
-    <div class="relative flex items-center gap-3 mb-6">
-        <div class="h-px bg-gray-100 flex-1"></div>
-        <span class="text-[8px] font-black text-secondary/20 uppercase tracking-[0.4em]">Atau Email</span>
-        <div class="h-px bg-gray-100 flex-1"></div>
     </div>
 
     <x-auth-session-status class="mb-4" :status="session('status')" />

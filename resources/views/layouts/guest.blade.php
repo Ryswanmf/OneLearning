@@ -42,10 +42,10 @@
 
                 <div class="relative z-20 flex flex-col justify-between p-12 xl:p-20 w-full h-full">
                     <a href="/" class="flex items-center gap-3 group">
-                        <div class="p-2 bg-white/10 backdrop-blur-xl rounded-2xl border border-white/20 group-hover:bg-white/20 transition-all duration-500">
-                            <img src="{{ asset('images/logo.png') }}" alt="Logo" class="w-10 h-10 brightness-0 invert">
+                        <div class="p-2 bg-white rounded-2xl shadow-sm group-hover:scale-105 transition-all duration-500">
+                            <img src="{{ asset('images/logo.png') }}" alt="Logo" class="w-12 h-12 object-contain">
                         </div>
-                        <span class="font-black text-2xl tracking-tighter text-white">One<span class="text-primary font-medium">Learning</span></span>
+                        <span class="font-black text-2xl tracking-tighter text-white uppercase">One<span class="text-primary">Learning</span></span>
                     </a>
 
                     <div class="max-w-lg">
