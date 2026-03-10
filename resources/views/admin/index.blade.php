@@ -30,7 +30,7 @@
                 <div class="w-12 h-12 bg-primary/10 rounded-2xl flex items-center justify-center text-primary mb-6 group-hover:bg-primary group-hover:text-white transition-all">
                     <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" /></svg>
                 </div>
-                <div class="text-3xl font-black text-secondary tracking-tighter">1,284</div>
+                <div class="text-3xl font-black text-secondary tracking-tighter">{{ number_format($stats['total_students']) }}</div>
                 <div class="text-[10px] font-black text-secondary/30 uppercase tracking-[0.2em] mt-1">Siswa Terdaftar</div>
             </div>
         </div>
@@ -41,7 +41,7 @@
                 <div class="w-12 h-12 bg-accent/15 rounded-2xl flex items-center justify-center text-accent mb-6 group-hover:bg-accent group-hover:text-secondary transition-all">
                     <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01" /></svg>
                 </div>
-                <div class="text-3xl font-black text-secondary tracking-tighter">156</div>
+                <div class="text-3xl font-black text-secondary tracking-tighter">{{ number_format($stats['total_packages']) }}</div>
                 <div class="text-[10px] font-black text-secondary/30 uppercase tracking-[0.2em] mt-1">Paket Tryout</div>
             </div>
         </div>
@@ -52,7 +52,7 @@
                 <div class="w-12 h-12 bg-secondary/10 rounded-2xl flex items-center justify-center text-secondary mb-6 group-hover:bg-secondary group-hover:text-white transition-all">
                     <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
                 </div>
-                <div class="text-3xl font-black text-secondary tracking-tighter">IDR 42.5M</div>
+                <div class="text-2xl font-black text-secondary tracking-tighter">Rp {{ number_format($stats['monthly_revenue'], 0, ',', '.') }}</div>
                 <div class="text-[10px] font-black text-secondary/30 uppercase tracking-[0.2em] mt-1">Omzet Bulan Ini</div>
             </div>
         </div>
@@ -63,8 +63,8 @@
                 <div class="w-12 h-12 bg-green-50 rounded-2xl flex items-center justify-center text-green-500 mb-6 group-hover:bg-green-500 group-hover:text-white transition-all">
                     <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.828 14.828a4 4 0 01-5.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
                 </div>
-                <div class="text-3xl font-black text-secondary tracking-tighter">4.9/5</div>
-                <div class="text-[10px] font-black text-secondary/30 uppercase tracking-[0.2em] mt-1">Rating Kepuasan</div>
+                <div class="text-3xl font-black text-secondary tracking-tighter">Rp {{ number_format($stats['total_revenue'], 0, ',', '.') }}</div>
+                <div class="text-[10px] font-black text-secondary/30 uppercase tracking-[0.2em] mt-1">Total Pendapatan</div>
             </div>
         </div>
     </div>
@@ -75,41 +75,47 @@
             <div class="bg-white rounded-[2.5rem] border border-gray-100 shadow-sm overflow-hidden">
                 <div class="p-8 border-b border-gray-50 flex items-center justify-between">
                     <h3 class="text-lg font-black text-secondary">Pendaftaran <span class="text-primary italic">Terbaru</span></h3>
-                    <button class="text-[10px] font-black text-primary uppercase tracking-widest hover:text-secondary transition-colors">Lihat Semua Data</button>
+                    <a href="{{ route('admin.users.index') }}" class="text-[10px] font-black text-primary uppercase tracking-widest hover:text-secondary transition-colors">Lihat Semua Siswa</a>
                 </div>
                 <div class="overflow-x-auto">
                     <table class="w-full text-left">
                         <thead>
                             <tr class="bg-gray-50/50">
                                 <th class="px-8 py-4 text-[10px] font-black text-secondary/40 uppercase tracking-widest">Siswa</th>
-                                <th class="px-8 py-4 text-[10px] font-black text-secondary/40 uppercase tracking-widest">Program</th>
+                                <th class="px-8 py-4 text-[10px] font-black text-secondary/40 uppercase tracking-widest">Tgl Daftar</th>
                                 <th class="px-8 py-4 text-[10px] font-black text-secondary/40 uppercase tracking-widest text-center">Aksi</th>
                             </tr>
                         </thead>
                         <tbody class="divide-y divide-gray-50">
-                            @for($i=0; $i<4; $i++)
+                            @forelse($recent_registrations as $student)
                             <tr class="group hover:bg-gray-50/30 transition-all">
                                 <td class="px-8 py-5">
                                     <div class="flex items-center gap-3">
-                                        <div class="w-10 h-10 rounded-xl bg-gray-100 flex items-center justify-center font-black text-xs text-secondary/40 italic">S</div>
+                                        <div class="w-10 h-10 rounded-xl bg-primary/10 flex items-center justify-center font-black text-xs text-primary italic">
+                                            {{ substr($student->name, 0, 1) }}
+                                        </div>
                                         <div>
-                                            <div class="text-sm font-bold text-secondary">Nama Siswa {{ $i+1 }}</div>
-                                            <div class="text-[10px] text-secondary/30 font-medium">siswa{{ $i }}@example.com</div>
+                                            <div class="text-sm font-bold text-secondary">{{ $student->name }}</div>
+                                            <div class="text-[10px] text-secondary/30 font-medium">{{ $student->email }}</div>
                                         </div>
                                     </div>
                                 </td>
                                 <td class="px-8 py-5">
-                                    <div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-primary/5 text-primary text-[10px] font-black uppercase tracking-wider">
-                                        UTBK-SNBT
+                                    <div class="text-xs font-bold text-secondary/60">
+                                        {{ $student->created_at->diffForHumans() }}
                                     </div>
                                 </td>
                                 <td class="px-8 py-5 text-center">
-                                    <button class="p-2 text-secondary/20 hover:text-primary transition-colors">
+                                    <a href="{{ route('admin.users.show', $student) }}" class="p-2 text-secondary/20 hover:text-primary transition-colors inline-block">
                                         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" /><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" /></svg>
-                                    </button>
+                                    </a>
                                 </td>
                             </tr>
-                            @endfor
+                            @empty
+                            <tr>
+                                <td colspan="3" class="px-8 py-10 text-center text-xs font-bold text-secondary/30 uppercase tracking-widest italic">Belum ada siswa yang mendaftar.</td>
+                            </tr>
+                            @endforelse
                         </tbody>
                     </table>
                 </div>

@@ -8,7 +8,7 @@ use App\Http\Controllers\{
     PrivacyPolicyController, TermController, FaqController, HowToRegisterController,
     UserController, StudentDashboardController, QuestionController, TryoutEngineController,
     OrderController, AdminTransactionController, AdminBankSoalController,
-    MidtransCallbackController, SnbpAnalysisController
+    MidtransCallbackController, SnbpAnalysisController, AdminDashboardController
 };
 use Illuminate\Support\Facades\{Route, Auth};
 use App\Models\{Product, HowToRegister, Faq, PrivacyPolicy, Term, Setting, StudyPackage};
@@ -125,7 +125,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
 |--------------------------------------------------------------------------
 */
 Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(function () {
-    Route::get('/', fn() => view('admin.index'))->name('index');
+    Route::get('/', [AdminDashboardController::class, 'index'])->name('index');
     
     // Sumber Daya Utama
     Route::resource('users', UserController::class);

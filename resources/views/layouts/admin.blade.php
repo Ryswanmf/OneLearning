@@ -270,7 +270,9 @@
         <!-- Top Bar -->
         <header class="bg-white border-b border-gray-100 sticky top-0 z-[90] px-8 py-4 flex items-center justify-between shadow-sm">
             <button @click="sidebarOpen = !sidebarOpen" class="p-2 bg-gray-50 rounded-xl text-secondary hover:bg-gray-100 transition-all">
-                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" /></svg>
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M3 6h18M3 12h12M3 18h18" />
+                </svg>
             </button>
 
             <div class="flex items-center gap-6">
