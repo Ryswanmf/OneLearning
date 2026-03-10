@@ -19,6 +19,7 @@ use App\Models\{Product, HowToRegister, Faq, PrivacyPolicy, Term, Setting, Study
 |--------------------------------------------------------------------------
 */
 Route::get('/sitemap.xml', [App\Http\Controllers\SitemapController::class, 'index']);
+Route::post('/chatbot', [App\Http\Controllers\ChatbotController::class, 'chat'])->name('chatbot.send');
 
 // Halaman Utama
 Route::get('/', function () {

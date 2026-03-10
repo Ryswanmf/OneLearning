@@ -23,6 +23,9 @@
     </head>
     <body class="bg-white font-sans text-secondary antialiased">
         
+        <!-- AI Chatbot (OneBot) Component -->
+        @include('components.chatbot-widget')
+
         <!-- Global Notifications (Toast) -->
         <div x-data="{ show: false, message: '', type: 'success' }"
              x-init="@if(session('success')) 
@@ -41,7 +44,8 @@
              x-transition:leave-start="opacity-100"
              x-transition:leave-end="opacity-0"
              class="fixed bottom-8 right-8 z-[200] max-w-sm w-full bg-white rounded-3xl shadow-[0_20px_50px_rgba(0,0,0,0.1)] border border-gray-100 p-5 flex items-center gap-4"
-             style="display: none;">
+             style="display: none;"
+             x-cloak>
             
             <div :class="type === 'success' ? 'bg-green-500' : 'bg-red-500'" class="w-12 h-12 rounded-2xl flex items-center justify-center text-white shrink-0 shadow-lg">
                 <template x-if="type === 'success'">
@@ -96,6 +100,7 @@
             .animate-bounce-slow {
                 animation: bounce-slow 4s ease-in-out infinite;
             }
+            [x-cloak] { display: none !important; }
         </style>
     </body>
 </html>

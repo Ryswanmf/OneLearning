@@ -1,63 +1,47 @@
-# OneLearning - Smart EdTech Platform
+# OneLearning Platform
 
-[![Laravel 12](https://img.shields.io/badge/Laravel-12.x-FF2D20?style=for-the-badge&logo=laravel)](https://laravel.com)
-[![PHP 8.2](https://img.shields.io/badge/PHP-8.2+-777BB4?style=for-the-badge&logo=php)](https://php.net)
-[![Status](https://img.shields.io/badge/Status-Development-yellow?style=for-the-badge)](https://github.com/)
-[![License](https://img.shields.io/badge/License-Private-red?style=for-the-badge)](https://github.com/)
+OneLearning adalah platform digital inovatif yang dirancang khusus untuk membantu siswa di Indonesia mempersiapkan berbagai jenjang ujian nasional, mulai dari SD, SMP, SMA, hingga persiapan masuk Perguruan Tinggi Negeri (UTBK/SNBT). Platform ini menggunakan metodologi penilaian berstandar nasional (IRT) untuk memberikan analisis kemampuan yang akurat bagi para penggunanya.
 
-![OneLearning Hero](public/images/hero.png)
+## Fitur Utama
 
-OneLearning adalah platform pendidikan digital (EdTech) terdepan di Indonesia yang berfokus pada penyediaan simulasi ujian dan tryout berbasis Item Response Theory (IRT). Platform ini dirancang untuk membantu siswa dari berbagai jenjang (SD, SMP, SMA, hingga Alumni) dalam mempersiapkan ujian seleksi masuk perguruan tinggi dan ujian sekolah dengan cara yang cerdas, efisien, dan berkualitas.
+### Sistem Penilaian IRT (Item Response Theory)
+Algoritma penilaian canggih yang memberikan bobot berbeda pada setiap soal berdasarkan tingkat kesulitan dan pola jawaban peserta, serupa dengan standar penilaian seleksi masuk perguruan tinggi nasional.
 
-## Fitur Unggulan
+### Analisis Peluang SNBP
+Fitur cerdas untuk membantu siswa menganalisis peluang kelulusan pada jurusan dan universitas tertentu berdasarkan data nilai dan statistik kompetisi terbaru.
 
-### Tryout Engine Pro
-- **Sistem Penilaian IRT:** Simulasi skor yang akurat mendekati sistem penilaian asli SNBT.
-- **Timer dan Auto-Save:** Pengerjaan soal yang aman dengan sistem penyimpanan jawaban otomatis ke database dan cadangan lokal.
-- **Keep-Alive Session:** Teknologi untuk mencegah logout otomatis saat mengerjakan soal dalam durasi lama.
+### Tryout Berjenjang
+Tersedia berbagai paket simulasi ujian yang dikategorikan berdasarkan jenjang pendidikan (SD, SMP, SMA) dan persiapan alumni.
 
-### Evaluation Report dan Analisis Materi
-- **Radar Chart Analysis:** Visualisasi penguasaan materi siswa menggunakan grafik radar per topik soal.
-- **Rekomendasi Belajar:** Sistem cerdas yang memberikan saran topik mana yang harus ditingkatkan berdasarkan skor terendah.
-- **Sertifikat Kelulusan:** Unduh sertifikat pencapaian dalam format PDF setelah menyelesaikan ujian.
+### OneBot AI Assistant
+Asisten akademik berbasis kecerdasan buatan (Gemini AI) yang terintegrasi untuk membantu menjawab pertanyaan materi pelajaran dan memberikan panduan penggunaan fitur platform secara real-time.
 
-### Integrasi Pembayaran
-- **Midtrans Gateway:** Mendukung berbagai metode pembayaran seperti Transfer Bank, E-Wallet, dan gerai retail.
-- **Aktivasi Otomatis:** Paket belajar langsung aktif segera setelah pembayaran dikonfirmasi oleh sistem.
+### Sertifikat Pencapaian Otomatis
+Siswa yang menyelesaikan tryout akan menerima sertifikat digital resmi dengan Verification ID unik sebagai bukti pencapaian dan laporan hasil belajar.
 
-### Dashboard Admin
-- **Import Soal via Excel:** Masukkan ratusan soal sekaligus dalam hitungan detik menggunakan template Excel.
-- **Manajemen Bank Soal Universal:** Satu pusat kendali untuk mengelola soal di seluruh kategori (UTBK, SD, SMP, SMA, Alumni).
-- **Pengaturan Web Dinamis:** Ubah judul, deskripsi, nomor WhatsApp, dan email kontak langsung dari panel admin.
+## Spesifikasi Teknis
 
-## Teknologi yang Digunakan
-- **Framework:** Laravel 12
-- **Database:** MySQL
-- **Frontend:** Tailwind CSS dan Alpine.js
-- **Payment Gateway:** Midtrans API
-- **Charts:** Chart.js
-- **Excel Processing:** Maatwebsite Excel
+### Teknologi Inti
+- Framework: Laravel 12
+- Database: MySQL dengan optimasi indexing untuk query polimorfik
+- Frontend: Blade Templating, Tailwind CSS, Alpine.js
+- AI Integration: Google Gemini 1.5 Flash / 2.0 API
+- Payment Gateway: Midtrans Integration
 
-## Instalasi
+### Arsitektur Sistem
+- Polimorfik Database: Digunakan pada sistem Bank Soal dan Submission untuk mendukung fleksibilitas berbagai tipe ujian dalam satu struktur tabel.
+- Keamanan: Dilengkapi dengan Rate Limiting pada rute kritis (registrasi dan pengerjaan soal) untuk mencegah penyalahgunaan sistem.
+- Performa: Implementasi caching pada data statistik di halaman utama untuk efisiensi beban server.
 
-1. Clone repositori ini ke komputer lokal.
-2. Jalankan perintah `composer install` dan `npm install`.
-3. Salin file `.env.example` menjadi `.env` dan sesuaikan konfigurasi database serta Midtrans Key.
-4. Jalankan migrasi database dan seeder:
-   ```bash
-   php artisan migrate --seed
-   ```
-5. Buat tautan simbolis untuk penyimpanan:
-   ```bash
-   php artisan storage:link
-   ```
-6. Jalankan server lokal:
-   ```bash
-   php artisan serve
-   ```
+## Panduan Instalasi
+
+1. Clone repositori ke lingkungan lokal Anda.
+2. Jalankan perintah `composer install` untuk menginstal dependensi backend.
+3. Jalankan perintah `npm install && npm run build` untuk aset frontend.
+4. Salin file `.env.example` menjadi `.env` dan konfigurasikan basis data serta API Key (Midtrans dan Gemini).
+5. Jalankan `php artisan key:generate`.
+6. Jalankan `php artisan migrate --seed` untuk menyiapkan struktur database dan data awal.
+7. Jalankan `php artisan storage:link` untuk akses file media.
 
 ## Lisensi
-Proyek ini dikembangkan eksklusif untuk OneLearning Indonesia.
-
----
-*Dibuat untuk kemajuan pendidikan Indonesia.*
+Hak Cipta (c) 2026 OneLearning Indonesia. Seluruh hak cipta dilindungi undang-undang.
