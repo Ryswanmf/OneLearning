@@ -42,6 +42,8 @@ class DatabaseSeeder extends Seeder
             SmpUsQuestionsSeeder::class,
             SmaPhysicsQuestionsSeeder::class,
             SmaBioChemQuestionsSeeder::class,
+            SmaPskkQuestionsSeeder::class,
+            Sma12TpsQuestionsSeeder::class,
             BusinessServiceSeeder::class,
             FutureEducatorSeeder::class,
         ]);
