@@ -2,55 +2,79 @@
 
 ![OneLearning Hero](public/images/hero.png)
 
-## Raih Kampus Impianmu Sekarang
+## Deskripsi Platform
 
-OneLearning adalah platform simulasi tryout tercanggih dengan sistem IRT (Item Response Theory) dan Ranking Real-time. Platform digital inovatif ini dirancang khusus untuk membantu siswa di Indonesia mempersiapkan berbagai jenjang ujian nasional, mulai dari SD, SMP, SMA, hingga persiapan masuk Perguruan Tinggi Negeri (UTBK/SNBT).
+OneLearning adalah platform simulasi tryout mutakhir yang mengimplementasikan sistem penilaian IRT (Item Response Theory) dan Ranking Real-time. Platform ini dirancang secara khusus untuk memfasilitasi siswa di Indonesia dalam menghadapi berbagai tingkatan ujian nasional, mulai dari jenjang SD, SMP, SMA, hingga persiapan seleksi masuk Perguruan Tinggi Negeri (UTBK/SNBT).
 
-Sistem penilaian kami telah terakreditasi untuk memberikan analisis kemampuan yang akurat bagi para penggunanya. Saat ini, lebih dari 100.000 siswa di seluruh Indonesia telah bergabung untuk mempersiapkan masa depan yang cerah.
+Sistem penilaian kami telah terkalibrasi untuk menghasilkan analisis kompetensi yang akurat. Dengan basis pengguna yang mencapai lebih dari 100.000 siswa, OneLearning berkomitmen menjadi mitra strategis dalam mewujudkan impian pendidikan tinggi.
 
-## Fitur Utama
+## Fitur Unggulan
 
-### Sistem Penilaian IRT Terakreditasi
-Algoritma penilaian canggih yang memberikan bobot berbeda pada setiap soal berdasarkan tingkat kesulitan dan pola jawaban peserta, serupa dengan standar penilaian seleksi masuk perguruan tinggi nasional.
+### Penilaian IRT Terkalibrasi
+Menggunakan algoritma pembobotan soal dinamis berdasarkan tingkat kesulitan, selaras dengan standar seleksi nasional terkini.
 
-### Ranking Real-time
-Sistem pemeringkatan otomatis yang diperbarui secara langsung setelah pengerjaan, memungkinkan siswa mengetahui posisi mereka di antara peserta lainnya secara nasional.
+### Pemeringkatan Nasional Real-time
+Sistem rangking otomatis yang memberikan gambaran posisi peserta secara nasional segera setelah sesi ujian berakhir.
 
-### Analisis Peluang SNBP
-Fitur cerdas untuk membantu siswa menganalisis peluang kelulusan pada jurusan dan universitas tertentu berdasarkan data nilai dan statistik kompetisi terbaru.
-
-### Tryout Berjenjang
-Tersedia berbagai paket simulasi ujian yang dikategorikan berdasarkan jenjang pendidikan (SD, SMP, SMA) serta persiapan khusus bagi alumni.
+### Prediksi Kelulusan SNBP
+Analisis prediktif berbasis data nilai dan statistik universitas untuk membantu siswa memetakan peluang di berbagai program studi.
 
 ### OneBot AI Assistant
-Asisten akademik berbasis kecerdasan buatan (Gemini AI) yang terintegrasi untuk membantu menjawab pertanyaan materi pelajaran dan memberikan panduan penggunaan fitur platform secara real-time.
+Integrasi Google Gemini AI sebagai asisten akademik untuk konsultasi materi dan bantuan teknis penggunaan platform secara langsung.
 
-### Sertifikat Pencapaian Otomatis
-Siswa yang menyelesaikan tryout akan menerima sertifikat digital resmi dengan Verification ID unik sebagai bukti pencapaian dan laporan hasil belajar dengan rata-rata Passing Grade mencapai 98.5%.
+### Sertifikat dan Laporan Hasil
+Penerbitan sertifikat digital otomatis dengan ID Verifikasi unik serta laporan detail per mata pelajaran.
+
+## Daftar Paket Simulasi
+
+Platform menyediakan berbagai paket simulasi yang telah diperbarui dengan 50 soal per kategori:
+
+### Jenjang SD
+- Simulasi Matematika Dasar SD
+- Tryout IPA Terpadu SD
+- Paket Lengkap Asesmen Nasional SD
+
+### Jenjang SMP
+- Simulasi Bahasa Inggris SMP
+- Tryout Matematika & IPA SMP
+- Paket Intensif Ujian Sekolah SMP
+
+### Jenjang SMA (Kelas 10-12)
+- Simulasi Fisika Dasar SMA
+- Tryout Biologi & Kimia SMA
+- Paket Sukses Kenaikan Kelas SMA
+
+### Persiapan UTBK & Alumni
+- Simulasi TPS Kilat SMA 12
+- Tryout Soshum/Saintek SMA 12
+- Mastery Pack SMA 12 & UTBK
+- Simulasi Re-start UTBK Alumni
+- Tryout Spesialis Ujian Mandiri Alumni
+- Ultimate Alumni Strategy Pack
 
 ## Spesifikasi Teknis
 
-### Teknologi Inti
+### Stack Teknologi
 - Framework: Laravel 12
-- Database: MySQL dengan optimasi indexing untuk query polimorfik
-- Frontend: Blade Templating, Tailwind CSS, Alpine.js
-- AI Integration: Google Gemini 1.5 Flash / 2.0 API
-- Payment Gateway: Midtrans Integration
+- Database: MySQL (Optimized Indexing)
+- Frontend: Tailwind CSS, Alpine.js, Blade
+- AI: Google Gemini API Integration
+- Payment: Midtrans Payment Gateway
 
-### Arsitektur Sistem
-- Polimorfik Database: Digunakan pada sistem Bank Soal dan Submission untuk mendukung fleksibilitas berbagai tipe ujian dalam satu struktur tabel.
-- Keamanan: Dilengkapi dengan Rate Limiting pada rute kritis (registrasi dan pengerjaan soal) untuk mencegah penyalahgunaan sistem.
-- Performa: Implementasi caching pada data statistik di halaman utama untuk efisiensi beban server.
+### Arsitektur
+- Database Polimorfik: Digunakan untuk struktur Bank Soal dan Submission guna efisiensi skema.
+- Keamanan: Implementasi Rate Limiting dan proteksi CSRF pada seluruh rute kritis.
+- Caching: Optimasi performa pada data statistik dashboard.
 
 ## Panduan Instalasi
 
-1. Clone repositori ke lingkungan lokal Anda.
-2. Jalankan perintah `composer install` untuk menginstal dependensi backend.
+1. Lakukan clone pada repositori ini.
+2. Jalankan perintah `composer install` untuk dependensi PHP.
 3. Jalankan perintah `npm install && npm run build` untuk aset frontend.
-4. Salin file `.env.example` menjadi `.env` dan konfigurasikan basis data serta API Key (Midtrans dan Gemini).
+4. Salin `.env.example` menjadi `.env` dan sesuaikan konfigurasi database serta API Key (Midtrans & Gemini).
 5. Jalankan `php artisan key:generate`.
-6. Jalankan `php artisan migrate --seed` untuk menyiapkan struktur database dan data awal.
-7. Jalankan `php artisan storage:link` untuk akses file media.
+6. Jalankan `php artisan migrate --seed` untuk menginisialisasi database beserta 50 soal tiap tryout.
+7. Jalankan `php artisan storage:link`.
 
 ## Lisensi
-Hak Cipta (c) 2026 OneLearning Indonesia. Seluruh hak cipta dilindungi undang-undang.
+Hak Cipta (c) 2026 OneLearning Indonesia. Seluruh hak cipta dilindungi.
