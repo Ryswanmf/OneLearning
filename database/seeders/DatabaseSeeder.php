@@ -47,6 +47,8 @@ class DatabaseSeeder extends Seeder
             Sma12SoshumSaintekQuestionsSeeder::class,
             Sma12MasteryQuestionsSeeder::class,
             AlumniRestartQuestionsSeeder::class,
+            AlumniMandiriQuestionsSeeder::class,
+            AlumniUltimateQuestionsSeeder::class,
             BusinessServiceSeeder::class,
             FutureEducatorSeeder::class,
         ]);
