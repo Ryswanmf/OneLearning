@@ -35,6 +35,7 @@ class DatabaseSeeder extends Seeder
             SnbpMajorSeeder::class,
             QuestionSeeder::class,
             SdMathQuestionsSeeder::class,
+            SdIpaQuestionsSeeder::class,
             BusinessServiceSeeder::class,
             FutureEducatorSeeder::class,
         ]);
