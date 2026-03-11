@@ -1,5 +1,7 @@
 # OneLearning Platform
 
+![OneLearning Hero](public/images/hero.png)
+
 OneLearning adalah platform digital inovatif yang dirancang khusus untuk membantu siswa di Indonesia mempersiapkan berbagai jenjang ujian nasional, mulai dari SD, SMP, SMA, hingga persiapan masuk Perguruan Tinggi Negeri (UTBK/SNBT). Platform ini menggunakan metodologi penilaian berstandar nasional (IRT) untuk memberikan analisis kemampuan yang akurat bagi para penggunanya.
 
 ## Fitur Utama
