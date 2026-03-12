@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Transaction;
+use App\Models\Setting;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
@@ -145,5 +146,26 @@ class OrderController extends Controller
     {
         $transactions = Transaction::where('user_id', Auth::id())->latest()->get();
         return view('landing.order.history', compact('transactions'));
+    }
+
+    public function printInvoice($reference_id)
+    {
+        $transaction = Transaction::with(['user', 'buyable'])->where('reference_id', $reference_id);
+        
+        // Jika bukan admin, hanya bisa cetak invoice miliknya sendiri
+        if (Auth::user()->role !== 'admin') {
+            $transaction->where('user_id', Auth::id());
+        }
+
+        $transaction = $transaction->firstOrFail();
+
+        // Hanya invoice yang sukses/berhasil yang bisa dicetak
+        if ($transaction->status !== 'success') {
+            return redirect()->back()->with('error', 'Invoice hanya tersedia untuk transaksi yang sudah berhasil.');
+        }
+
+        $settings = Setting::pluck('value', 'key');
+        
+        return view('landing.order.invoice', compact('transaction', 'settings'));
     }
 }

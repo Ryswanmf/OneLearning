@@ -44,7 +44,7 @@
                         <span class="px-4 py-1.5 bg-blue-50 text-blue-600 text-[10px] font-black uppercase tracking-widest rounded-full animate-pulse">Sedang Diverifikasi</span>
                     @elseif($item->status === 'success')
                         <div class="flex items-center gap-4">
-                            <span class="px-4 py-1.5 bg-green-50 text-green-600 text-[10px] font-black uppercase tracking-widest rounded-full">Pembayaran Berhasil</span>
+                            <a href="{{ route('order.invoice.print', $item->reference_id) }}" target="_blank" class="px-6 py-2.5 bg-primary/5 text-primary text-[10px] font-black uppercase tracking-widest rounded-xl hover:bg-primary hover:text-white transition-all">Cetak Invoice</a>
                             <a href="{{ route('dashboard') }}" class="px-6 py-2.5 bg-gray-50 text-secondary text-[10px] font-black uppercase tracking-widest rounded-xl hover:bg-gray-100 transition-all">Mulai Belajar</a>
                         </div>
                     @else

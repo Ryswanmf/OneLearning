@@ -112,6 +112,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::post('/checkout/{type}/{id}', [OrderController::class, 'store'])->name('store');
         Route::get('/payment/{reference_id}', [OrderController::class, 'payment'])->name('payment');
         Route::get('/history', [OrderController::class, 'history'])->name('history');
+        Route::get('/invoice/{reference_id}', [OrderController::class, 'printInvoice'])->name('invoice.print');
         Route::get('/check-status/{reference_id}', [OrderController::class, 'handleSuccess'])->name('handle-success');
     });
 
