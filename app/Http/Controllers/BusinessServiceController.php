@@ -24,9 +24,15 @@ class BusinessServiceController extends Controller
         $validated = $request->validate([
             'title' => 'required|string|max:255',
             'description' => 'required|string',
-            'image' => 'nullable|string',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             'is_active' => 'boolean'
         ]);
+
+        if ($request->hasFile('image')) {
+            $imageName = time().'.'.$request->image->extension();
+            $request->image->move(public_path('storage/business_services'), $imageName);
+            $validated['image'] = 'business_services/' . $imageName;
+        }
 
         $validated['slug'] = Str::slug($request->title);
         $validated['is_active'] = $request->has('is_active');
@@ -49,9 +55,20 @@ class BusinessServiceController extends Controller
         $validated = $request->validate([
             'title' => 'required|string|max:255',
             'description' => 'required|string',
-            'image' => 'nullable|string',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             'is_active' => 'boolean'
         ]);
+
+        if ($request->hasFile('image')) {
+            // Hapus gambar lama jika ada
+            if ($service->image && file_exists(public_path('storage/' . $service->image))) {
+                @unlink(public_path('storage/' . $service->image));
+            }
+
+            $imageName = time().'.'.$request->image->extension();
+            $request->image->move(public_path('storage/business_services'), $imageName);
+            $validated['image'] = 'business_services/' . $imageName;
+        }
 
         $validated['slug'] = Str::slug($request->title);
         $validated['is_active'] = $request->has('is_active');
@@ -64,6 +81,12 @@ class BusinessServiceController extends Controller
     public function destroy($id)
     {
         $service = BusinessService::findOrFail($id);
+
+        // Hapus gambar saat data dihapus
+        if ($service->image && file_exists(public_path('storage/' . $service->image))) {
+            @unlink(public_path('storage/' . $service->image));
+        }
+
         $service->delete();
         return redirect()->route('admin.layanan-bisnis.index')->with('success', 'Layanan bisnis berhasil dihapus.');
     }

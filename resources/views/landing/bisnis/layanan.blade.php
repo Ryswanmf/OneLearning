@@ -62,7 +62,7 @@
                 <div class="bg-white p-10 rounded-[3rem] border border-gray-100 shadow-sm hover:shadow-2xl transition-all duration-500 group flex flex-col md:flex-row gap-8">
                     <div class="w-full md:w-48 h-48 rounded-[2rem] bg-gray-100 overflow-hidden flex-shrink-0">
                         @if($service->image)
-                            <img src="{{ $service->image }}" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" alt="{{ $service->title }}">
+                            <img src="{{ filter_var($service->image, FILTER_VALIDATE_URL) ? $service->image : asset('storage/' . $service->image) }}" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" alt="{{ $service->title }}">
                         @else
                             <div class="w-full h-full flex items-center justify-center text-primary font-black text-4xl">
                                 {{ substr($service->title, 0, 1) }}

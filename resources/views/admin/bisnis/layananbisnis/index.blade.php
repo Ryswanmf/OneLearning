@@ -39,7 +39,7 @@
                             <div class="flex items-center gap-4">
                                 <div class="w-14 h-14 rounded-2xl bg-gray-100 flex items-center justify-center overflow-hidden border border-gray-100 flex-shrink-0">
                                     @if($item->image)
-                                        <img src="{{ $item->image }}" class="w-full h-full object-cover">
+                                        <img src="{{ filter_var($item->image, FILTER_VALIDATE_URL) ? $item->image : asset('storage/' . $item->image) }}" class="w-full h-full object-cover">
                                     @else
                                         <span class="text-primary font-black">{{ substr($item->title, 0, 1) }}</span>
                                     @endif
