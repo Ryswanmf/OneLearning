@@ -18,7 +18,7 @@ class AdminDashboardController extends Controller
     public function index()
     {
         $stats = [
-            'total_students' => User::where('role', 'student')->count(),
+            'total_students' => User::where('role', 'user')->count(),
             'total_packages' => $this->getTotalPackages(),
             'monthly_revenue' => Transaction::where('status', 'success')
                                 ->whereMonth('created_at', now()->month)
@@ -26,7 +26,7 @@ class AdminDashboardController extends Controller
             'total_revenue' => Transaction::where('status', 'success')->sum('amount'),
         ];
 
-        $recent_registrations = User::where('role', 'student')
+        $recent_registrations = User::where('role', 'user')
                                 ->latest()
                                 ->take(5)
                                 ->get();

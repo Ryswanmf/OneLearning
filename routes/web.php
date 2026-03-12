@@ -34,6 +34,14 @@ Route::get('/', function () {
             'sma' => \App\Models\SmaTryout::where('status', 'published')->count(),
             'sma_utbk' => \App\Models\SmaUtbkTryout::where('status', 'published')->count(),
             'alumni' => \App\Models\AlumniTryout::where('status', 'published')->count(),
+            'total_students' => \App\Models\User::where('role', 'user')->count(),
+            'total_tryouts' => \App\Models\UtbkTryout::where('status', 'published')->count() +
+                               \App\Models\SdTryout::where('status', 'published')->count() +
+                               \App\Models\SmpTryout::where('status', 'published')->count() +
+                               \App\Models\SmaTryout::where('status', 'published')->count() +
+                               \App\Models\SmaUtbkTryout::where('status', 'published')->count() +
+                               \App\Models\AlumniTryout::where('status', 'published')->count() +
+                               \App\Models\StudyPackage::where('is_active', true)->count()
         ];
     });
 

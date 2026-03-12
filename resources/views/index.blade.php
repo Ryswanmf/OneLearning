@@ -111,16 +111,16 @@
                 <div class="absolute top-0 right-0 w-96 h-96 bg-primary/10 rounded-full -mr-48 -mt-48 blur-3xl group-hover:scale-110 transition-transform duration-1000"></div>
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-16 relative z-10 text-center">
                     <div class="space-y-3">
-                        <div class="text-5xl sm:text-6xl font-black text-white tracking-tighter">{{ $settings['stats_students'] ?? '100.000+' }}</div>
-                        <div class="text-[10px] sm:text-[11px] font-black text-primary uppercase tracking-[0.3em]">Siswa Aktif Belajar</div>
+                        <div class="text-5xl sm:text-6xl font-black text-white tracking-tighter">{{ number_format($counts['total_students']) }}</div>
+                        <div class="text-[10px] sm:text-[11px] font-black text-primary uppercase tracking-[0.3em]">Siswa Terdaftar</div>
                     </div>
                     <div class="space-y-3 border-y md:border-y-0 md:border-x border-white/10 py-8 md:py-0">
                         <div class="text-5xl sm:text-6xl font-black text-white tracking-tighter">{{ $settings['stats_passing_rate'] ?? '98%' }}</div>
                         <div class="text-[10px] sm:text-[11px] font-black text-primary uppercase tracking-[0.3em]">Tingkat Kelulusan PTN</div>
                     </div>
                     <div class="space-y-3">
-                        <div class="text-5xl sm:text-6xl font-black text-white tracking-tighter">{{ $settings['stats_total_tryouts'] ?? '1.500+' }}</div>
-                        <div class="text-[10px] sm:text-[11px] font-black text-primary uppercase tracking-[0.3em]">Materi & Bank Soal</div>
+                        <div class="text-5xl sm:text-6xl font-black text-white tracking-tighter">{{ number_format($counts['total_tryouts']) }}</div>
+                        <div class="text-[10px] sm:text-[11px] font-black text-primary uppercase tracking-[0.3em]">Paket Tryout</div>
                     </div>
                 </div>
             </div>
