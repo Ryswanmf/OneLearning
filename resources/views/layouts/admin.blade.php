@@ -276,8 +276,18 @@
             </button>
 
             <div class="flex items-center gap-6">
-                <div class="hidden sm:block text-right text-[10px] font-black text-secondary/30 uppercase tracking-widest">
-                    {{ date('d F Y') }}
+                <div class="hidden sm:flex items-center gap-4 text-right">
+                    <div class="flex flex-col">
+                        <span class="text-xs font-black text-secondary leading-none">{{ auth()->user()->name }}</span>
+                        <span class="text-[9px] font-bold text-secondary/30 uppercase tracking-widest mt-1">{{ auth()->user()->role }}</span>
+                    </div>
+                    <div class="w-10 h-10 rounded-xl bg-gray-50 border border-gray-100 overflow-hidden flex items-center justify-center">
+                        @if(auth()->user()->profile_photo_path)
+                            <img src="{{ asset('storage/' . auth()->user()->profile_photo_path) }}" alt="{{ auth()->user()->name }}" class="w-full h-full object-cover">
+                        @else
+                            <img src="https://ui-avatars.com/api/?name={{ urlencode(auth()->user()->name) }}&background=1E3A8A&color=fff&size=64&bold=true" class="w-full h-full object-cover">
+                        @endif
+                    </div>
                 </div>
                 <div class="h-8 w-px bg-gray-100"></div>
                 <a href="/" target="_blank" class="px-4 py-2 bg-primary/5 text-primary text-[10px] font-black uppercase tracking-widest rounded-lg hover:bg-primary hover:text-white transition-all">Lihat Web</a>

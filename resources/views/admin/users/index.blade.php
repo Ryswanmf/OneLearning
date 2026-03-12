@@ -65,8 +65,12 @@
                     <tr class="group hover:bg-gray-50/30 transition-all">
                         <td class="px-8 py-6">
                             <div class="flex items-center gap-4">
-                                <div class="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center border border-primary/5 flex-shrink-0">
-                                    <span class="text-primary font-black text-sm uppercase">{{ substr($item->name, 0, 2) }}</span>
+                                <div class="w-12 h-12 rounded-2xl bg-primary/10 flex items-center justify-center border border-primary/5 flex-shrink-0 overflow-hidden">
+                                    @if($item->profile_photo_path)
+                                        <img src="{{ asset('storage/' . $item->profile_photo_path) }}" alt="{{ $item->name }}" class="w-full h-full object-cover">
+                                    @else
+                                        <img src="https://ui-avatars.com/api/?name={{ urlencode($item->name) }}&background=0EA5E9&color=fff&size=64&bold=true" class="w-full h-full object-cover">
+                                    @endif
                                 </div>
                                 <div>
                                     <div class="text-sm font-black text-secondary">{{ $item->name }}</div>

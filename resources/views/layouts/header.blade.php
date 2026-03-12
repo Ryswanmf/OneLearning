@@ -120,7 +120,11 @@
                         <button @click="profileDropdownOpen = !profileDropdownOpen; productDropdownOpen = false; businessDropdownOpen = false" 
                                 class="flex items-center gap-3 p-1.5 rounded-2xl hover:bg-gray-50 transition-all focus:outline-none group">
                             <div class="w-8 h-8 rounded-xl bg-primary/10 flex items-center justify-center text-primary border border-primary/10 overflow-hidden">
-                                <img src="https://ui-avatars.com/api/?name={{ urlencode(auth()->user()->name) }}&background=0EA5E9&color=fff&size=64&bold=true" class="w-full h-full object-cover">
+                                @if(auth()->user()->profile_photo_path)
+                                    <img src="{{ asset('storage/' . auth()->user()->profile_photo_path) }}" alt="{{ auth()->user()->name }}" class="w-full h-full object-cover">
+                                @else
+                                    <img src="https://ui-avatars.com/api/?name={{ urlencode(auth()->user()->name) }}&background=0EA5E9&color=fff&size=64&bold=true" class="w-full h-full object-cover">
+                                @endif
                             </div>
                             <svg class="w-4 h-4 text-secondary/30 transition-transform duration-200" :class="profileDropdownOpen ? 'rotate-180' : ''" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M19 9l-7 7-7-7" />
@@ -195,6 +199,21 @@
          class="md:hidden bg-white border-b border-gray-100 shadow-xl overflow-hidden"
          style="display: none;">
         <div class="px-4 pt-2 pb-4 space-y-0.5">
+            @auth
+            <div class="flex items-center gap-4 px-4 py-4 mb-2 bg-gray-50/50 rounded-2xl">
+                <div class="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center text-primary border border-primary/10 overflow-hidden shrink-0">
+                    @if(auth()->user()->profile_photo_path)
+                        <img src="{{ asset('storage/' . auth()->user()->profile_photo_path) }}" alt="{{ auth()->user()->name }}" class="w-full h-full object-cover">
+                    @else
+                        <img src="https://ui-avatars.com/api/?name={{ urlencode(auth()->user()->name) }}&background=0EA5E9&color=fff&size=64&bold=true" class="w-full h-full object-cover">
+                    @endif
+                </div>
+                <div class="flex-1 min-w-0">
+                    <div class="text-sm font-black text-secondary truncate">{{ auth()->user()->name }}</div>
+                    <div class="text-[10px] text-secondary/40 font-medium truncate">{{ auth()->user()->email }}</div>
+                </div>
+            </div>
+            @endauth
             <a href="{{ url('/') }}" class="block px-4 py-2 text-sm font-bold text-secondary hover:bg-primary/5 hover:text-primary rounded-lg">Beranda</a>
             
             <!-- Mobile Produk Accordion -->

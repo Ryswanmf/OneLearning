@@ -14,9 +14,49 @@
         </div>
     </div>
 
-    <form action="{{ route('admin.users.update', $user->id) }}" method="POST" class="space-y-6">
+    <form action="{{ route('admin.users.update', $user->id) }}" method="POST" enctype="multipart/form-data" class="space-y-6">
         @csrf @method('PUT')
         <div class="bg-white p-10 rounded-[2.5rem] border border-gray-100 shadow-sm space-y-8">
+            <!-- Profile Photo -->
+            <div x-data="{photoName: null, photoPreview: null}" class="space-y-4">
+                <input type="file" class="hidden"
+                            x-ref="photo"
+                            name="profile_photo"
+                            x-on:change="
+                                    photoName = $refs.photo.files[0].name;
+                                    const reader = new FileReader();
+                                    reader.onload = (e) => {
+                                        photoPreview = e.target.result;
+                                    };
+                                    reader.readAsDataURL($refs.photo.files[0]);
+                            " />
+
+                <x-input-label for="photo" value="Foto Profil" />
+
+                <div class="flex items-center gap-6">
+                    <div class="relative" x-show="! photoPreview">
+                        <div class="w-20 h-20 rounded-3xl bg-gray-50 border-2 border-dashed border-gray-100 flex items-center justify-center overflow-hidden">
+                            @if($user->profile_photo_path)
+                                <img src="{{ asset('storage/' . $user->profile_photo_path) }}" alt="{{ $user->name }}" class="w-full h-full object-cover">
+                            @else
+                                <svg class="w-8 h-8 text-secondary/20" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" /></svg>
+                            @endif
+                        </div>
+                    </div>
+
+                    <div class="relative" x-show="photoPreview" style="display: none;">
+                        <span class="block w-20 h-20 rounded-3xl bg-cover bg-no-repeat bg-center border-2 border-primary/30"
+                              x-bind:style="'background-image: url(\'' + photoPreview + '\');'">
+                        </span>
+                    </div>
+
+                    <button type="button" class="px-4 py-2 bg-white border border-gray-200 rounded-xl text-[10px] font-black uppercase tracking-widest text-secondary hover:bg-gray-50 transition-all shadow-sm" x-on:click.prevent="$refs.photo.click()">
+                        Pilih Foto
+                    </button>
+                </div>
+                <x-input-error for="profile_photo" class="mt-2" :messages="$errors->get('profile_photo')" />
+            </div>
+
             <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
                 <div class="space-y-2">
                     <x-input-label for="name" value="Nama Lengkap" />
