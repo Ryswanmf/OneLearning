@@ -26,7 +26,7 @@ class ChatbotController extends Controller
             $response = Http::withHeaders([
                 'Content-Type' => 'application/json',
             ])->withoutVerifying()
-            ->post("https://generativelanguage.googleapis.com/v1/models/gemini-flash-latest:generateContent?key={$apiKey}", [
+            ->post("https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key={$apiKey}", [
                 'contents' => [
                     [
                         'role' => 'user',
