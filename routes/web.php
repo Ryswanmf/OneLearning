@@ -56,7 +56,10 @@ Route::get('/kebijakan-privasi', function () { $policies = PrivacyPolicy::orderB
 Route::get('/syarat-ketentuan', function () { $terms = Term::orderBy('order')->get(); return view('landing.bantuan.syaratketentuan', compact('terms')); })->name('terms-conditions');
 
 // Produk & Blog
-Route::get('/testimoni', fn() => view('landing.testimoni.index'))->name('testimoni');
+Route::get('/testimoni', function() {
+    $testimonials = \App\Models\Testimonial::where('is_featured', true)->latest()->get();
+    return view('landing.testimoni.index', compact('testimonials'));
+})->name('testimoni');
 Route::get('/blog', [BlogController::class, 'index'])->name('blog');
 Route::get('/blog/{blog:slug}', [BlogController::class, 'show'])->name('blog.show');
 Route::get('/paket-belajar', function () { 

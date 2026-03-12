@@ -23,11 +23,17 @@ class TestimonialController extends Controller
         $validated = $request->validate([
             'name' => 'required|string|max:255',
             'target' => 'required|string|max:255',
-            'photo' => 'nullable|string',
+            'photo' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             'content' => 'required|string',
             'rating' => 'required|integer|min:1|max:5',
             'is_featured' => 'boolean'
         ]);
+
+        if ($request->hasFile('photo')) {
+            $imageName = time().'.'.$request->photo->extension();
+            $request->photo->move(public_path('storage/testimonials'), $imageName);
+            $validated['photo'] = 'testimonials/' . $imageName;
+        }
 
         $validated['is_featured'] = $request->has('is_featured');
 
@@ -46,11 +52,22 @@ class TestimonialController extends Controller
         $validated = $request->validate([
             'name' => 'required|string|max:255',
             'target' => 'required|string|max:255',
-            'photo' => 'nullable|string',
+            'photo' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             'content' => 'required|string',
             'rating' => 'required|integer|min:1|max:5',
             'is_featured' => 'boolean'
         ]);
+
+        if ($request->hasFile('photo')) {
+            // Hapus gambar lama jika ada
+            if ($testimoni->photo && file_exists(public_path('storage/' . $testimoni->photo))) {
+                @unlink(public_path('storage/' . $testimoni->photo));
+            }
+
+            $imageName = time().'.'.$request->photo->extension();
+            $request->photo->move(public_path('storage/testimonials'), $imageName);
+            $validated['photo'] = 'testimonials/' . $imageName;
+        }
 
         $validated['is_featured'] = $request->has('is_featured');
 
@@ -61,6 +78,11 @@ class TestimonialController extends Controller
 
     public function destroy(Testimonial $testimoni)
     {
+        // Hapus gambar saat data dihapus
+        if ($testimoni->photo && file_exists(public_path('storage/' . $testimoni->photo))) {
+            @unlink(public_path('storage/' . $testimoni->photo));
+        }
+
         $testimoni->delete();
         return redirect()->route('admin.testimoni.index')->with('success', 'Testimoni berhasil dihapus.');
     }

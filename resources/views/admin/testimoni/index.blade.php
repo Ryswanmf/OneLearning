@@ -38,7 +38,7 @@
                     <tr class="group hover:bg-gray-50/30 transition-all">
                         <td class="px-8 py-6">
                             <div class="flex items-center gap-4">
-                                <img src="{{ $t->photo ?? 'https://ui-avatars.com/api/?name='.urlencode($t->name).'&background=0EA5E9&color=fff' }}" class="w-12 h-12 rounded-xl object-cover border-2 border-primary/10" alt="">
+                                <img src="{{ $t->photo ? (filter_var($t->photo, FILTER_VALIDATE_URL) ? $t->photo : asset('storage/' . $t->photo)) : 'https://ui-avatars.com/api/?name='.urlencode($t->name).'&background=0EA5E9&color=fff' }}" class="w-12 h-12 rounded-xl object-cover border-2 border-primary/10" alt="">
                                 <div>
                                     <div class="text-sm font-black text-secondary leading-none">{{ $t->name }}</div>
                                     <div class="text-[10px] text-primary font-bold uppercase tracking-wider mt-1.5">{{ $t->target }}</div>

@@ -14,7 +14,7 @@
         </div>
     </div>
 
-    <form action="{{ route('admin.testimoni.update', $testimoni->id) }}" method="POST" class="space-y-6">
+    <form action="{{ route('admin.testimoni.update', $testimoni->id) }}" method="POST" enctype="multipart/form-data" class="space-y-6">
         @csrf @method('PUT')
         <div class="bg-white p-10 rounded-[2.5rem] border border-gray-100 shadow-sm space-y-8">
             <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
@@ -46,9 +46,18 @@
                 </div>
             </div>
 
-            <div class="space-y-2">
-                <x-input-label for="photo" value="URL Foto Alumni" />
-                <x-text-input id="photo" name="photo" type="text" :value="old('photo', $testimoni->photo)" />
+            <div class="space-y-4">
+                <x-input-label for="photo" value="Foto Alumni" />
+                @if($testimoni->photo)
+                <div class="relative w-24 h-24 rounded-2xl overflow-hidden border border-gray-100 mb-2 group">
+                    <img src="{{ filter_var($testimoni->photo, FILTER_VALIDATE_URL) ? $testimoni->photo : asset('storage/' . $testimoni->photo) }}" class="w-full h-full object-cover">
+                    <div class="absolute inset-0 bg-secondary/60 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+                        <span class="text-[8px] font-black text-white uppercase tracking-widest text-center px-1">Foto Saat Ini</span>
+                    </div>
+                </div>
+                @endif
+                <input id="photo" name="photo" type="file" class="block w-full bg-gray-50/50 border-gray-100 focus:border-primary focus:ring-primary/10 rounded-xl px-4 py-3 font-bold text-xs transition-all" accept="image/*" />
+                <p class="text-[10px] text-secondary/30 font-medium italic mt-1">Format: JPG, PNG, SVG (Maks. 2MB). Biarkan kosong jika tidak ingin mengubah.</p>
             </div>
 
             <div class="space-y-2">

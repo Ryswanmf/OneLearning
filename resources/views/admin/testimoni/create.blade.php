@@ -14,7 +14,7 @@
         </div>
     </div>
 
-    <form action="{{ route('admin.testimoni.store') }}" method="POST" class="space-y-6">
+    <form action="{{ route('admin.testimoni.store') }}" method="POST" enctype="multipart/form-data" class="space-y-6">
         @csrf
         <div class="bg-white p-10 rounded-[2.5rem] border border-gray-100 shadow-sm space-y-8">
             <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
@@ -47,8 +47,9 @@
             </div>
 
             <div class="space-y-2">
-                <x-input-label for="photo" value="URL Foto Alumni" />
-                <x-text-input id="photo" name="photo" type="text" :value="old('photo')" placeholder="https://ui-avatars.com/..." />
+                <x-input-label for="photo" value="Foto Alumni" />
+                <input id="photo" name="photo" type="file" class="block w-full bg-gray-50/50 border-gray-100 focus:border-primary focus:ring-primary/10 rounded-xl px-4 py-3 font-bold text-xs transition-all" accept="image/*" />
+                <p class="text-[10px] text-secondary/30 font-medium italic mt-1">Format: JPG, PNG, SVG (Maks. 2MB)</p>
             </div>
 
             <div class="space-y-2">
