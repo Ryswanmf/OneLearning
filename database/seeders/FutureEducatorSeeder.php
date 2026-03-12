@@ -12,18 +12,21 @@ class FutureEducatorSeeder extends Seeder
     {
         $positions = [
             [
-                'title' => 'Tentor Matematika SMA',
-                'description' => 'Mencari pengajar yang mampu menyampaikan materi matematika dengan cara yang kreatif, sederhana, dan menyenangkan bagi siswa SMA.',
+                'title' => 'Guru Penggerak Digital',
+                'description' => 'Pelatihan teknologi instruksional tingkat lanjut untuk guru masa depan dalam menghadapi era pendidikan 4.0.',
+                'image' => '💻',
                 'is_active' => true,
             ],
             [
-                'title' => 'Content Creator Edukasi',
-                'description' => 'Bergabunglah untuk menciptakan video pembelajaran dan infografis menarik yang akan membantu ribuan siswa di seluruh Indonesia.',
+                'title' => 'Beasiswa Sertifikasi Pendidik',
+                'description' => 'Program bantuan biaya sertifikasi internasional bagi pengajar muda berprestasi untuk meningkatkan standar pengajaran.',
+                'image' => '🎓',
                 'is_active' => true,
             ],
             [
-                'title' => 'Penulis Bank Soal UTBK',
-                'description' => 'Dibutuhkan ahli materi yang mampu menyusun soal-soal HOTS sesuai dengan tren terbaru seleksi nasional masuk perguruan tinggi.',
+                'title' => 'Forum Diskusi Inovasi Kurikulum',
+                'description' => 'Komunitas eksklusif bagi para pendidik untuk berbagi strategi dan praktik terbaik dalam implementasi Kurikulum Merdeka.',
+                'image' => '💡',
                 'is_active' => true,
             ],
         ];
