@@ -14,7 +14,7 @@
         </div>
     </div>
 
-    <form action="{{ route('admin.tentang-kami.update', $content->id) }}" method="POST" class="space-y-6">
+    <form action="{{ route('admin.tentang-kami.update', $content->id) }}" method="POST" enctype="multipart/form-data" class="space-y-6">
         @csrf @method('PUT')
         <div class="bg-white p-10 rounded-[2.5rem] border border-gray-100 shadow-sm space-y-8">
             <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
@@ -47,9 +47,18 @@
                 </div>
             </div>
 
-            <div class="space-y-2">
-                <x-input-label for="image" value="URL Gambar Pendukung" />
-                <x-text-input id="image" name="image" type="text" :value="old('image', $content->image)" />
+            <div class="space-y-4">
+                <x-input-label for="image" value="Gambar Pendukung" />
+                @if($content->image)
+                <div class="relative w-32 h-32 rounded-2xl overflow-hidden border border-gray-100 mb-2 group">
+                    <img src="{{ filter_var($content->image, FILTER_VALIDATE_URL) ? $content->image : asset('storage/' . $content->image) }}" class="w-full h-full object-cover">
+                    <div class="absolute inset-0 bg-secondary/60 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+                        <span class="text-[8px] font-black text-white uppercase tracking-widest">Gambar Saat Ini</span>
+                    </div>
+                </div>
+                @endif
+                <input id="image" name="image" type="file" class="block w-full bg-gray-50/50 border-gray-100 focus:border-primary focus:ring-primary/10 rounded-xl px-4 py-3 font-bold text-xs transition-all" accept="image/*" />
+                <p class="text-[10px] text-secondary/30 font-medium italic mt-1">Format: JPG, PNG, SVG (Maks. 2MB). Biarkan kosong jika tidak ingin mengubah gambar.</p>
             </div>
 
             <div class="space-y-2">

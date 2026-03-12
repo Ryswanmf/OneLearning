@@ -18,7 +18,7 @@
                             <div class="absolute -inset-4 bg-primary/10 rounded-[3rem] blur-2xl"></div>
                             <div class="relative rounded-[3rem] overflow-hidden shadow-2xl aspect-video bg-gray-100">
                                 @if($profile->image)
-                                    <img src="{{ $profile->image }}" class="w-full h-full object-cover">
+                                    <img src="{{ filter_var($profile->image, FILTER_VALIDATE_URL) ? $profile->image : asset('storage/' . $profile->image) }}" class="w-full h-full object-cover">
                                 @else
                                     <div class="w-full h-full flex items-center justify-center text-primary font-black text-6xl italic">One</div>
                                 @endif

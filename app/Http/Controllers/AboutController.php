@@ -24,10 +24,16 @@ class AboutController extends Controller
             'title' => 'required|string|max:255',
             'category' => 'required|string',
             'description' => 'required|string',
-            'image' => 'nullable|string',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             'order' => 'required|integer',
             'is_active' => 'boolean'
         ]);
+
+        if ($request->hasFile('image')) {
+            $imageName = time().'.'.$request->image->extension();
+            $request->image->move(public_path('storage/about'), $imageName);
+            $validated['image'] = 'about/' . $imageName;
+        }
 
         $validated['is_active'] = $request->has('is_active');
 
@@ -47,10 +53,21 @@ class AboutController extends Controller
             'title' => 'required|string|max:255',
             'category' => 'required|string',
             'description' => 'required|string',
-            'image' => 'nullable|string',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             'order' => 'required|integer',
             'is_active' => 'boolean'
         ]);
+
+        if ($request->hasFile('image')) {
+            // Hapus gambar lama jika ada
+            if ($tentang_kami->image && file_exists(public_path('storage/' . $tentang_kami->image))) {
+                @unlink(public_path('storage/' . $tentang_kami->image));
+            }
+
+            $imageName = time().'.'.$request->image->extension();
+            $request->image->move(public_path('storage/about'), $imageName);
+            $validated['image'] = 'about/' . $imageName;
+        }
 
         $validated['is_active'] = $request->has('is_active');
 
@@ -61,6 +78,11 @@ class AboutController extends Controller
 
     public function destroy(About $tentang_kami)
     {
+        // Hapus gambar saat data dihapus
+        if ($tentang_kami->image && file_exists(public_path('storage/' . $tentang_kami->image))) {
+            @unlink(public_path('storage/' . $tentang_kami->image));
+        }
+
         $tentang_kami->delete();
         return redirect()->route('admin.tentang-kami.index')->with('success', 'Konten profil berhasil dihapus.');
     }
