@@ -121,7 +121,18 @@
         <button @click="open = !open" 
                 class="w-14 h-14 md:w-16 md:h-16 bg-secondary text-white rounded-2xl md:rounded-[2.2rem] shadow-[0_20px_50px_rgba(30,58,138,0.3)] flex items-center justify-center hover:bg-primary md:hover:-translate-y-1 transition-all active:scale-95 group relative overflow-hidden">
             <div class="absolute inset-0 bg-gradient-to-br from-white/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
-            <svg x-show="!open" class="w-7 h-7 md:w-8 md:h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z" /></svg>
+            
+            <!-- Robot Icon (Closed State) -->
+            <svg x-show="!open" class="w-8 h-8 md:w-10 md:h-10 transform group-hover:scale-110 transition-transform duration-300" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M12 8V4H8" />
+                <rect width="16" height="12" x="4" y="8" rx="2" />
+                <path d="M2 14h2" />
+                <path d="M20 14h2" />
+                <path d="M15 13v2" />
+                <path d="M9 13v2" />
+            </svg>
+
+            <!-- Close Icon (Open State) -->
             <svg x-show="open" style="display: none;" class="w-7 h-7 md:w-8 md:h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" /></svg>
             
             <!-- Online Indicator Badge -->
