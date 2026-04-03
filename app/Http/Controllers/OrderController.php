@@ -2,20 +2,24 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Transaction;
 use App\Models\Setting;
+use App\Models\Transaction as TransactionModel; // Alias agar tidak tabrakan
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
+use Midtrans\Config as MidtransConfig;
+use Midtrans\Snap as MidtransSnap;
+use Midtrans\Transaction as MidtransApi; // Alias berbeda lagi
 
 class OrderController extends Controller
 {
     public function __construct()
     {
-        \Midtrans\Config::$serverKey = config('services.midtrans.server_key');
-        \Midtrans\Config::$isProduction = (bool)config('services.midtrans.is_production');
-        \Midtrans\Config::$isSanitized = true;
-        \Midtrans\Config::$is3ds = true;
+        MidtransConfig::$serverKey = config('services.midtrans.server_key');
+        MidtransConfig::$isProduction = (bool)config('services.midtrans.is_production');
+        MidtransConfig::$isSanitized = true;
+        MidtransConfig::$is3ds = true;
     }
 
     private function getBuyableModel($type, $id)
@@ -44,8 +48,8 @@ class OrderController extends Controller
         $item = $this->getBuyableModel($type, $id);
         $user = Auth::user();
 
-        // Cek jika user sudah punya transaksi pending untuk item yang sama
-        $existingTransaction = Transaction::where('user_id', $user->id)
+        // Menggunakan Alias TransactionModel
+        $existingTransaction = TransactionModel::where('user_id', $user->id)
             ->where('buyable_id', $item->id)
             ->where('buyable_type', $item->getMorphClass())
             ->where('status', 'pending')
@@ -57,7 +61,7 @@ class OrderController extends Controller
 
         $reference_id = 'INV-' . strtoupper(Str::random(10));
         
-        $transaction = Transaction::create([
+        $transaction = TransactionModel::create([
             'reference_id' => $reference_id,
             'user_id' => $user->id,
             'buyable_id' => $item->id,
@@ -86,7 +90,8 @@ class OrderController extends Controller
         ];
 
         try {
-            $snapToken = \Midtrans\Snap::getSnapToken($params);
+            // Menggunakan Alias MidtransSnap
+            $snapToken = MidtransSnap::getSnapToken($params);
             $transaction->update(['snap_token' => $snapToken]);
             return redirect()->route('order.payment', $transaction->reference_id);
         } catch (\Exception $e) {
@@ -96,7 +101,7 @@ class OrderController extends Controller
 
     public function payment($reference_id)
     {
-        $transaction = Transaction::where('reference_id', $reference_id)
+        $transaction = TransactionModel::where('reference_id', $reference_id)
             ->where('user_id', Auth::id())
             ->firstOrFail();
             
@@ -118,14 +123,13 @@ class OrderController extends Controller
         return $map[$class] ?? 'order.history';
     }
 
-    // Handler Otomatis setelah popup Midtrans selesai
     public function handleSuccess($reference_id)
     {
-        $transaction = Transaction::with(['user', 'buyable'])->where('reference_id', $reference_id)->firstOrFail();
+        $transaction = TransactionModel::with(['user', 'buyable'])->where('reference_id', $reference_id)->firstOrFail();
 
         try {
-            // Cek status langsung ke server Midtrans (Initiated by our server)
-            $status = \Midtrans\Transaction::status($reference_id);
+            // Menggunakan Alias MidtransApi
+            $status = MidtransApi::status($reference_id);
             $paymentStatus = $status->transaction_status;
             
             if ($paymentStatus == 'settlement' || $paymentStatus == 'capture' || $paymentStatus == 'success') {
@@ -134,7 +138,7 @@ class OrderController extends Controller
                 return redirect()->route($route)->with('success', 'Pembayaran berhasil dikonfirmasi! Paket Anda sudah aktif.');
             }
         } catch (\Exception $e) {
-            // Jika gagal cek (misal: belum terbayar di bank), tetap kirim ke history
+            // Log error jika perlu
         }
 
         return redirect()->route('order.history');
@@ -148,7 +152,7 @@ class OrderController extends Controller
         $expiredAt = now()->addDays(365);
         $morphClass = $item->getMorphClass();
 
-        \Illuminate\Support\Facades\DB::table('user_study_package')->updateOrInsert(
+        DB::table('user_study_package')->updateOrInsert(
             ['user_id' => $user->id, 'accessible_id' => $item->id, 'accessible_type' => $morphClass],
             ['expired_at' => $expiredAt, 'created_at' => now(), 'updated_at' => now()]
         );
@@ -156,22 +160,20 @@ class OrderController extends Controller
 
     public function history()
     {
-        $transactions = Transaction::where('user_id', Auth::id())->latest()->get();
+        $transactions = TransactionModel::where('user_id', Auth::id())->latest()->get();
         return view('landing.order.history', compact('transactions'));
     }
 
     public function printInvoice($reference_id)
     {
-        $transaction = Transaction::with(['user', 'buyable'])->where('reference_id', $reference_id);
+        $query = TransactionModel::with(['user', 'buyable'])->where('reference_id', $reference_id);
         
-        // Jika bukan admin, hanya bisa cetak invoice miliknya sendiri
         if (Auth::user()->role !== 'admin') {
-            $transaction->where('user_id', Auth::id());
+            $query->where('user_id', Auth::id());
         }
 
-        $transaction = $transaction->firstOrFail();
+        $transaction = $query->firstOrFail();
 
-        // Hanya invoice yang sukses/berhasil yang bisa dicetak
         if ($transaction->status !== 'success') {
             return redirect()->back()->with('error', 'Invoice hanya tersedia untuk transaksi yang sudah berhasil.');
         }
