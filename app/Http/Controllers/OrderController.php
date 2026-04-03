@@ -43,6 +43,18 @@ class OrderController extends Controller
     {
         $item = $this->getBuyableModel($type, $id);
         $user = Auth::user();
+
+        // Cek jika user sudah punya transaksi pending untuk item yang sama
+        $existingTransaction = Transaction::where('user_id', $user->id)
+            ->where('buyable_id', $item->id)
+            ->where('buyable_type', $item->getMorphClass())
+            ->where('status', 'pending')
+            ->first();
+
+        if ($existingTransaction) {
+            return redirect()->route('order.payment', $existingTransaction->reference_id);
+        }
+
         $reference_id = 'INV-' . strtoupper(Str::random(10));
         
         $transaction = Transaction::create([
